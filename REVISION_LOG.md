@@ -10,29 +10,33 @@
 | **v4.0** | March 15, 2026 | Renamed PRD to Feature Documents with required BDD (Given/When/Then) format. Introduced role introduction schedule — roles enter at stages where their perspective matters most. |
 | **v5.0** | March 16, 2026 | Added: structured user intake protocol (5 questions before Stage 1), artifact lifecycle state machine (DRAFT → REVIEW → LOCKED), context continuity log (expanded session header), agent decision protocol, per-stage validation checklists, and stage-specific output contracts. |
 | **v6.0** | March 16, 2026 | Added: Business Analyst role (Stage 7 lead for BDD authorship). Renamed project to **Product Foundry**. Standardized all agent invocations to direct `/[name]` format (removed `/ask-` prefix). Reclassified business-analyst from specialist → role. Added product-lead role agent. Consolidated agent namespacing to `role.*`, `specialist.*`, `orchestrator.*`, `utility.*`. Updated all `.vscode/`, workflow, and documentation files to match. |
+| **v6.1** | March 17, 2026 | Added: Constitutional Basis section (6 governing principles) + Hard Rules 14–18. Artifact file creation rules — artifacts now live in `[idea-name]/` directory at workspace root. Stage 7 template restructured: BDD Scenarios → User Stories with Jira fields (Jira-exportable). README updated to reflect current project structure. |
 
 ---
 
 ## Feature Matrix — What Changed by Version
 
-| Feature | v1.0 | v2.0 | v3.0 | v4.0 | v5.0 | v6.0 |
-|---------|------|------|------|------|------|------|
-| Stage count | 5 | 5 | 7 | 7 | 7 | 7 |
-| Vision before Features | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Roadmap stage | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Release Plan stage | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Feature Documents (BDD) | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Role introduction schedule | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Structured intake protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Artifact lifecycle (DRAFT→REVIEW→LOCKED) | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Context continuity log | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Agent decision protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Per-stage validation checklists | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Stage output contracts | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Business Analyst role (BDD lead) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Product Lead role agent | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Direct `/[name]` invocation (no `/ask-` prefix) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Product Foundry brand | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Feature | v1.0 | v2.0 | v3.0 | v4.0 | v5.0 | v6.0 | v6.1 |
+|---------|------|------|------|------|------|------|------|
+| Stage count | 5 | 5 | 7 | 7 | 7 | 7 | 7 |
+| Vision before Features | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Roadmap stage | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Release Plan stage | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Feature Documents (BDD) | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Role introduction schedule | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Structured intake protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Artifact lifecycle (DRAFT→REVIEW→LOCKED) | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Context continuity log | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Agent decision protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Per-stage validation checklists | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Stage output contracts | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Business Analyst role (BDD lead) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| Product Lead role agent | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| Direct `/[name]` invocation (no `/ask-` prefix) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| Product Foundry brand | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| Constitution compliance layer | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Artifact directory at workspace root (`[idea-name]/`) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| User stories with Jira fields (Stage 7) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 
 ---
 
@@ -215,27 +219,77 @@ Then  [observable, testable outcome]
 
 ---
 
-## Current System Status (v6.0)
+### v6.1 — Constitution Compliance, Artifact File Rules & Jira-Ready User Stories
+**Release Date: March 17, 2026**
 
-**Latest Updates:**
-- Project rebranded as **Product Foundry**
-- Business Analyst role added as Stage 7 BDD lead
-- Product Lead role agent added
-- All agent invocations standardized to direct `/[name]` format (no `/ask-` prefix)
-- All agent files namespaced: `role.*`, `specialist.*`, `orchestrator.*`, `utility.*`
-- Directory structure consolidated under `.product/`
-- All 8 documentation/config files updated to reflect current state
+**Major Changes:**
+
+1. **Constitutional Basis section added to `.github/copilot-instructions.md`**
+   - Added `## Constitutional Basis` section mapping all 6 governing principles inline after Gate Rules
+   - `BYPASSED` gate status now requires a body announcement naming what was bypassed and why — not just the status label
+   - Added `## When Approval Is Ambiguous` decision protocol — approval is never inferred from silence; explicit confirmation required before any artifact is marked LOCKED
+   - Added `## When a Vision Conflict Is Detected` protocol — three valid resolutions only: (1) revise artifact, (2) revise Vision with re-lock, (3) move to Non-goals; conflicts never dropped silently
+   - BDD Rules: non-observable "Then" clauses are explicitly rejected regardless of user confidence
+   - BDD Rules: missing scenario types (happy path, edge case, error/failure) are flagged by name; Feature Document cannot be marked LOCKED until all three are present
+   - Hard Rules 14–18 added: approval ambiguity, role timing (never early, never skipped), Vision conflict explicit handling, non-observable Then clause rejection, Feature Doc lock blocked while any Vision check is unresolved
+
+2. **Artifact file creation rules added to `.github/copilot-instructions.md`**
+   - All artifacts now written to `[idea-name]/` directory at workspace root (kebab-case, derived from approved idea brief)
+   - 2-track timing rule: Stage 1 (Idea Brief) file created only when LOCKED; Stages 2–7 files created when drafting begins (DRAFT state)
+   - File naming defined per stage: `idea-brief.md`, `discovery-report.md`, `hypothesis.md`, `vision-mission.md`, `product-roadmap.md`, `release-plan.md`, `feature-[kebab-case-name].md`
+   - Template reference: each stage uses corresponding `.product/templates/stage-N-*-template.md`
+   - Removed residual reference to `.product/artifacts/` as artifact output location
+
+3. **Stage 7 template restructured — BDD Scenarios → User Stories with Jira fields**
+   - Updated `.product/templates/stage-7-feature-document-template.md`
+   - Each scenario is now a self-contained user story with a Jira issue metadata block
+   - Jira fields per story: Summary, Type `[Story / Enabler]`, Priority, Story Points, Labels (typed per story: `happy-path`, `edge-case`, `error-handling`)
+   - User story format: "As a [role], I want [capability], so that [benefit]"
+   - Gherkin acceptance criteria under `Acceptance Criteria:` fenced block (unchanged format)
+   - Stories are Jira-exportable: copy block between `---` markers as a single Jira issue
+   - Gate checklist updated: Jira fields populated + user story format added as required criteria
+
+4. **README updated to reflect current project structure**
+   - Project structure: `.product/artifacts/` now shows example-only files; `[idea-name]/` directory block at workspace root added with per-stage artifact filenames
+   - Feature Document Validation: updated from BDD scenario format to user story format + Jira fields check
+   - Key Concepts: "BDD Scenarios" → "User Stories" with Jira-export note
+   - Learning Resources: removed non-existent `AGENTS.md` reference; corrected `.instructions.md` → `.github/copilot-instructions.md`; added `.product/product-constitution.md` and `.product/templates/` references
+   - Git workflow: updated paths from `.product/artifacts/stage-N-*.md` to `[idea-name]/` directory pattern
+
+**Rationale:** v6.1 applies the product constitution as an explicit governance layer — every system prompt rule is now traceable to a principle. Artifact file creation rules eliminate ambiguity about where outputs live. The Jira-ready user story format makes Stage 7 Feature Documents directly actionable: each story block can be copied into Jira without reformatting.
+
+---
+
+## Current System Status (v6.1)
+
+**Latest Updates (March 17, 2026):**
+- Constitution compliance layer added — 6 principles governing all agent behaviour, mapped explicitly in `.github/copilot-instructions.md`
+- Hard Rules 14–18 added covering approval ambiguity, role timing, Vision conflict handling, and Feature Doc lock criteria
+- Artifacts now created in `[idea-name]/` directory at workspace root (not `.product/artifacts/`)
+- Stage 7 Feature Documents use User Stories with Jira fields — Jira-exportable out of the box
+- README updated to match current project structure and file paths
+
+**Stable Features (from prior versions):**
+- 7-stage gated discovery process (v3.0)
+- Role introduction schedule with specific per-stage questions (v4.0)
+- Artifact lifecycle: DRAFT → REVIEW → LOCKED (v5.0)
+- Context continuity log in every response header (v5.0)
+- Per-stage validation checklists (v5.0)
+- Business Analyst role leads Stage 7 user story authorship (v6.0)
+- Direct `/[name]` slash command invocation (v6.0)
 
 **Next Evolution Path:**
 - Field testing with real product discovery scenarios
-- Potential refinements based on user feedback
+- Potential refinements to User Story Jira export format based on team feedback
 - Documentation of common blocking patterns and resolution strategies
 
 ---
 
 ## Document References
 
-- **System Prompt:** `.instructions.md` (controls Product Foundry behavior)
+- **System Prompt:** `.github/copilot-instructions.md` (controls Product Foundry behavior — v6.1)
+- **Governing Principles:** `.product/product-constitution.md` (6 constitutional principles)
+- **Artifact Templates:** `.product/templates/` (stages 1–7 template files)
 - **Agent Definitions:** `.github/agents/` (13 agent definition files)
 - **Agent Prompts:** `.github/prompts/` (13 prompt files with YAML frontmatter)
 - **Master Configuration:** `.github/agentconfig.yaml` (orchestration and stage definitions)

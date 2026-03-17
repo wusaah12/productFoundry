@@ -64,21 +64,30 @@ ProductFoundry/
 │   ├── settings.json                  ← VS Code configuration
 │   └── tasks.json                     ← Optional validation tasks
 │
-├── 📁 .product/                       ← Working data (artifacts, state, decisions)
+├── 📁 .product/                       ← Working data (state, decisions, templates)
 │   ├── session-state.md               ← Current progress & context
-│   ├── 📁 artifacts/                  ← Your working artifacts
-│   │   ├── stage-1-idea-brief.md
-│   │   ├── stage-2-discovery-report.md
-│   │   ├── stage-3-hypothesis.md
-│   │   ├── stage-4-vision-mission.md
-│   │   ├── stage-5-roadmap.md
-│   │   ├── stage-6-release-plan.md
-│   │   └── 📁 stage-7-feature-docs/  ← One per feature
-│   │       ├── feature-1.md
-│   │       └── ...
+│   ├── 📁 artifacts/                  ← Example artifacts (reference only)
+│   │   └── EXAMPLE-stage-1-idea-brief.md
 │   ├── 📁 decisions/                  ← Decision log (git history)
 │   │   └── DECISIONS.md              ← All decisions logged here
-│   └── 📁 templates/                  ← Artifact templates
+│   ├── 📁 templates/                  ← Artifact templates (stages 1–7)
+│   │   ├── stage-1-idea-brief-template.md
+│   │   ├── stage-2-discovery-report-template.md
+│   │   ├── stage-3-hypothesis-template.md
+│   │   ├── stage-4-vision-mission-template.md
+│   │   ├── stage-5-roadmap-template.md
+│   │   ├── stage-6-release-plan-template.md
+│   │   └── stage-7-feature-document-template.md
+│   └── product-constitution.md        ← 6 governing principles
+│
+├── 📁 [idea-name]/                    ← Created when Stage 1 locks (one per product)
+│   ├── idea-brief.md                  ← Stage 1 artifact
+│   ├── discovery-report.md            ← Stage 2 artifact
+│   ├── hypothesis.md                  ← Stage 3 artifact
+│   ├── vision-mission.md              ← Stage 4 artifact
+│   ├── product-roadmap.md             ← Stage 5 artifact
+│   ├── release-plan.md                ← Stage 6 artifact
+│   └── feature-[name].md             ← Stage 7 artifacts (one per feature)
 │
 └── README.md                          ← This file
 ```
@@ -339,12 +348,13 @@ Copilot checks:
 
 ```
 Copilot checks:
-☑ Minimum 3 BDD scenarios present
-☑ "Then" clauses are observable/testable (not vague)
-☑ Vision check present on all scenarios
-☑ Release scope check present on all scenarios
-☑ No scenarios depend on another running first
-☑ Acceptance criteria derived from "Then" clauses
+☑ Minimum 3 user stories present (happy path, edge case, error/failure)
+☑ Each story has "As a / I want / So that" format
+☑ Jira fields populated (Summary, Type, Priority, Labels) on each story
+☑ "Then" clauses in Gherkin are observable/testable (not vague)
+☑ Vision check and Release check present on each story
+☑ No story depends on another running first
+☑ Acceptance criteria summary derived from "Then" clauses
 ```
 
 ---
@@ -353,18 +363,23 @@ Copilot checks:
 
 ### Commit Artifacts As You Complete Them
 
+All artifacts for a product live in a single directory named after the idea (kebab-case):
+
 ```
-git add .product/artifacts/stage-1-idea-brief.md
+git add [idea-name]/idea-brief.md
 git commit -m "Stage 1: Idea Brief locked"
+
+git add [idea-name]/
+git commit -m "Stage 7: All Feature Documents locked — specification complete"
 ```
 
 ### View Decision History
 
 ```
-git log --oneline .product/artifacts/
+git log --oneline [idea-name]/
 
 # Output:
-abc1234 Stage 7: Feature Doc #3 locked
+abc1234 Stage 7: feature-report-generation locked
 def5678 Stage 6: Release Plan locked
 ghi9012 Stage 5: Roadmap locked
 ...
@@ -433,29 +448,34 @@ Introduced when their expertise is needed:
 - **Stage 5–6:** All roles review
 - **Stage 7:** +Business Analyst (leads BDD)
 
-### BDD Scenarios
+### User Stories
 
-Every requirement is testable:
+Every requirement is a Jira-ready user story with Gherkin acceptance criteria:
 
 ```gherkin
-Given [realistic starting state]
-When  [user action or system event]
-Then  [observable outcome]
+As a [role], I want [capability], so that [benefit].
+
+Scenario: [Descriptive name]
+  Given [realistic starting state]
+  When  [user action or system event]
+  Then  [observable, testable outcome]
 ```
 
-Not vague. Not aspirational. **Testable.** Each scenario must validate the Vision and Release Plan scope.
+Not vague. Not aspirational. **Testable and Jira-exportable.** Each story must validate the Vision and Release Plan scope. The Jira fields block (Summary, Type, Priority, Story Points, Labels) is included on each story for direct copy-paste into Jira.
 
 ---
 
 ## 🎓 Learning Resources
 
-- **Agent Overview:** See `AGENTS.md` (all agents + commands)
-- **System Prompt:** See `.instructions.md` (complete rules, 7 stages)
+- **System Prompt:** See `.github/copilot-instructions.md` (complete rules, 7 stages)
+- **Agent System:** See `.github/agentconfig.yaml` (master definitions)
+- **Agent Instructions:** See `.github/agents/` (individual agent files — 13 agents)
+- **Prompts:** See `.github/prompts/` (Copilot Chat slash command integration)
 - **Validation Skill:** Type `/validate` or see `.github/skills/validate/SKILL.md`
 - **Decision Logging Skill:** Type `/log-decision` or see `.github/skills/log-decision/SKILL.md`
-- **Agent System:** See `.github/agentconfig.yaml` (master definitions)
-- **Agent Instructions:** See `.github/agents/` (individual rules)
-- **Prompts:** See `.github/prompts/` (Copilot Chat integration files)
+- **Status Skill:** Type `/status` or see `.github/skills/status/SKILL.md`
+- **Artifact Templates:** See `.product/templates/` (stages 1–7)
+- **Governing Principles:** See `.product/product-constitution.md`
 
 ---
 
