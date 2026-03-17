@@ -1,0 +1,3 @@
+---
+agent: specialist.hypothesis-validator
+---

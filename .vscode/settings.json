@@ -1,0 +1,37 @@
+{
+  "files.associations": {
+    "stage-*.md": "markdown",
+    "session-state.md": "markdown",
+    "*-template.md": "markdown"
+  },
+  "markdown.preview.breaks": true,
+  "editor.wordWrap": "on",
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-markdown",
+    "editor.formatOnSave": true,
+    "editor.rulers": [80, 120]
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/*.tmp": true
+  },
+  "search.exclude": {
+    "**/.git": true,
+    "**/node_modules": true
+  },
+  "copilot.enable": {
+    "plaintext": true,
+    "markdown": true,
+    "yaml": true,
+    "json": true
+  },
+  "copilot.chat.closeDocumentAfterResponse": false,
+  "[structuredText]": {
+    "editor.defaultFormatter": "esbenp.prettier-code-formatter"
+  },
+  "workbench.panel.defaultLocation": "right",
+  "editor.minimap.enabled": false,
+  "editor.fontSize": 14,
+  "editor.lineHeight": 1.5
+}

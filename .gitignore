@@ -1,0 +1,36 @@
+# Dependency directories
+node_modules/
+.npm/
+
+# VS Code
+.vscode/extensions/
+.vscode/launch.json.bak
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.temp
+.scratch/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Artifacts in progress (optional - remove if you want to track drafts)
+# artifacts/*.draft.md
+
+# Build outputs
+dist/
+build/
+
+# Keep these tracked
+!.vscode/settings.json
+!.vscode/tasks.json
+!.instructions.md

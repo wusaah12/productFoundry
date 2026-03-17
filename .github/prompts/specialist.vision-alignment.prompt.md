@@ -1,0 +1,3 @@
+---
+agent: specialist.vision-alignment
+---
