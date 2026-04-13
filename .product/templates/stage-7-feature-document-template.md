@@ -11,9 +11,13 @@
 **Contributing roles:** [PM / Eng Lead / Designer — who reviewed]  
 **Status:** DRAFT
 
+> Status values: `DRAFT` → `REVIEW` → `LOCKED` → `REVISED` (when re-opened post-lock)
+
 **Created:** [DATE]  
 **Last updated:** [DATE]  
 **Owner:** [Your name]
+
+> **Revision trigger:** [If revised post-lock, note which Release Plan or Roadmap change caused this revision]
 
 ---
 
@@ -208,9 +212,20 @@ Scenario: [Descriptive name]
 
 ---
 
+## Feature Document Revision History
+
+> Record every revision made after this Feature Document was first LOCKED. Each entry must document what changed, why, and the revision trigger (Release Plan change or Roadmap change).
+
+| Version | Date | Changed by | What changed | Revision trigger | Re-locked date |
+|---------|------|------------|--------------|------------------|----------------|
+| v1.0 | [DATE] | [Name] | Initial lock | — | [DATE] |
+| v1.1 | [DATE] | [Name] | [e.g., Scenario 2 rewritten] | [Release Plan revision v1.1] | [DATE] |
+
+---
+
 ## Gate Validation Checklist
 
-Before marking LOCKED, confirm:
+Before marking LOCKED (initial lock), confirm:
 
 - ☐ Minimum 3 user stories present (happy path, edge case, error/failure)
 - ☐ Each story has an "As a / I want / So that" description
@@ -222,9 +237,18 @@ Before marking LOCKED, confirm:
 - ☐ Eng Lead reviewed acceptance criteria for technical accuracy
 - ☐ Designer reviewed acceptance criteria for UX completeness
 - ☐ Acceptance criteria summary is derived from "Then" clauses
-- ☐ User confirms: "Can engineering build from this?"
+- ☐ User confirms: "Can the delivery team act on this without clarification?"
 
-**Status:** [DRAFT / REVIEW / LOCKED]
+**For re-lock after revision**, also confirm:
+
+- ☐ Revision reason is documented in Revision History
+- ☐ Revision trigger (Release Plan or Roadmap change) is recorded
+- ☐ All changed scenarios meet BDD quality rules (observable Then, realistic Given)
+- ☐ All Vision checks and Release checks are re-evaluated on changed scenarios
+- ☐ Eng Lead and Designer have re-reviewed any changed scenarios
+- ☐ User explicitly confirms: "I approve this revision"
+
+**Status:** [DRAFT / REVIEW / LOCKED / REVISED]
 
 ---
 

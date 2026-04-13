@@ -11,32 +11,39 @@
 | **v5.0** | March 16, 2026 | Added: structured user intake protocol (5 questions before Stage 1), artifact lifecycle state machine (DRAFT → REVIEW → LOCKED), context continuity log (expanded session header), agent decision protocol, per-stage validation checklists, and stage-specific output contracts. |
 | **v6.0** | March 16, 2026 | Added: Business Analyst role (Stage 7 lead for BDD authorship). Renamed project to **Product Foundry**. Standardized all agent invocations to direct `/[name]` format (removed `/ask-` prefix). Reclassified business-analyst from specialist → role. Added product-lead role agent. Consolidated agent namespacing to `role.*`, `specialist.*`, `orchestrator.*`, `utility.*`. Updated all `.vscode/`, workflow, and documentation files to match. |
 | **v6.1** | March 17, 2026 | Added: Constitutional Basis section (6 governing principles) + Hard Rules 14–18. Artifact file creation rules — artifacts now live in `[idea-name]/` directory at workspace root. Stage 7 template restructured: BDD Scenarios → User Stories with Jira fields (Jira-exportable). README updated to reflect current project structure. |
+| **v6.2** | April 13, 2026 | Added: `REVISED` artifact lifecycle state for post-lock changes to Stages 5–7. Initiative Implementation Status tracking on Roadmap. Feature Delivery Status tracking on Release Plan. Post-lock revision protocol with Cascade Impact Assessment. Revision History sections in Stage 5–7 templates. Hard Rules 19–21. README restructured: solution-agnostic framing, Foundry Analogy section, Waterfall/Agile context section, duplicate content removed. |
 
 ---
 
 ## Feature Matrix — What Changed by Version
 
-| Feature | v1.0 | v2.0 | v3.0 | v4.0 | v5.0 | v6.0 | v6.1 |
-|---------|------|------|------|------|------|------|------|
-| Stage count | 5 | 5 | 7 | 7 | 7 | 7 | 7 |
-| Vision before Features | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Roadmap stage | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Release Plan stage | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Feature Documents (BDD) | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Role introduction schedule | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Structured intake protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Artifact lifecycle (DRAFT→REVIEW→LOCKED) | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Context continuity log | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Agent decision protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Per-stage validation checklists | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Stage output contracts | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Business Analyst role (BDD lead) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Product Lead role agent | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Direct `/[name]` invocation (no `/ask-` prefix) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Product Foundry brand | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Constitution compliance layer | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Artifact directory at workspace root (`[idea-name]/`) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| User stories with Jira fields (Stage 7) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Feature | v1.0 | v2.0 | v3.0 | v4.0 | v5.0 | v6.0 | v6.1 | v6.2 |
+|---------|------|------|------|------|------|------|------|------|
+| Stage count | 5 | 5 | 7 | 7 | 7 | 7 | 7 | 7 |
+| Vision before Features | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Roadmap stage | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Release Plan stage | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Feature Documents (BDD) | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Role introduction schedule | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Structured intake protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Artifact lifecycle (DRAFT→REVIEW→LOCKED) | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Context continuity log | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Agent decision protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Per-stage validation checklists | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Stage output contracts | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Business Analyst role (BDD lead) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Product Lead role agent | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Direct `/[name]` invocation (no `/ask-` prefix) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Product Foundry brand | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| Constitution compliance layer | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| Artifact directory at workspace root (`[idea-name]/`) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| User stories with Jira fields (Stage 7) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| REVISED artifact lifecycle state (Stages 5–7) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Post-lock revision protocol + Cascade Impact Assessment | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Implementation/Delivery Status tracking (Stages 5–6) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Revision History sections in Stage 5–7 templates | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Solution-agnostic framing (not code-specific) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Foundry Analogy + Waterfall/Agile context in README | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 
 ---
 
@@ -260,34 +267,101 @@ Then  [observable, testable outcome]
 
 ---
 
-## Current System Status (v6.1)
+### v6.2 — Post-Lock Revision Protocol, Status Tracking & README Overhaul
+**Release Date: April 13, 2026**
 
-**Latest Updates (March 17, 2026):**
-- Constitution compliance layer added — 6 principles governing all agent behaviour, mapped explicitly in `.github/copilot-instructions.md`
-- Hard Rules 14–18 added covering approval ambiguity, role timing, Vision conflict handling, and Feature Doc lock criteria
-- Artifacts now created in `[idea-name]/` directory at workspace root (not `.product/artifacts/`)
-- Stage 7 Feature Documents use User Stories with Jira fields — Jira-exportable out of the box
-- README updated to match current project structure and file paths
+**Major Changes:**
+
+1. **`REVISED` artifact lifecycle state added**
+   - Fourth lifecycle state introduced: `DRAFT → REVIEW → LOCKED → REVISED`
+   - Applies to Stages 5, 6, and 7 only (Roadmap, Release Plan, Feature Documents)
+   - A REVISED artifact must complete a full re-confirmation cycle before returning to LOCKED
+   - Downstream artifacts impacted by the revision must be identified, re-reviewed, and re-locked
+   - All three stage templates and the system prompt updated to reflect the new state
+
+2. **Post-lock revision decision protocol added to `.github/copilot-instructions.md`**
+   - New rule: **"When a LOCKED artifact in Stages 5–7 needs revision"**
+   - 4-step protocol: (1) surface the revision and reason; (2) set status to REVISED; (3) run Cascade Impact Assessment; (4) re-lock in order (Roadmap → Release Plan → Feature Documents)
+   - Agent never silently absorbs a post-lock change
+   - If revision changes scope of an In Progress or Implemented item, delivery team must be notified before work continues
+
+3. **Cascade Impact Assessment added to Stage 5 and Stage 6 templates**
+   - Stage 5 (Roadmap): Cascade Impact Assessment section identifies affected Release Plans and Feature Documents
+   - Stage 6 (Release Plan): Cascade Impact Assessment section identifies affected Feature Documents
+   - Re-lock checklist in each template requires Assessment to be complete before re-lock is permitted
+
+4. **Revision History sections added to Stage 5, 6, and 7 templates**
+   - Each template now includes a Revision History table: version, date, author, what changed, cascade impact, re-locked date
+   - Populated on first post-lock revision; v1.0 row pre-populated at initial lock
+   - Provides a full audit trail when artifacts change after handoff
+
+5. **Implementation Status tracking added to Stage 5 (Roadmap)**
+   - New `Implementation Status` column in the quarterly initiative table
+   - Four values: `Not Started → In Progress → Implemented → Validated`
+   - Tracks delivery progress at the initiative level across the roadmap lifecycle
+   - System prompt updated: initial lock requires all initiatives set to "Not Started"
+
+6. **Delivery Status tracking added to Stage 6 (Release Plan)**
+   - Renamed `Status` column to `Delivery Status` in the feature table
+   - Same four values: `Not Started → In Progress → Implemented → Validated`
+   - Tracks delivery progress at the feature level
+   - System prompt updated: initial lock requires all features set to "Not Started"
+
+7. **Stage 5, 6, 7 gate checklists updated with re-lock criteria**
+   - All three stage quality checklists now have two sections: initial lock criteria and re-lock criteria
+   - Re-lock sections require: Revision History entry complete, Cascade Impact Assessment complete, relevant roles re-reviewed, explicit user confirmation
+   - `REVISED` added as a valid Status value on all three artifact templates
+
+8. **Hard Rules 19–21 added to `.github/copilot-instructions.md`**
+   - **Rule 19:** LOCKED artifacts in Stages 5–7 may be revised; cascade assessment and ordered re-lock required
+   - **Rule 20:** Never re-lock a downstream artifact before the artifact it depends on is re-locked
+   - **Rule 21:** Implementation Status must be tracked; scope changes to In Progress or Implemented items must be flagged to the delivery team before work continues
+
+9. **README restructured and content refocused**
+   - **Solution-agnostic framing:** tagline and intro updated to clarify that implementation does not mean writing code; covers software, services, processes, and team structures
+   - **Foundry Analogy section added:** maps the real foundry ore-refining process to the Product Foundry stage model — each stage removes a specific type of impurity from the raw idea
+   - **Waterfall/Agile context section added:** explains the failure modes of both methodologies and positions Product Foundry as a discovery layer that runs before Agile delivery begins
+   - **Duplicate content removed:** "Why Product Foundry?" section (repeated "Where Product Foundry Fits"), "Follow the 7 Stages" list (repeated Foundry Analogy), Key Commands (repeated Agent System tables), Validation Checklists how-it-works block (repeated Artifact Validation section), Gate Status + Roles in Key Concepts (repeated How It Works + Agent System), Support section (third copy of slash command list)
+
+**Rationale:** v6.2 addresses the gap between locking a specification and the reality of how products evolve — priorities shift, user feedback changes scope, and roadmaps need to adapt. The REVISED state and cascade protocol make change management explicit and traceable rather than silent. Status tracking in Stages 5 and 6 turns the Roadmap and Release Plan into living delivery records, not one-time artifacts. The README changes align the project's positioning with its actual scope: a discovery process for any type of product, not just software.
+
+---
+
+## Current System Status (v6.2)
+
+**Latest Updates (April 13, 2026):**
+- `REVISED` lifecycle state added for post-lock changes to Stages 5–7
+- Post-lock revision decision protocol added to system prompt (4-step cascade process)
+- Cascade Impact Assessment sections added to Stage 5 and Stage 6 templates
+- Revision History sections added to Stage 5, 6, and 7 templates
+- Implementation Status column added to Roadmap quarterly initiative table (Not Started / In Progress / Implemented / Validated)
+- Delivery Status column added to Release Plan feature table (Not Started / In Progress / Implemented / Validated)
+- Stage 5, 6, and 7 gate checklists now have separate initial-lock and re-lock criteria
+- Hard Rules 19–21 added (revision allowed in 5–7 with cascade; downstream re-lock ordering; status tracking)
+- README: solution-agnostic framing, Foundry Analogy section, Waterfall/Agile context section, duplicate content removed
 
 **Stable Features (from prior versions):**
 - 7-stage gated discovery process (v3.0)
 - Role introduction schedule with specific per-stage questions (v4.0)
-- Artifact lifecycle: DRAFT → REVIEW → LOCKED (v5.0)
+- Artifact lifecycle: DRAFT → REVIEW → LOCKED (v5.0) + REVISED (v6.2)
 - Context continuity log in every response header (v5.0)
 - Per-stage validation checklists (v5.0)
 - Business Analyst role leads Stage 7 user story authorship (v6.0)
 - Direct `/[name]` slash command invocation (v6.0)
+- Constitution compliance layer — 6 governing principles (v6.1)
+- Artifacts written to `[idea-name]/` directory at workspace root (v6.1)
+- User stories with Jira fields at Stage 7 (v6.1)
 
 **Next Evolution Path:**
 - Field testing with real product discovery scenarios
-- Potential refinements to User Story Jira export format based on team feedback
-- Documentation of common blocking patterns and resolution strategies
+- Potential refinements to Delivery Status transitions based on team feedback
+- Documentation of common revision cascade patterns and resolution strategies
 
 ---
 
 ## Document References
 
-- **System Prompt:** `.github/copilot-instructions.md` (controls Product Foundry behavior — v6.1)
+- **System Prompt:** `.github/copilot-instructions.md` (controls Product Foundry behavior — v6.2)
 - **Governing Principles:** `.product/product-constitution.md` (6 constitutional principles)
 - **Artifact Templates:** `.product/templates/` (stages 1–7 template files)
 - **Agent Definitions:** `.github/agents/` (13 agent definition files)

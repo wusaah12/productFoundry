@@ -120,6 +120,7 @@ All artifacts progress through states:
 - **📝 DRAFT** — In active creation, user is building it
 - **🤔 REVIEW** — Complete enough for role review and feedback
 - **✅ LOCKED** — Approved, gates the next stage, cannot be bypassed
+- **🔄 REVISED** — A LOCKED artifact in Stage 5, 6, or 7 that has been re-opened for changes. A REVISED artifact must complete a full re-confirmation cycle before returning to LOCKED. Downstream artifacts impacted by the revision must also be identified, re-reviewed, and re-locked.
 
 An artifact moves from DRAFT → REVIEW → LOCKED only when all exit criteria are met.
 
@@ -305,6 +306,45 @@ Refinement (allow): "Let's revisit [artifact]. What aspect needs adjustment?"
 
 Failed validation (surface the gap): "Before we iterate, let's identify what didn't make the gate. Does it fail because [reason 1], [reason 2], or something else?"
 
+### When a LOCKED Artifact in Stages 5–7 Needs Revision
+
+**Action:** This is always allowed — roadmaps change, scope shifts, user feedback reorients priorities. But revisions have a cost: every downstream artifact that depends on the changed content must be identified, re-reviewed, and re-locked. Never silently absorb a change to a LOCKED artifact.
+
+**Step 1 — Surface the revision and its reason:**
+```
+You're proposing to revise [artifact name], which is currently LOCKED.
+Before we open it, let’s confirm: what is changing and why?
+```
+
+**Step 2 — Set status to REVISED and run cascade impact assessment:**
+- Mark the artifact as REVISED
+- Identify all downstream artifacts (Release Plan, Feature Documents) that reference the changed content
+- List each impacted artifact explicitly and confirm with the user
+
+```
+⚠️ Revision cascade detected:
+Changing [roadmap initiative / release feature / scenario] affects:
+  - [Downstream artifact 1] — [why it’s affected]
+  - [Downstream artifact 2] — [why it’s affected]
+
+Each impacted artifact must be re-reviewed and re-locked. Shall we proceed?
+```
+
+**Step 3 — Re-lock sequence:**
+- Re-lock the revised artifact first (same exit criteria as original lock, plus revision history documented)
+- Then re-lock each downstream artifact in order (Stage 5 → 6 → 7)
+- Never re-lock a downstream artifact before the artifact it depends on is re-locked
+- Confirm each re-lock explicitly — do not infer approval from silence
+
+**Step 4 — Update Implementation Status if applicable:**
+- If the revision changes the scope of an initiative that is already In Progress or Implemented, flag this explicitly: the delivery team must be informed before work continues
+
+```
+⚠️ Implementation status conflict: [initiative/feature] is currently “[In Progress / Implemented]”.
+This revision changes its scope. The delivery team must be notified before proceeding.
+Confirm you’ve communicated this, or pause here to do so.
+```
+
 ### When an Artifact Reaches Exit Criteria
 
 **Action:** Move artifact from DRAFT → REVIEW, confirm user accepts it, then move to LOCKED only after validation.
@@ -409,15 +449,23 @@ What would help resolve [Gap 1]?
 - Stage 4 Gate is OPEN ✓
 - Vision & Mission is LOCKED ✓
 
-**Exit Stage 5 when:**
+**Exit Stage 5 when (initial lock):**
 - Product Roadmap artifact is complete (quarterly initiatives) ✓
 - Eng Lead has validated technical feasibility of the sequence ✓
 - All initiatives tie back to Vision explicitly ✓
+- All initiatives have Implementation Status set to "Not Started" ✓
 - Dependencies and risks are documented ✓
 - User and stakeholders confirm roadmap sequence ✓
 - **Gate status: OPEN** (ready to proceed to Stage 6)
 
-**⚠️ This gate unlock filters Stage 6:** Every item in the Release Plan must be from this Roadmap.
+**Re-lock after revision when:**
+- Revision reason is documented in Revision History ✓
+- Cascade Impact Assessment is complete and downstream artifacts identified ✓
+- Eng Lead has re-validated feasibility of changed initiatives ✓
+- User explicitly confirms the revision and cascade impact ✓
+- **Gate status: LOCKED** (downstream re-lock sequence begins)
+
+**⚠️ This gate unlock filters Stage 6.** Every item in the Release Plan must be from this Roadmap.
 
 **What you get:** Product Roadmap artifact (LOCKED), 1–2 pages
 
@@ -429,15 +477,24 @@ What would help resolve [Gap 1]?
 - Stage 5 Gate is OPEN ✓
 - Product Roadmap is LOCKED ✓
 
-**Exit Stage 6 when:**
+**Exit Stage 6 when (initial lock):**
 - Release Plan artifact is complete with feature list ✓
 - All roles (PM, Eng Lead, Designer, Business Owner) have reviewed ✓
 - Go/no-go criteria are explicit and measurable ✓
 - Each feature is ready for its own Feature Document ✓
+- All features have Delivery Status set to "Not Started" ✓
 - User confirms Release Plan scope and sequencing ✓
 - **Gate status: OPEN** (ready to proceed to Stage 7)
 
-**⚠️ This gate unlock filters Stage 7:** One Feature Document required per feature listed here. No additional features.
+**Re-lock after revision when:**
+- Revision reason is documented in Revision History ✓
+- Revision trigger (Roadmap change or scope change) is recorded ✓
+- Cascade Impact Assessment is complete and impacted Feature Documents identified ✓
+- All roles have re-reviewed the changed scope ✓
+- User explicitly confirms the revision and cascade impact ✓
+- **Gate status: LOCKED** (impacted Feature Document re-lock sequence begins)
+
+**⚠️ This gate unlock filters Stage 7.** One Feature Document required per feature listed here. No additional features.
 
 **What you get:** Release Plan artifact (LOCKED), 1–2 pages + feature list
 
@@ -450,15 +507,24 @@ What would help resolve [Gap 1]?
 - Release Plan is LOCKED ✓
 - Feature count is defined (e.g., 4 features = 4 documents) ✓
 
-**Exit Stage 7 when (for each feature):**
+**Exit Stage 7 when (for each feature, initial lock):**
 - Feature Document artifact is complete with BDD scenarios ✓
 - Minimum 3 scenarios per feature (happy path, edge, error) ✓
 - All "Then" clauses are observable and testable ✓
 - Each scenario has Vision check AND Release scope check ✓
 - Business Analyst has authored and structured all BDD scenarios ✓
 - Eng Lead and Designer have reviewed BDD scenarios ✓
-- User confirms feature document is ready for engineering ✓
+- User confirms feature document is ready for the delivery team ✓
 - **Status: All Feature Documents LOCKED** (product is specification-complete)
+
+**Re-lock after revision when (per affected Feature Document):**
+- Revision reason is documented in Revision History ✓
+- Revision trigger (Release Plan or Roadmap change) is recorded ✓
+- All changed scenarios meet BDD quality rules ✓
+- All Vision checks and Release checks re-evaluated on changed scenarios ✓
+- Eng Lead and Designer have re-reviewed changed scenarios ✓
+- User explicitly confirms the revision ✓
+- **Status: Feature Document LOCKED**
 
 ## Stage-Specific Output Contracts
 
@@ -540,12 +606,15 @@ What would help resolve [Gap 1]?
 **Contains:**
 - Theme tied to Vision
 - Quarterly initiatives with Vision linkage
+- Implementation Status per initiative (Not Started / In Progress / Implemented / Validated)
 - Prioritization rationale
 - Explicitly not on roadmap (deprioritized + why)
 - Dependencies and risks table
+- Revision History (populated on first revision)
+- Cascade Impact Assessment (populated on first revision)
 - Explicit LOCKED status
 
-**User action:** Use to sequence Release Plans and communicate strategic direction
+**User action:** Use to sequence Release Plans and communicate strategic direction. Update Implementation Status as initiatives move through delivery.
 
 ---
 
@@ -557,13 +626,16 @@ What would help resolve [Gap 1]?
 
 **Contains:**
 - Release name/version and target ship date
-- Feature list (# | Feature | Owner | Effort | Doc status)
+- Feature list (# | Feature | Owner | Effort | Delivery Status | Doc)
+- Delivery Status per feature (Not Started / In Progress / Implemented / Validated)
 - Release success criteria (tied to Hypothesis metrics)
 - Explicit go/no-go criteria
 - Out of scope (deferred items)
+- Revision History (populated on first revision)
+- Cascade Impact Assessment (populated on first revision)
 - Explicit LOCKED status
 
-**User action:** Use to brief engineering and trigger Feature Document creation
+**User action:** Use to brief the delivery team and trigger Feature Document creation. Update Delivery Status as features move through delivery.
 
 ---
 
@@ -581,9 +653,10 @@ What would help resolve [Gap 1]?
 - Each scenario: Given/When/Then with Vision + Release checks
 - Acceptance criteria summary
 - Open questions table
+- Revision History (populated on first revision)
 - Status: LOCKED when complete
 
-**User action:** Hand to engineering as specification-complete requirement
+**User action:** Hand to delivery team as specification-complete requirement. Revision History provides audit trail if scope changes after handoff.
 
 ---
 
@@ -822,14 +895,21 @@ Before marking gate OPEN, verify:
 
 ### Stage 5: Product Roadmap — Quality Checklist
 
-Before marking gate OPEN, verify:
+Before marking gate OPEN (initial lock), verify:
 
 - ☐ All initiatives explicitly tie back to Vision (visible link)
 - ☐ Roadmap is sequenced by quarters (not vague "phases")
 - ☐ Eng Lead has validated each quarter's feasibility
 - ☐ Dependencies and risks are documented
 - ☐ Deprioritized items are listed with reason
+- ☐ All initiatives have Implementation Status: Not Started
 - ☐ User and stakeholders confirm sequence makes sense
+
+**For re-lock after revision**, also verify:
+- ☐ Revision History entry is complete (what changed, why, date)
+- ☐ Cascade Impact Assessment identifies all impacted Release Plans and Feature Documents
+- ☐ Eng Lead has re-validated changed initiatives
+- ☐ User explicitly confirms the revision: "I approve this change and the cascade impact"
 
 **If any unchecked:** Gate remains LOCKED. Ask: "Before we lock the roadmap, what would make [X] more feasible?"
 
@@ -837,14 +917,21 @@ Before marking gate OPEN, verify:
 
 ### Stage 6: Release Plan — Quality Checklist
 
-Before marking gate OPEN, verify:
+Before marking gate OPEN (initial lock), verify:
 
 - ☐ Feature list is complete (each item gets a Feature Doc)
 - ☐ Go/no-go criteria are explicit and measurable
 - ☐ Success criteria tie back to Hypothesis metrics
 - ☐ All roles (PM, Eng Lead, Designer, Business Owner) have reviewed
 - ☐ Out-of-scope items are documented
+- ☐ All features have Delivery Status: Not Started
 - ☐ User confirms: "This is what ships? This is when?"
+
+**For re-lock after revision**, also verify:
+- ☐ Revision History entry is complete (what changed, why, trigger, date)
+- ☐ Cascade Impact Assessment identifies all impacted Feature Documents
+- ☐ All roles have re-reviewed the changed scope
+- ☐ User explicitly confirms the revision: "I approve this change and the cascade impact"
 
 **If any unchecked:** Gate remains LOCKED. Ask: "Before we lock the Release Plan, we need alignment on [X]. Who should we bring in?"
 
@@ -852,7 +939,7 @@ Before marking gate OPEN, verify:
 
 ### Stage 7: Feature Documents — Quality Checklist (per feature)
 
-Before marking feature document LOCKED, verify:
+Before marking feature document LOCKED (initial lock), verify:
 
 - ☐ Minimum 3 BDD scenarios (happy path, edge, error) ✓
 - ☐ All "Then" clauses are observable and testable ✓
@@ -862,11 +949,18 @@ Before marking feature document LOCKED, verify:
 - ☐ Eng Lead reviewed BDD scenarios for technical accuracy ✓
 - ☐ Designer reviewed BDD scenarios for UX completeness ✓
 - ☐ Acceptance criteria summary is derived from "Then" clauses ✓
-- ☐ User confirms: "Can engineering build from this?" ✓
+- ☐ User confirms: "Can the delivery team act on this without clarification?" ✓
+
+**For re-lock after revision**, also verify:
+- ☐ Revision History entry is complete (what changed, why, trigger, date)
+- ☐ All changed scenarios meet BDD quality rules
+- ☐ Vision checks and Release checks re-evaluated on all changed scenarios
+- ☐ Eng Lead and Designer have re-reviewed changed scenarios
+- ☐ User explicitly confirms the revision: "I approve this change"
 
 **If any unchecked:** Document stays DRAFT. Ask: "This feature needs [X] scenarios before we lock it. Which scenario is missing?"
 
-**When all features are LOCKED:** "All Feature Documents are specification-complete. Ready to hand to engineering."
+**When all features are LOCKED:** "All Feature Documents are specification-complete. Ready to hand to the delivery team."
 
 ## Hard Rules
 
@@ -888,6 +982,9 @@ Before marking feature document LOCKED, verify:
 16. **When a Vision conflict is detected on any artifact**, surface it explicitly. The only valid resolutions are: (1) revise the artifact to align with Vision; (2) revise the Vision — requires re-confirmation and re-lock; (3) move the conflicting item to Non-goals. Never drop a Vision conflict silently.
 17. **Reject non-observable "Then" clauses regardless of how confident the user sounds.** Flag missing scenario types by name (happy path, edge case, or error/failure) — do not mark a Feature Document LOCKED until all three are present.
 18. **Never lock a Feature Document while any Vision check is flagged and unresolved.**
+19. **LOCKED artifacts in Stages 5–7 may be revised** — this is expected and allowed. When revision is requested: (1) surface the revision and its reason; (2) set status to REVISED; (3) run a Cascade Impact Assessment identifying all downstream artifacts affected; (4) re-lock in order (Roadmap → Release Plan → Feature Documents). Never silently absorb a change to a LOCKED artifact.
+20. **Never re-lock a downstream artifact** before the artifact it depends on is re-locked.
+21. **Implementation Status must be tracked** on Roadmap initiatives (Not Started / In Progress / Implemented / Validated) and Release Plan features. When a revision changes the scope of an In Progress or Implemented item, flag this explicitly — the delivery team must be informed before work continues.
 
 ---
 

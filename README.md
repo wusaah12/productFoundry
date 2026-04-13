@@ -2,30 +2,36 @@
 
 > **Validate your product idea before committing to any implementation — software or otherwise.**
 
-Product Foundry is a structured discovery process that helps you identify whether a product is worth building — and define exactly what it should do — before any implementation investment is made. **Implementation doesn't always mean writing code.** It might mean building a software application, designing a service, creating a process, or assembling a team. Whatever form your solution takes, Product Foundry is agnostic to it. The process works the same way regardless.
+Product Foundry is a structured discovery process that helps you identify whether a product is worth building — and define exactly what it should do — before any implementation investment is made. **Implementation doesn't always mean writing code.** It might mean building a software application, designing a service, creating a process, or assembling a team. Whatever form your solution takes, Product Foundry is agnostic to it.
 
-Most failed products fail not because of poor execution, but because the wrong product was built. Product Foundry forces the hard questions upfront: Is the problem real? Is the user clearly defined? Does the proposed solution actually match the need? These questions are far cheaper to answer in discovery than after you've committed resources to a solution.
-
-Only when discovery is complete — problem validated, vision locked, requirements specified — does implementation begin. This saves teams from investing time, money, and effort building something no one needs.
-
-Product Foundry guides this discovery through **7 gated stages**. Each artifact moves through Draft → Review → Locked before the next stage opens. Feature Documents use BDD — every requirement is a testable Given/When/Then scenario ready to hand to whoever is responsible for delivery.
+The process runs through **7 gated stages**. Each artifact moves through Draft → Review → Locked before the next stage opens. Feature Documents use Behavior Driven Development (BDD) — every requirement is a testable Given/When/Then scenario ready to hand directly to the delivery team.
 
 ---
 
-## � Why Product Foundry?
+## 🪨 The Foundry Analogy
 
-Implementation is expensive — whether that's writing software, hiring staff, building infrastructure, or redesigning a process. Committing to the wrong solution wastes that investment entirely. Product Foundry front-loads the discovery work so you only build what's validated, regardless of what "build" means for your context:
+A real foundry takes raw ore — extracted from the ground, full of impurities, completely unusable in its natural state — and subjects it to a series of refining processes. Heat, pressure, separation. At each stage, impurities are removed and what remains becomes more concentrated, more defined, more valuable. By the end, you have refined metal: a material that can actually be used to build something.
 
-- **Stage 1–3** answer: *Is this the right problem, and do we understand it well enough to solve it?*
-- **Stage 4** answers: *What is this product ultimately trying to achieve?*
-- **Stage 5–6** answer: *What do we deliver first, and what does a successful release look like?*
-- **Stage 7** answers: *Exactly how should each capability behave — in language the delivery team can act on immediately?*
+A product idea works the same way.
 
-The output is a complete, locked specification. Whoever is responsible for delivery — engineering, operations, a vendor, or an internal team — picks it up with no ambiguity and no need to revisit the brief mid-execution.
+An idea fresh out of someone's head is raw ore. It contains something valuable — a real frustration, a genuine gap, an opportunity — but it's buried in impurities: assumptions that haven't been tested, a user that hasn't been defined, a scope that hasn't been bounded, a vision that hasn't been articulated. In that raw state, the idea is as unusable as ore pulled from the ground. Hand it to a delivery team and they'll build something — but it won't be the right thing.
+
+Product Foundry is the refining process. Each stage applies heat and pressure to the idea:
+
+- **Stage 1** removes the first layer of vagueness — turning "I have an idea" into a specific problem with a defined user.
+- **Stage 2** removes untested assumptions — replacing guesses with evidence about what's real.
+- **Stage 3** removes false confidence — forcing the idea to survive a falsifiable hypothesis.
+- **Stage 4** removes ambiguity of direction — locking a vision that every future decision filters through.
+- **Stages 5 & 6** remove scope creep before it starts — sequencing what gets built, in what order, and why.
+- **Stage 7** removes interpretive ambiguity — producing BDD scenarios so precise that any delivery team can act on them without asking clarifying questions.
+
+By Stage 7, what started as raw ore has been refined into something usable: a clear, validated, specification-complete product ready for delivery.
+
+The name is intentional. You don't skip steps in a foundry. You don't pour molten metal before the ore has been refined. The same logic applies here.
 
 ---
 
-## 📖 The Problem with How Products Get Built
+##  The Problem with How Products Get Built
 
 ### The Waterfall Era
 
@@ -98,18 +104,6 @@ the Product Foundry discovery process? Let's start with the intake protocol.
 
 Copilot will ask 5 structured questions to understand your idea.
 
-### 4. Follow the 7 Stages
-
-After intake, Copilot will guide you through:
-
-1. **Stage 1: Idea Brief** — Problem, user, pain points
-2. **Stage 2: Discovery & Research** — Validate assumptions, gather constraints
-3. **Stage 3: Hypothesis** — Falsifiable thesis and success metrics
-4. **Stage 4: Vision & Mission** — Guiding star for the product
-5. **Stage 5: Product Roadmap** — Quarterly initiatives
-6. **Stage 6: Release Plan** — Feature list with go/no-go criteria
-7. **Stage 7: Feature Documents** — BDD scenarios ready for engineering
-
 ---
 
 ## 📁 Project Structure
@@ -178,20 +172,6 @@ Copilot automatically reads `.product/session-state.md` to understand:
 
 **Update `.product/session-state.md` after each major decision.** Copilot will reference it in the next chat.
 
-### Key Commands
-
-Use slash commands to invoke agents and utilities:
-
-```
-/validate                      ← Check artifact readiness
-/log-decision                  ← Capture major decisions
-/status                        ← Show current stage and context
-/researcher                    ← Stage 2: Interview synthesis
-/eng-lead                      ← Technical perspective
-/designer                      ← UX/design perspective
-/business-owner                ← Strategic/business alignment
-```
-
 ### Gate Enforcement
 
 Copilot enforces progression rules:
@@ -199,20 +179,6 @@ Copilot enforces progression rules:
 - ❌ Can't create Roadmap until Vision is locked
 - ❌ Can't create Release Plan until Roadmap is locked
 - ❌ Can't create Feature Docs until Release Plan is locked
-
-### Validation Checklists
-
-Each artifact has a specific checklist. Copilot verifies before unlocking gates:
-
-```
-Artifact is REVIEW-ready. I've verified:
-☑ Problem statement is specific
-☑ Target user is clearly defined
-☑ Core pain points are ranked
-☑ No open questions blocking Discovery
-
-Ready to LOCK this and move to Stage 2?
-```
 
 ---
 
@@ -503,22 +469,6 @@ git tag -a stage-4-complete -m "Vision & Mission approved by business owner"
 - **REVIEW** — Complete enough for feedback
 - **LOCKED** — Validated and gates the next stage
 
-### Gate Status
-
-- **LOCKED** — Exit criteria not yet met; can't advance
-- **OPEN** — All criteria met; ready for next stage
-- **BYPASSED** — User chose to skip (rare)
-
-### Roles
-
-Introduced when their expertise is needed:
-
-- **Stage 1:** PM only
-- **Stage 2:** +Eng Lead, +Designer
-- **Stage 4:** +Business Owner (for Vision alignment)
-- **Stage 5–6:** All roles review
-- **Stage 7:** +Business Analyst (leads BDD)
-
 ### User Stories
 
 Every requirement is a Jira-ready user story with Gherkin acceptance criteria:
@@ -547,25 +497,6 @@ Not vague. Not aspirational. **Testable and Jira-exportable.** Each story must v
 - **Status Skill:** Type `/status` or see `.github/skills/status/SKILL.md`
 - **Artifact Templates:** See `.product/templates/` (stages 1–7)
 - **Governing Principles:** See `.product/product-constitution.md`
-
----
-
-## 📞 Support
-
-Ask Copilot or invoke an agent:
-
-```
-/validate                          ← Check artifact readiness
-/status                            ← Show current stage & context
-/product-lead: [question]          ← Product strategy
-/eng-lead: [question]              ← Technical perspective
-/designer: [question]              ← UX perspective
-/business-owner: [question]        ← Strategic alignment
-/business-analyst: [question]      ← BDD scenarios & acceptance criteria
-/log-decision                      ← Capture major decisions
-```
-
-Each agent has full system context and will answer based on your current stage and artifact.
 
 ---
 
