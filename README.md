@@ -1,6 +1,77 @@
 # Product Foundry — VS Code Project
 
-Product Foundry guides rigorous product discovery through 7 gated stages. Each artifact moves through Draft → Review → Locked before the next stage opens. Feature Documents use BDD — every requirement is a testable Given/When/Then scenario.
+> **Validate your product idea before committing to any implementation — software or otherwise.**
+
+Product Foundry is a structured discovery process that helps you identify whether a product is worth building — and define exactly what it should do — before any implementation investment is made. **Implementation doesn't always mean writing code.** It might mean building a software application, designing a service, creating a process, or assembling a team. Whatever form your solution takes, Product Foundry is agnostic to it. The process works the same way regardless.
+
+Most failed products fail not because of poor execution, but because the wrong product was built. Product Foundry forces the hard questions upfront: Is the problem real? Is the user clearly defined? Does the proposed solution actually match the need? These questions are far cheaper to answer in discovery than after you've committed resources to a solution.
+
+Only when discovery is complete — problem validated, vision locked, requirements specified — does implementation begin. This saves teams from investing time, money, and effort building something no one needs.
+
+Product Foundry guides this discovery through **7 gated stages**. Each artifact moves through Draft → Review → Locked before the next stage opens. Feature Documents use BDD — every requirement is a testable Given/When/Then scenario ready to hand to whoever is responsible for delivery.
+
+---
+
+## � Why Product Foundry?
+
+Implementation is expensive — whether that's writing software, hiring staff, building infrastructure, or redesigning a process. Committing to the wrong solution wastes that investment entirely. Product Foundry front-loads the discovery work so you only build what's validated, regardless of what "build" means for your context:
+
+- **Stage 1–3** answer: *Is this the right problem, and do we understand it well enough to solve it?*
+- **Stage 4** answers: *What is this product ultimately trying to achieve?*
+- **Stage 5–6** answer: *What do we deliver first, and what does a successful release look like?*
+- **Stage 7** answers: *Exactly how should each capability behave — in language the delivery team can act on immediately?*
+
+The output is a complete, locked specification. Whoever is responsible for delivery — engineering, operations, a vendor, or an internal team — picks it up with no ambiguity and no need to revisit the brief mid-execution.
+
+---
+
+## 📖 The Problem with How Products Get Built
+
+### The Waterfall Era
+
+Traditional software delivery followed a **waterfall model**: gather all requirements upfront, design the full system, build everything, then test and release. On paper, this looked rigorous. In practice, it was catastrophic for products.
+
+The core assumption of waterfall — that you can fully understand what users need before building anything — is almost always wrong. By the time a product reached users (often 12–24 months after requirements were written), the market had shifted, the users' needs had evolved, or the original problem statement turned out to be a symptom of a different, deeper problem. Teams had invested enormous resources building precisely what was specified — and precisely the wrong thing.
+
+Waterfall's failure mode isn't laziness or poor engineering. It's that **certainty was assumed at the moment of least knowledge** — the very beginning of the project.
+
+---
+
+### The Agile Response
+
+Agile emerged in the early 2000s as a direct rejection of waterfall's rigidity. Its core insight was correct: **requirements change, feedback is essential, and working software beats comprehensive documentation.** Break work into short cycles (sprints), involve users continuously, and adapt based on what you learn.
+
+Agile solved a real problem. Teams became faster. Feedback loops shortened. Waste from long delivery cycles was eliminated.
+
+But Agile introduced its own failure mode: **teams got very good at rapidly building the wrong thing.**
+
+When there's no validated product direction before the first sprint begins, Agile's speed becomes a liability. Teams ship feature after feature — each Sprint Review looks productive — but the product drifts because no one agreed on what problem it was actually solving, who it was solving it for, or what success looks like. Pivots happen mid-sprint. Scope changes weekly. Engineers refactor work that was never grounded in a validated need. The backlog grows faster than it's delivered.
+
+Agile fixed *how* products are built. It didn't fix *what* gets built.
+
+---
+
+### Where Product Foundry Fits
+
+Product Foundry operates in the space **before** Agile — and before waterfall's requirements phase. It's not a delivery methodology. It's a **discovery methodology**.
+
+The premise is simple: the cheapest time to change direction is before any implementation has started. A conversation costs nothing. A pivot mid-sprint costs a sprint. A pivot after 6 months of development costs 6 months.
+
+Product Foundry runs discovery through 7 structured gates. Each gate asks a harder question than the last. By the time Stage 7 is complete, three things are true:
+
+1. **The problem is validated** — not assumed. You have evidence the pain is real, the user is real, and the gap in existing solutions is real.
+2. **The vision is locked** — every subsequent decision filters through it. Scope creep has a test: does this serve the vision, or not?
+3. **Requirements are specification-complete** — BDD scenarios define exactly how each capability should behave, in language that's directly testable. Engineering (or any delivery team) picks this up and executes without needing to re-interpret intent.
+
+Product Foundry doesn't replace Agile. It makes Agile work better by ensuring the first sprint starts with a validated, clearly defined product — not a hopeful assumption.
+
+| | Waterfall | Agile | Product Foundry + Agile |
+|--|-----------|-------|-------------------------|
+| **Speed to first delivery** | Slow | Fast | Fast |
+| **Adapts to change** | No | Yes | Yes |
+| **Validates before building** | No | No | Yes |
+| **Specification quality** | High but wrong | Low | High and validated |
+| **Failure mode** | Builds wrong thing slowly | Builds wrong thing quickly | Surfaces wrong direction before building begins |
 
 ---
 
