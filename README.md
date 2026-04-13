@@ -1,4 +1,4 @@
-# Product Foundry — VS Code Project
+# 🔥 Product Foundry
 
 > **Validate your product idea before committing to any implementation — software or otherwise.**
 
