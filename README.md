@@ -8,7 +8,7 @@ The process runs through **7 gated stages**. Each artifact moves through Draft �
 
 ---
 
-## 🪨 The Foundry Analogy
+## ⚒️ The Foundry Analogy
 
 A real foundry takes raw ore — extracted from the ground, full of impurities, completely unusable in its natural state — and subjects it to a series of refining processes. Heat, pressure, separation. At each stage, impurities are removed and what remains becomes more concentrated, more defined, more valuable. By the end, you have refined metal: a material that can actually be used to build something.
 
