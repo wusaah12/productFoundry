@@ -10,10 +10,10 @@ Implementation doesn’t always mean writing code. It could mean building a soft
 
 ### 🌟 Where Agile Fits
 
-Agile emerged in the early 2000s as a reaction to waterfall’s rigid methodologies. Core principles, like adapting based on real-world feedback and emphasizing working software, were spot-on. Its intent was to improve processes, but its application often fell short.
+Agile emerged in the early 2000s as a reaction to waterfall’s rigid methodologies. Core principles, like adapting based on real-world feedback and emphasizing working software, were spot-on. Its intent was to improve processes, but challenges arose in its application and interpretation.
 
-### Agile’s Failure Mode
-The problem wasn’t Agile itself. The Agile Manifesto and Scrum Guide had the right vision. **It was the practitioners** — overzealous coaches, poorly applied processes that often shifted focus to events and ceremonies — tasks rather than destinations. Practitioners misunderstood their roles, leaning more into tactical event execution rather than strategic product thinking.
+### Challenges in Practice
+While the Agile Manifesto and Scrum Guide emphasized iteration and adaptability, real-world implementation sometimes fell short of these ideals. **Practitioners and teams occasionally focused more on following prescriptive events and ceremonies** than embracing the broader principles of Agile, like responding to change and delivering value incrementally. These interpretations occasionally led to the perception that the mechanics of Agile were the end goal, rather than tools to foster continuous improvement.
 
 ---
 
@@ -37,7 +37,7 @@ It runs on discovery phases designed to **stress-test ideas**, not just execute 
 | **Specification Boundaries** | Loosely enforced     | Fully articulated           |
 | **Focus**                    | Speed of delivery    | Depth of understanding      |
 
-*Footnote: Misapplications of Agile are almost always rooted in practitioner and coaching missteps, not failures of Agile itself.*
+*Footnote: Misapplications of Agile are rooted in challenges of interpretation and adaptation, not failures of Agile itself.*
 
 ---
 
@@ -49,6 +49,6 @@ It runs on discovery phases designed to **stress-test ideas**, not just execute 
 | Requirements defects found late cost 100x more to fix than defects found early.    | Cost of Change Curve; Barry Boehm.                                        | 3, 4               |
 | Scope creep is the leading cause of project overruns—and it starts before sprint 1 | PMI’s Pulse of the Profession Report, 2018.                               | 5, 6               |
 | Dependencies discovered mid-sprint are the primary cause of sprint failure.        | State of Agile Report, 2023.                                              | 4, 7               |
-| Features shipped are rarely or never used.                                         | Standish Group’s CHAOS Report; 50% of features are rarely or never used.  | 7                 |
+| Features shipped are rarely or never used.                                         | Standish Group’s CHAOS Report; 50% of features are rarely or never used.  | 7                  |
 
 ---
