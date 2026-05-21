@@ -1,30 +1,54 @@
 # 💡 Product Foundry
 
-> **Validating your product idea before committing to any implementation — software or otherwise.**
+> **Product Foundry answers the question practitioners often forgot to ask: is this worth building at all?**
 
-Product Foundry is a structured discovery process that helps you identify whether a product is worth building — and define exactly what it should do — before any implementation investment is made. **Implementation doesn’t always mean writing code.** It might mean building a software application, designing a service, creating a process, or assembling a team. Whatever form your solution takes, Product Foundry is agnostic to it.
+Product Foundry is a process designed to validate and refine product ideas before any significant investment. It helps teams ensure a product is worth building and clarifies what the product should do, addressing the question of value before execution begins.
 
-The process runs through **7 gated stages**. Each artifact moves through Draft → Review → Locked before the next stage opens. Feature Documents use Behavior Driven Development (BDD) — every requirement is a testable Given/When/Then scenario ready to hand directly to the delivery team.
+Implementation doesn’t always mean writing code. It could mean building a software application, designing a service, creating a process, or assembling a team. Whatever form your solution takes, Product Foundry ensures you start with clarity and confidence.
 
 ---
 
-## 🌐 The Foundry Analogy
+### 🌟 Where Agile Fits
 
-A real foundry takes raw ore — extracted from the ground, full of impurities, completely unusable in its natural state — and subjects it to a series of refining processes. Heat, pressure, separation. At each stage, impurities are removed and what remains becomes more concentrated, more defined, more valuable. By the end, you have refined metal: a material that can actually be used to build something.
+Agile emerged in the early 2000s as a reaction to waterfall’s rigid methodologies. Core principles, like adapting based on real-world feedback and emphasizing working software, were spot-on. Its intent was to improve processes, but its application often fell short.
 
-A product idea works the same way.
+### Agile’s Failure Mode
+The problem wasn’t Agile itself. The Agile Manifesto and Scrum Guide had the right vision. **It was the practitioners** — overzealous coaches, poorly applied processes that often shifted focus to events and ceremonies — tasks rather than destinations. Practitioners misunderstood their roles, leaning more into tactical event execution rather than strategic product thinking.
 
-An idea fresh out of someone’s head is raw ore. It contains something valuable — a real frustration, a genuine gap, an opportunity — but it’s buried in impurities: assumptions that haven’t been tested, a user that hasn’t been defined, a scope that hasn’t been bounded, a vision that hasn’t been articulated. In that raw state, the idea is as unusable as ore pulled from the ground. Hand it to a delivery team and they’ll build something — but it won’t be the right thing.
+---
 
-Product Foundry is the refining process. Each stage applies heat and pressure to the idea:
+### 🌌 Where Product Foundry Fits
 
-- **Stage 1** removes the first layer of vagueness — turning "I have an idea" into a specific problem with a defined user.
-- **Stage 2** removes untested assumptions — replacing guesses with evidence about what’s real.
-- **Stage 3** removes false confidence — forcing the idea to survive a falsifiable hypothesis.
-- **Stage 4** removes ambiguity of direction — locking a vision that every future decision filters through.
-- **Stages 5 & 6** remove scope creep before it starts — sequencing what gets built, in what order, and why.
-- **Stage 7** removes interpretive ambiguity — producing BDD scenarios so precise that any delivery team can act on them without asking clarifying questions.
+Product Foundry fills the space practitioners left behind. Unlike Agile, which pushes towards incremental delivery, Product Foundry adds a layer before Agile’s processes, refining product ideas.
 
-By Stage 7, what started as raw ore has been refined into something usable: a clear, validated, specification-complete product ready for delivery.
+- A **conversation costs time**, not nothing. Product Foundry contextualizes when and why these conversations are worth having.
+- Delivery cadence is **intended, not enforced**, making space for when strategic work outweighs artificial velocity metrics.
 
-The name is intentional. You don’t skip steps in a foundry. You don’t pour molten metal before the ore has been refined. The same logic applies here.
+It runs on discovery phases designed to **stress-test ideas**, not just execute them.
+
+---
+
+### ⚖️ Comparison Table
+
+| Feature                      | Agile Delivery       | Product Foundry Validations |
+|------------------------------|----------------------|-----------------------------|
+| **Delivery Cadence**         | Regularly scheduled | Intentionally scoped        |
+| **Verification**             | During feedback loops| Before execution            |
+| **Specification Boundaries** | Loosely enforced     | Fully articulated           |
+| **Focus**                    | Speed of delivery    | Depth of understanding      |
+
+*Footnote: Misapplications of Agile are almost always rooted in practitioner and coaching missteps, not failures of Agile itself.*
+
+---
+
+### 📊 The Evidence Base
+
+| Failure Pattern                                                                    | Data Point                                                                 | Addressed in Stage |
+|------------------------------------------------------------------------------------|----------------------------------------------------------------------------|--------------------|
+| Most products fail because the problem was wrong, not the execution.               | 42% of startups fail due to a lack of market need.                         | 1, 2               |
+| Requirements defects found late cost 100x more to fix than defects found early.    | Cost of Change Curve; Barry Boehm.                                        | 3, 4               |
+| Scope creep is the leading cause of project overruns—and it starts before sprint 1 | PMI’s Pulse of the Profession Report, 2018.                               | 5, 6               |
+| Dependencies discovered mid-sprint are the primary cause of sprint failure.        | State of Agile Report, 2023.                                              | 4, 7               |
+| Features shipped are rarely or never used.                                         | Standish Group’s CHAOS Report; 50% of features are rarely or never used.  | 7                 |
+
+---
