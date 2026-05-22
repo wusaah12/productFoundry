@@ -1,83 +1,96 @@
-# 🔥 Product Foundry
+<div align="center">
+  <h1>🔥 Product Foundry</h1>
+  <h3><em>Validate before you build. Discover before you commit.</em></h3>
+</div>
 
-> **Validate your product idea before committing to any implementation — software or otherwise.**
+<p align="center">
+  <strong>An AI-guided toolkit that distills raw product ideas into well-defined Features - so your team delivers measurable outcomes instead of building on ambiguous intentions.</strong>
+</p>
+
+<p align="center">
+  <em>Works with GitHub Copilot, Claude, Kiro, or any AI assistant that can read files and follow structured prompts.</em>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/release-latest-orange" alt="Latest Release">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-brightgreen" alt="License: CC BY-NC-SA 4.0">
+  </a>
+</p>
+
+## 📑 Table of Contents
+
+- [🤔 What is Product Foundry?](#-what-is-product-foundry)
+- [👥 Who is this for?](#-who-is-this-for)
+- [🤖 Supported AI Tools](#-supported-ai-tools)
+- [🚀 Quick Start](#-quick-start)
+- [🎯 How It Works](#-how-it-works)
+- [🤖 Agent System](#-agent-system-13-autonomous-agents)
+- [🛠️ Skills](#️-skills-reusable-workflows)
+- [📋 Typical Workflow](#-typical-workflow)
+- [🔧 Configuration](#-configuration)
+- [📊 Artifact Validation](#-artifact-validation)
+- [🗂️ Working with Git](#️-working-with-git)
+- [🚨 Troubleshooting](#-troubleshooting)
+- [📚 Key Concepts](#-key-concepts)
+- [🎓 Learning Resources](#-learning-resources)
+- [✅ Success Metrics](#-success-metrics)
+- [📝 Next Steps](#-next-steps)
+
+## 🤔 What is Product Foundry?
 
 Product Foundry is a structured discovery process that helps you identify whether a product is worth building — and define exactly what it should do — before any implementation investment is made. **Implementation doesn't always mean writing code.** It might mean building a software application, designing a service, creating a process, or assembling a team. Whatever form your solution takes, Product Foundry is agnostic to it.
 
-The process runs through **7 gated stages**. Each artifact moves through Draft → Review → Locked before the next stage opens. Feature Documents use Behavior Driven Development (BDD) — every requirement is a testable Given/When/Then scenario ready to hand directly to the delivery team.
+The process runs through **7 gated stages**: Idea Brief → Discovery Report → Hypothesis → Vision & Mission → Roadmap → Release Plan → Feature Documents. Each artifact moves through Draft → Review → Locked before the next stage opens. Feature Documents use Behavior Driven Development (BDD) — every requirement is a testable Given/When/Then scenario ready to hand directly to the delivery team.
+
+**Why does this matter?** See [Why Product Foundry](./WHY-PRODUCT-FOUNDRY.md) for the full argument about what's broken in how products get built today.
 
 ---
 
-## ⚒️ The Foundry Analogy
+## 👥 Who is this for?
 
-A real foundry takes raw ore — extracted from the ground, full of impurities, completely unusable in its natural state — and subjects it to a series of refining processes. Heat, pressure, separation. At each stage, impurities are removed and what remains becomes more concentrated, more defined, more valuable. By the end, you have refined metal: a material that can actually be used to build something.
+Product Foundry is designed for:
 
-A product idea works the same way.
+- **Product Managers** who need to validate ideas before committing resources
+- **Founders** who want to de-risk product decisions before building
+- **Engineering Leads** who are tired of building features that never ship or get used
+- **Product Teams** who need a shared language for discovery and specification
+- **Anyone** who's ever built the wrong thing and wants to avoid doing it again
 
-An idea fresh out of someone's head is raw ore. It contains something valuable — a real frustration, a genuine gap, an opportunity — but it's buried in impurities: assumptions that haven't been tested, a user that hasn't been defined, a scope that hasn't been bounded, a vision that hasn't been articulated. In that raw state, the idea is as unusable as ore pulled from the ground. Hand it to a delivery team and they'll build something — but it won't be the right thing.
-
-Product Foundry is the refining process. Each stage applies heat and pressure to the idea:
-
-- **Stage 1** removes the first layer of vagueness — turning "I have an idea" into a specific problem with a defined user.
-- **Stage 2** removes untested assumptions — replacing guesses with evidence about what's real.
-- **Stage 3** removes false confidence — forcing the idea to survive a falsifiable hypothesis.
-- **Stage 4** removes ambiguity of direction — locking a vision that every future decision filters through.
-- **Stages 5 & 6** remove scope creep before it starts — sequencing what gets built, in what order, and why.
-- **Stage 7** removes interpretive ambiguity — producing BDD scenarios so precise that any delivery team can act on them without asking clarifying questions.
-
-By Stage 7, what started as raw ore has been refined into something usable: a clear, validated, specification-complete product ready for delivery.
-
-The name is intentional. You don't skip steps in a foundry. You don't pour molten metal before the ore has been refined. The same logic applies here.
+If you've ever shipped a feature only to realize the problem wasn't validated, the scope wasn't clear, or the team had different interpretations of "done" — this is for you.
 
 ---
 
-##  The Problem with How Products Get Built
+## 🤖 Supported AI Tools
 
-### The Waterfall Era
+Product Foundry works with any AI assistant that can:
+- Read files from your workspace
+- Follow structured prompts and instructions
+- Maintain context across conversations
 
-Traditional software delivery followed a **waterfall model**: gather all requirements upfront, design the full system, build everything, then test and release. On paper, this looked rigorous. In practice, it was catastrophic for products.
+### Tested with:
 
-The core assumption of waterfall — that you can fully understand what users need before building anything — is almost always wrong. By the time a product reached users (often 12–24 months after requirements were written), the market had shifted, the users' needs had evolved, or the original problem statement turned out to be a symptom of a different, deeper problem. Teams had invested enormous resources building precisely what was specified — and precisely the wrong thing.
+**GitHub Copilot** (VS Code)
+- Native integration via `.github/` configuration
+- Slash commands for agent invocation
+- Automatic context loading from `.ai/session-state.md`
 
-Waterfall's failure mode isn't laziness or poor engineering. It's that **certainty was assumed at the moment of least knowledge** — the very beginning of the project.
+**Kiro** (VS Code)
+- Similar to GitHub Copilot setup
+- Can read steering files and agent configurations
+- Supports file-based context management
 
----
+### Should work with:
 
-### The Agile Response
+**Claude** (via Claude Desktop or API)
+- Use project knowledge to load `.ai/` folder
+- Reference agent files manually or via MCP
+- Copy/paste prompts from `.ai/agents/` as needed
 
-Agile emerged in the early 2000s as a direct rejection of waterfall's rigidity. Its core insight was correct: **requirements change, feedback is essential, and working software beats comprehensive documentation.** Break work into short cycles (sprints), involve users continuously, and adapt based on what you learn.
-
-Agile solved a real problem. Teams became faster. Feedback loops shortened. Waste from long delivery cycles was eliminated.
-
-But Agile introduced its own failure mode: **teams got very good at rapidly building the wrong thing.**
-
-When there's no validated product direction before the first sprint begins, Agile's speed becomes a liability. Teams ship feature after feature — each Sprint Review looks productive — but the product drifts because no one agreed on what problem it was actually solving, who it was solving it for, or what success looks like. Pivots happen mid-sprint. Scope changes weekly. Engineers refactor work that was never grounded in a validated need. The backlog grows faster than it's delivered.
-
-Agile fixed *how* products are built. It didn't fix *what* gets built.
-
----
-
-### Where Product Foundry Fits
-
-Product Foundry operates in the space **before** Agile — and before waterfall's requirements phase. It's not a delivery methodology. It's a **discovery methodology**.
-
-The premise is simple: the cheapest time to change direction is before any implementation has started. A conversation costs nothing. A pivot mid-sprint costs a sprint. A pivot after 6 months of development costs 6 months.
-
-Product Foundry runs discovery through 7 structured gates. Each gate asks a harder question than the last. By the time Stage 7 is complete, three things are true:
-
-1. **The problem is validated** — not assumed. You have evidence the pain is real, the user is real, and the gap in existing solutions is real.
-2. **The vision is locked** — every subsequent decision filters through it. Scope creep has a test: does this serve the vision, or not?
-3. **Requirements are specification-complete** — BDD scenarios define exactly how each capability should behave, in language that's directly testable. Engineering (or any delivery team) picks this up and executes without needing to re-interpret intent.
-
-Product Foundry doesn't replace Agile. It makes Agile work better by ensuring the first sprint starts with a validated, clearly defined product — not a hopeful assumption.
-
-| | Waterfall | Agile | Product Foundry + Agile |
-|--|-----------|-------|-------------------------|
-| **Speed to first delivery** | Slow | Fast | Fast |
-| **Adapts to change** | No | Yes | Yes |
-| **Validates before building** | No | No | Yes |
-| **Specification quality** | High but wrong | Low | High and validated |
-| **Failure mode** | Builds wrong thing slowly | Builds wrong thing quickly | Surfaces wrong direction before building begins |
+**Other AI Assistants**
+- Load `.ai/system-prompt.md` as system prompt
+- Reference agent files in `.ai/agents/` for role-specific guidance
+- Manually update `.ai/session-state.md` to maintain context
 
 ---
 
@@ -86,12 +99,22 @@ Product Foundry doesn't replace Agile. It makes Agile work better by ensuring th
 ### 1. Open This Workspace
 
 ```
-File → Open Folder → Select productManager folder
+File → Open Folder → Select productFoundry folder
 ```
 
-### 2. Start a Copilot Chat
+### 2. Start Your AI Assistant
 
-Press `Ctrl+Shift+I` (or `Cmd+Shift+I` on Mac) to open Copilot Chat.
+**For GitHub Copilot:**
+Press `Ctrl+Shift+I` (or `Cmd+Shift+I` on Mac) to open GitHub Copilot Chat.
+
+**For Claude:**
+Open Claude Desktop and add this folder as a project, or start a new conversation and reference the workspace files.
+
+**For Kiro:**
+Open Kiro chat panel in VS Code.
+
+**For Other Tools:**
+Open your AI assistant and ensure it has access to read files from this workspace.
 
 ### 3. Begin Intake Protocol
 
@@ -102,7 +125,12 @@ I have a new product idea I want to develop. Can you help me through
 the Product Foundry discovery process? Let's start with the intake protocol.
 ```
 
-Copilot will ask 5 structured questions to understand your idea.
+Your AI assistant will ask 5 structured questions to understand your idea.
+
+> **Note:** If your AI assistant doesn't automatically load the context, you may need to:
+> - Reference `.ai/system-prompt.md` explicitly
+> - Point it to `.ai/session-state.md` for current progress
+> - Load agent files from `.ai/agents/` as needed
 
 ---
 
@@ -111,50 +139,61 @@ Copilot will ask 5 structured questions to understand your idea.
 ```
 ProductFoundry/
 │
-├── 📁 .github/                         ← Agent system configuration
-│   ├── agentconfig.yaml                ← Master agent definitions
-│   ├── 📁 agents/                      ← Agent instruction files
-│   │   ├── orchestrator.*.agent.md     ← Main, Quality Gate, Session Manager
-│   │   ├── specialist.*.agent.md       ← Researcher, Hypothesis, Vision
-│   │   └── role.*.agent.md             ← Product Lead, Eng Lead, Designer, etc.
-│   ├── 📁 prompts/                     ← Copilot Chat prompt integration
-│   │   ├── orchestrator.*.prompt.md
-│   │   ├── specialist.*.prompt.md
-│   │   └── role.*.prompt.md
-│   └── 📁 skills/                      ← Reusable skill modules
-│       ├── validate/SKILL.md           ← Validation skill
-│       └── log-decision/SKILL.md       ← Decision logging skill
+├── 📁 .ai/                                ← AI configuration (tool-agnostic)
+│   ├── system-prompt.md                   ← Core instructions
+│   ├── session-state.md                   ← Current progress & context
+│   ├── product-constitution.md            ← 6 governing principles
+│   ├── 📁 agents/                         ← Agent instruction files
+│   │   ├── orchestrator.*.md              ← Main, Quality Gate, Session Manager
+│   │   ├── specialist.*.md                ← Researcher, Hypothesis, Vision
+│   │   ├── role.*.md                      ← Product Lead, Eng Lead, Designer, etc.
+│   │   └── utility.*.md                   ← Decision Logger, Export Agent
+│   ├── 📁 skills/                         ← Reusable skill modules
+│   │   ├── validate/SKILL.md              ← Validation skill
+│   │   ├── log-decision/SKILL.md          ← Decision logging skill
+│   │   └── status/SKILL.md                ← Status skill
+│   └── 📁 workflows/                      ← Stage-specific workflows
+│       ├── stage-1.workflow.md
+│       └── ... (stages 2-7)
+│
+├── 📁 .github/                            ← GitHub Copilot specific
+│   ├── agentconfig.yaml                   ← Agent definitions (references .ai/)
+│   ├── README.md                          ← Points to .ai/ for content
+│   └── 📁 prompts/                        ← Copilot slash commands
+│       ├── orchestrator.*.prompt.md
+│       ├── specialist.*.prompt.md
+│       └── role.*.prompt.md
 │
 ├── 📁 .vscode/
-│   ├── settings.json                  ← VS Code configuration
-│   └── tasks.json                     ← Optional validation tasks
+│   ├── settings.json                      ← VS Code configuration
+│   └── tasks.json                         ← Optional validation tasks
 │
-├── 📁 .product/                       ← Working data (state, decisions, templates)
-│   ├── session-state.md               ← Current progress & context
-│   ├── 📁 artifacts/                  ← Example artifacts (reference only)
+├── 📁 .product/                           ← Working data (state, decisions, templates)
+│   ├── 📁 artifacts/                      ← Example artifacts (reference only)
 │   │   └── EXAMPLE-stage-1-idea-brief.md
-│   ├── 📁 decisions/                  ← Decision log (git history)
-│   │   └── DECISIONS.md              ← All decisions logged here
-│   ├── 📁 templates/                  ← Artifact templates (stages 1–7)
-│   │   ├── stage-1-idea-brief-template.md
-│   │   ├── stage-2-discovery-report-template.md
-│   │   ├── stage-3-hypothesis-template.md
-│   │   ├── stage-4-vision-mission-template.md
-│   │   ├── stage-5-roadmap-template.md
-│   │   ├── stage-6-release-plan-template.md
-│   │   └── stage-7-feature-document-template.md
-│   └── product-constitution.md        ← 6 governing principles
+│   ├── 📁 decisions/                      ← Decision log (git history)
+│   │   └── DECISIONS.md                   ← All decisions logged here
+│   └── 📁 templates/                      ← Artifact templates (stages 1–7)
+│       ├── stage-1-idea-brief-template.md
+│       ├── stage-2-discovery-report-template.md
+│       ├── stage-3-hypothesis-template.md
+│       ├── stage-4-vision-mission-template.md
+│       ├── stage-5-roadmap-template.md
+│       ├── stage-6-release-plan-template.md
+│       └── stage-7-feature-document-template.md
 │
-├── 📁 [idea-name]/                    ← Created when Stage 1 locks (one per product)
-│   ├── idea-brief.md                  ← Stage 1 artifact
-│   ├── discovery-report.md            ← Stage 2 artifact
-│   ├── hypothesis.md                  ← Stage 3 artifact
-│   ├── vision-mission.md              ← Stage 4 artifact
-│   ├── product-roadmap.md             ← Stage 5 artifact
-│   ├── release-plan.md                ← Stage 6 artifact
-│   └── feature-[name].md             ← Stage 7 artifacts (one per feature)
+├── 📁 [idea-name]/                        ← Created when Stage 1 locks (one per product)
+│   ├── idea-brief.md                      ← Stage 1 artifact
+│   ├── discovery-report.md                ← Stage 2 artifact
+│   ├── hypothesis.md                      ← Stage 3 artifact
+│   ├── vision-mission.md                  ← Stage 4 artifact
+│   ├── product-roadmap.md                 ← Stage 5 artifact
+│   ├── release-plan.md                    ← Stage 6 artifact
+│   └── feature-[name].md                  ← Stage 7 artifacts (one per feature)
 │
-└── README.md                          ← This file
+├── README.md                              ← This file
+├── WHY-PRODUCT-FOUNDRY.md                 ← The case for discovery
+└── LICENSE                                ← CC BY-NC-SA 4.0
 ```
 
 ---
@@ -163,18 +202,18 @@ ProductFoundry/
 
 ### Context Continuity
 
-Copilot automatically reads `.product/session-state.md` to understand:
+Your AI assistant reads `.ai/session-state.md` to understand:
 - Current stage (1-7)
 - Active artifact
 - Gate status (LOCKED / OPEN)
 - Latest decision
 - Outstanding blockers
 
-**Update `.product/session-state.md` after each major decision.** Copilot will reference it in the next chat.
+**Update `.ai/session-state.md` after each major decision.** Your AI assistant will reference it in the next chat.
 
 ### Gate Enforcement
 
-Copilot enforces progression rules:
+The system enforces progression rules:
 
 - ❌ Can't create Roadmap until Vision is locked
 - ❌ Can't create Release Plan until Roadmap is locked
@@ -184,16 +223,16 @@ Copilot enforces progression rules:
 
 ## 🤖 Agent System (13 Autonomous Agents)
 
-Product Foundry includes a 13-agent system with specialized agents working together across your discovery process:
+Product Foundry includes a 13-agent system with specialized agents working together across your discovery process. Agents are defined in `.github/agents/` and can be invoked by referencing their files or using slash commands (if your AI tool supports them).
 
 ### Specialist Agents (Stages 2–7)
 
 | Command | Agent | When to Use |
 |---------|-------|------------|
-| `/researcher` | Discovery Researcher | Stage 2: User interviews, competitive analysis |
-| `/hypothesis-validator` | Hypothesis Validator | Stage 3: Falsifiability, SMART metrics |
-| `/vision-alignment` | Vision Alignment | Stage 4: Vision crafting, mission definition |
-| `/business-analyst` | Business Analyst | Stage 7: BDD scenarios, acceptance criteria |
+| `/researcher` or reference `role.researcher.agent.md` | Discovery Researcher | Stage 2: User interviews, competitive analysis |
+| `/hypothesis-validator` or reference `specialist.hypothesis-validator.agent.md` | Hypothesis Validator | Stage 3: Falsifiability, SMART metrics |
+| `/vision-alignment` or reference `specialist.vision-alignment.agent.md` | Vision Alignment | Stage 4: Vision crafting, mission definition |
+| `/business-analyst` or reference `role.business-analyst.agent.md` | Business Analyst | Stage 7: BDD scenarios, acceptance criteria |
 
 ### Role Agents (Professional Perspectives)
 
@@ -215,7 +254,7 @@ Product Foundry includes a 13-agent system with specialized agents working toget
 
 ### How to Invoke
 
-Type a slash command in Copilot Chat:
+**If your AI tool supports slash commands (GitHub Copilot, Kiro):**
 
 ```
 /designer: Can we simplify the workflow for mobile?
@@ -223,6 +262,18 @@ Type a slash command in Copilot Chat:
 /eng-lead: What's the technical risk here?
 
 /validate
+```
+
+**If your AI tool doesn't support slash commands (Claude, others):**
+
+```
+Act as the Designer agent (see .github/agents/role.designer.agent.md). 
+Can we simplify the workflow for mobile?
+
+Act as the Eng Lead agent (see .github/agents/role.eng-lead.agent.md). 
+What's the technical risk here?
+
+Run the validate skill (see .github/skills/validate/SKILL.md).
 ```
 
 Each agent:
@@ -233,7 +284,7 @@ Each agent:
 
 ---
 
-## �️ Skills (Reusable Workflows)
+## 🛠️ Skills (Reusable Workflows)
 
 Skills provide guided workflows for common tasks:
 
@@ -247,7 +298,7 @@ Runs stage-specific quality checks:
 
 **Use when:** Before progressing to next stage, or debugging a blocked gate.
 
-**See:** `.github/skills/validate/SKILL.md` or type `/validate` in Copilot Chat.
+**See:** `.ai/skills/validate/SKILL.md` or invoke via `/validate` (if supported) or by asking your AI assistant to "run the validate skill".
 
 ### Log Decision Skill (`/log-decision`)
 
@@ -259,7 +310,7 @@ Captures major product decisions in audit trail:
 
 **Use when:** Making strategic choices, finalizing scope, go/no-go decisions.
 
-**See:** `.github/skills/log-decision/SKILL.md` or type `/log-decision` in Copilot Chat.
+**See:** `.ai/skills/log-decision/SKILL.md` or invoke via `/log-decision` (if supported) or by asking your AI assistant to "log this decision".
 
 ### Status Skill (`/status`)
 
@@ -270,7 +321,7 @@ Shows current session context:
 
 **Use when:** Resuming a session, checking progress, or before calling `/validate`.
 
-**See:** `.github/skills/status/SKILL.md` or type `/status` in Copilot Chat.
+**See:** `.ai/skills/status/SKILL.md` or invoke via `/status` (if supported) or by asking your AI assistant to "show current status".
 
 ---
 
@@ -281,13 +332,13 @@ Shows current session context:
 ```
 You: "I have an idea for a reporting tool."
 ↓
-Copilot: "Great! Let's do intake. [5 questions]"
+AI Assistant: "Great! Let's do intake. [5 questions]"
 ↓
 You: [Answer questions]
 ↓
-Copilot: Creates Stage 1: Idea Brief
+AI Assistant: Creates Stage 1: Idea Brief
 ↓
-Copilot: /validate → Gate: OPEN ✅
+AI Assistant: /validate → Gate: OPEN ✅
 ↓
 You: "Ready to move to Stage 2"
 ```
@@ -297,7 +348,7 @@ You: "Ready to move to Stage 2"
 ```
 You: Ready for Stage 2
 ↓
-Copilot: (Loads .product/session-state.md) → Stage 2: Discovery Report
+AI Assistant: (Loads .product/session-state.md) → Stage 2: Discovery Report
 ↓
 You: /researcher: interview synthesis
      (simultaneously: /eng-lead: technical constraints?)
@@ -341,7 +392,7 @@ Edit `.vscode/settings.json` to customize:
 
 - **Editor font size/line height** for comfortable reading
 - **Word wrap** for markdown
-- **Copilot Chat position** (side panel vs. inline)
+- **AI assistant chat position** (side panel vs. inline, if applicable)
 - **File associations** (which files trigger markdown mode)
 
 ### Session State
@@ -353,7 +404,7 @@ Edit `.product/session-state.md` manually to:
 - Track outstanding blockers
 - Manage timeline
 
-Copilot will read these updates in the next chat.
+Your AI assistant will read these updates in the next chat.
 
 ---
 
@@ -362,7 +413,7 @@ Copilot will read these updates in the next chat.
 ### Idea Brief Validation
 
 ```
-Copilot checks:
+AI Assistant checks:
 ☑ Problem is specific (1–2 sentences)
 ☑ Target user is defined with context
 ☑ 3 pain points documented
@@ -373,7 +424,7 @@ Copilot checks:
 ### Discovery Report Validation
 
 ```
-Copilot checks:
+AI Assistant checks:
 ☑ User needs are validated (not hypothesized)
 ☑ Competitive landscape has 2+ solutions + gaps
 ☑ Assumptions are risk-rated
@@ -384,7 +435,7 @@ Copilot checks:
 ### Feature Document Validation
 
 ```
-Copilot checks:
+AI Assistant checks:
 ☑ Minimum 3 user stories present (happy path, edge case, error/failure)
 ☑ Each story has "As a / I want / So that" format
 ☑ Jira fields populated (Summary, Type, Priority, Labels) on each story
@@ -435,17 +486,17 @@ git tag -a stage-4-complete -m "Vision & Mission approved by business owner"
 
 ## 🚨 Troubleshooting
 
-### Copilot doesn't remember context
+### AI assistant doesn't remember context
 
-**Problem:** Copilot asks you the same questions again or forgets what stage you're on.
+**Problem:** Your AI assistant asks you the same questions again or forgets what stage you're on.
 
-**Solution:** Update `.product/session-state.md` with current stage, artifact, and gate status. Copilot reads this in the next chat.
+**Solution:** Update `.ai/session-state.md` with current stage, artifact, and gate status. Explicitly reference this file in your next message if needed.
 
 ### Gate blocked when it shouldn't be
 
-**Problem:** Copilot won't let you move forward.
+**Problem:** Your AI assistant won't let you move forward.
 
-**Solution:** Check the validation checklist in the artifact. Copilot will tell you what's missing. Fix the gap, then ask again: "Is this ready to lock now?"
+**Solution:** Check the validation checklist in the artifact. Ask your AI assistant what's missing. Fix the gap, then ask again: "Is this ready to lock now?"
 
 ### Artifact is incomplete
 
@@ -488,15 +539,17 @@ Not vague. Not aspirational. **Testable and Jira-exportable.** Each story must v
 
 ## 🎓 Learning Resources
 
-- **System Prompt:** See `.github/copilot-instructions.md` (complete rules, 7 stages)
-- **Agent System:** See `.github/agentconfig.yaml` (master definitions)
-- **Agent Instructions:** See `.github/agents/` (individual agent files — 13 agents)
-- **Prompts:** See `.github/prompts/` (Copilot Chat slash command integration)
-- **Validation Skill:** Type `/validate` or see `.github/skills/validate/SKILL.md`
-- **Decision Logging Skill:** Type `/log-decision` or see `.github/skills/log-decision/SKILL.md`
-- **Status Skill:** Type `/status` or see `.github/skills/status/SKILL.md`
+- **Why Product Foundry:** See [WHY-PRODUCT-FOUNDRY.md](./WHY-PRODUCT-FOUNDRY.md) — the case for why discovery matters
+- **AI Configuration:** See `.ai/README.md` — overview of agents, skills, and workflows
+- **System Prompt:** See `.ai/system-prompt.md` (complete rules, 7 stages)
+- **Agent System:** See `.github/agentconfig.yaml` (master definitions for GitHub Copilot)
+- **Agent Instructions:** See `.ai/agents/` (individual agent files — 13 agents)
+- **Prompts:** See `.github/prompts/` (GitHub Copilot slash command integration)
+- **Validation Skill:** Type `/validate` or see `.ai/skills/validate/SKILL.md`
+- **Decision Logging Skill:** Type `/log-decision` or see `.ai/skills/log-decision/SKILL.md`
+- **Status Skill:** Type `/status` or see `.ai/skills/status/SKILL.md`
 - **Artifact Templates:** See `.product/templates/` (stages 1–7)
-- **Governing Principles:** See `.product/product-constitution.md`
+- **Governing Principles:** See `.ai/product-constitution.md`
 
 ---
 
@@ -514,11 +567,11 @@ You'll know this is working when:
 
 ## 📝 Next Steps
 
-1. **Open the workspace** in VS Code
-2. **Press `Ctrl+Shift+I`** to start Copilot Chat
+1. **Open the workspace** in your editor (VS Code recommended)
+2. **Start your AI assistant** (GitHub Copilot, Claude, Kiro, or other)
 3. **Send:** "I have a product idea. Let's start the intake protocol."
-4. **Follow Copilot through 7 stages**
+4. **Follow your AI assistant through 7 stages**
 5. **Commit artifacts to git** as gates unlock
-6. **Hand locked Feature Documents to engineering** when complete
+6. **Hand locked Feature Documents to your delivery team** when complete
 
 Good luck! 🚀

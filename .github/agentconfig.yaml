@@ -1,41 +1,39 @@
 # Product Foundry — Agent Configuration
-# Version: 2.0
-# Last Updated: March 2026
+# Version: 3.0
+# Last Updated: May 2026
 #
-# This file defines the orchestration of 13 autonomous agents that work together
-# to guide product managers through Product Foundry's structured 7-stage discovery process.
+# This file defines agents and skills that work together to guide users through
+# Product Foundry's structured 7-stage discovery process.
 #
 # File Organization:
-# - Agent files use dot-notation for namespacing: [namespace].[name].agent.md
-# - Prompt files are in .github/prompts/[name].prompt.md
-# - Workflow files are in .product/agent-workflows/stage-[N].workflow.md
+# - Agent files (personas): .ai/agents/[name].md
+# - Skill files (workflows): .ai/skills/[name].md
+# - Prompt files (slash commands): .github/prompts/[name].prompt.md
+# - Workflow files (stage-specific): .ai/workflows/stage-[N].workflow.md
 
 agents:
-  # ============ ORCHESTRATOR AGENTS (3) ============
-  orchestrators:
-    main-orchestrator:
-      name: "Main Orchestrator Agent"
-      type: "orchestrator"
-      description: "Central coordinator that routes user requests, delegates to specialists, and manages overall workflow execution"
-      file: ".github/agents/orchestrator.main-orchestrator.agent.md"
+  # ============ SKILLS (5) - Procedural workflows ============
+  skills:
+    orchestrate:
+      name: "Orchestration Skill"
+      type: "skill"
+      description: "Central coordinator that routes user requests, delegates to agents, and manages overall workflow execution"
+      file: ".ai/skills/orchestrate.md"
       prompt: ".github/prompts/orchestrator.main-orchestrator.prompt.md"
       responsibilities:
         - "Route user queries to appropriate agents"
         - "Manage parallel agent execution"
         - "Aggregate results from multiple agents"
         - "Enforce stage-based workflow"
-      calls_agents:
-        - "orchestrator.quality-gate"
-        - "orchestrator.session-manager"
       invocation_modes:
         - "implicit (on every user message)"
-        - "explicit (@main-orchestrator)"
+        - "explicit (/orchestrate)"
 
-    quality-gate:
-      name: "Quality Gate Agent"
-      type: "orchestrator"
+    validate:
+      name: "Validation Skill"
+      type: "skill"
       description: "Runs quality checklists, validates artifacts, and enforces stage progression rules"
-      file: ".github/agents/orchestrator.quality-gate.agent.md"
+      file: ".ai/skills/validate.md"
       prompt: ".github/prompts/orchestrator.quality-gate.prompt.md"
       responsibilities:
         - "Run stage-specific validation checklists"
@@ -43,36 +41,66 @@ agents:
         - "Check formatting and completeness"
         - "Enforce blocking rules (no skipping, no backtracking)"
         - "Provide clear blocking reasons with unblock paths"
-      called_by:
-        - "orchestrator.main-orchestrator"
-        - "orchestrator.session-manager"
       invocation_methods:
         - "explicit: /validate"
         - "automatic before gate checks"
       authority: "blocks stage progression until criteria met"
 
-    session-manager:
-      name: "Session Manager Agent"
-      type: "orchestrator"
+    manage-session:
+      name: "Session Management Skill"
+      type: "skill"
       description: "Maintains state across sessions, reads/updates session-state.md, provides context continuity"
-      file: ".github/agents/orchestrator.session-manager.agent.md"
+      file: ".ai/skills/manage-session.md"
       prompt: ".github/prompts/orchestrator.session-manager.prompt.md"
       responsibilities:
         - "Load session state at session start"
         - "Update artifact stage tracking"
         - "Manage role availability per stage"
-        - "Persist state between Copilot sessions"
-      state_file: "session-state.md"
+        - "Persist state between sessions"
+      state_file: ".ai/session-state.md"
       on_session_start: "Load .stage, .current_artifact, .gate_status, .latest_decision"
       on_session_end: "Persist updated state to session-state.md"
+
+    log-decision:
+      name: "Decision Logging Skill"
+      type: "skill"
+      description: "Tracks all major product decisions, rationale, and risk assessment for audit trail"
+      file: ".ai/skills/log-decision.md"
+      prompt: ".github/prompts/utility.decision-logger.prompt.md"
+      responsibilities:
+        - "Log major product decisions"
+        - "Capture rationale and alternatives considered"
+        - "Mark reversibility (easy/hard to undo)"
+        - "Update decisions/DECISIONS.md with git tracking"
+      invocation_methods:
+        - "explicit: /log-decision"
+        - "automatic after gate progression"
+      outputs: "entry in decisions/DECISIONS.md with git commit"
+
+    export:
+      name: "Export Skill"
+      type: "skill"
+      description: "Generates handoff documents, roadmap exports, and integrations with external tools"
+      file: ".ai/skills/export.md"
+      prompt: ".github/prompts/utility.export-agent.prompt.md"
+      responsibilities:
+        - "Export stages as read-only documents"
+        - "Generate executive summary"
+        - "Create roadmap in Jira/Asana format"
+        - "Produce stakeholder communication templates"
+      invocation_methods:
+        - "explicit: /export"
+        - "explicit: /export-summary"
+        - "explicit: /export-to-jira"
+      outputs: "formatted documents for distribution"
 
   # ============ SPECIALIST AGENTS (3) ============
   specialists:
     researcher:
       name: "Discovery Research Agent"
-      type: "specialist"
+      type: "agent"
       description: "Conducts Stage 2 research including user needs, competitive landscape, assumptions, and constraints"
-      file: ".github/agents/specialist.researcher.agent.md"
+      file: ".ai/agents/researcher.md"
       prompt: ".github/prompts/specialist.researcher.prompt.md"
       stage: 2
       input_sources:
@@ -84,9 +112,9 @@ agents:
         - "Research competitive landscape"
         - "Document assumptions and constraints"
       works_with_roles:
-        - "role.eng-lead"
-        - "role.designer"
-        - "role.product-lead"
+        - "eng-lead"
+        - "designer"
+        - "product-lead"
       validation_checklist:
         - "Minimum 5 user interviews summarized"
         - "Competitive analysis completed"
@@ -95,9 +123,9 @@ agents:
 
     hypothesis-validator:
       name: "Hypothesis Validator Agent"
-      type: "specialist"
+      type: "agent"
       description: "Validates Stage 3 hypothesis, falsifiability, success metrics, and risk assessment"
-      file: ".github/agents/specialist.hypothesis-validator.agent.md"
+      file: ".ai/agents/hypothesis-validator.md"
       prompt: ".github/prompts/specialist.hypothesis-validator.prompt.md"
       stage: 3
       input_sources:
@@ -109,7 +137,7 @@ agents:
         - "Identify riskiest assumptions"
         - "Validate hypothesis against discovery findings"
       works_with_roles:
-        - "role.eng-lead"
+        - "eng-lead"
       validation_checklist:
         - "Hypothesis is falsifiable (testable with yes/no outcome)"
         - "Success metrics are SMART"
@@ -118,9 +146,9 @@ agents:
 
     vision-alignment:
       name: "Vision Alignment Agent"
-      type: "specialist"
+      type: "agent"
       description: "Aligns Stage 4 vision with strategy, clarifies mission, applies strategic filters"
-      file: ".github/agents/specialist.vision-alignment.agent.md"
+      file: ".ai/agents/vision-alignment.md"
       prompt: ".github/prompts/specialist.vision-alignment.prompt.md"
       stage: 4
       input_sources:
@@ -132,7 +160,7 @@ agents:
         - "Apply strategic filters and constraints"
         - "Ensure business owner alignment with company strategy"
       works_with_roles:
-        - "role.business-owner"
+        - "business-owner"
       gating:
         - "Requires explicit business owner sign-off before moving to Stage 5"
 
@@ -140,9 +168,9 @@ agents:
   roles:
     product-lead:
       name: "Product Lead Agent"
-      type: "role"
+      type: "agent"
       description: "Represents product management and data-driven perspective on market fit, metrics, user needs, and go/no-go decisions"
-      file: ".github/agents/role.product-lead.agent.md"
+      file: ".ai/agents/product-lead.md"
       prompt: ".github/prompts/role.product-lead.prompt.md"
       active_stages:
         - 1
@@ -160,14 +188,14 @@ agents:
         - "Synthesize user insights and data patterns"
         - "Rank assumptions by risk and impact"
       invocation_methods:
-        - "role.product-lead"
+        - "/product-lead"
         - "automatic in all stages"
 
     eng-lead:
       name: "Engineering Lead Agent"
-      type: "role"
+      type: "agent"
       description: "Represents engineering perspective on technical feasibility, architecture, scalability"
-      file: ".github/agents/role.eng-lead.agent.md"
+      file: ".ai/agents/eng-lead.md"
       prompt: ".github/prompts/role.eng-lead.prompt.md"
       active_stages:
         - 2
@@ -180,14 +208,14 @@ agents:
         - "Propose technical approach"
         - "Assess scalability implications"
       invocation_methods:
-        - "role.eng-lead"
+        - "/eng-lead"
         - "automatic in Stage 2 discovery, Stage 5 roadmap, Stage 7 feature review"
 
     designer:
       name: "Designer Agent"
-      type: "role"
+      type: "agent"
       description: "Represents product design perspective on user experience, workflows, interactions"
-      file: ".github/agents/role.designer.agent.md"
+      file: ".ai/agents/designer.md"
       prompt: ".github/prompts/role.designer.prompt.md"
       active_stages:
         - 2
@@ -199,14 +227,14 @@ agents:
         - "Assess interaction complexity"
         - "Guide on accessibility considerations"
       invocation_methods:
-        - "role.designer"
+        - "/designer"
         - "automatic in Stage 2 discovery and Stage 7 generation"
 
     business-owner:
       name: "Business Owner Agent"
-      type: "role"
+      type: "agent"
       description: "Represents executive and stakeholder perspective on strategy, resources, dependencies, and business impact"
-      file: ".github/agents/role.business-owner.agent.md"
+      file: ".ai/agents/business-owner.md"
       prompt: ".github/prompts/role.business-owner.prompt.md"
       active_stages:
         - 4
@@ -222,15 +250,15 @@ agents:
         - "Manage stakeholder alignment and communications"
         - "Advise on priority and sequencing"
       invocation_methods:
-        - "role.business-owner"
+        - "/business-owner"
         - "automatic in vision and release stages"
       authority: "can block progression with override justification"
 
     business-analyst:
       name: "Business Analyst Agent"
-      type: "role"
+      type: "agent"
       description: "Transforms Stage 7 features into user stories and acceptance criteria in BDD format (Given/When/Then)"
-      file: ".github/agents/role.business-analyst.agent.md"
+      file: ".ai/agents/business-analyst.md"
       prompt: ".github/prompts/role.business-analyst.prompt.md"
       active_stages:
         - 7
@@ -241,51 +269,16 @@ agents:
         - "Document technical and UX notes"
         - "Bridge product vision and engineering implementation"
       works_with_roles:
-        - "role.designer"
-        - "role.eng-lead"
+        - "designer"
+        - "eng-lead"
       invocation_methods:
-        - "role.business-analyst"
+        - "/business-analyst"
         - "automatic in Stage 7 feature generation"
       validation_checklist:
         - "All features have corresponding user stories"
         - "Each story has 2-3 acceptance criteria"
         - "BDD scenarios follow Given/When/Then format"
         - "Observable outcomes specified in Then clauses"
-
-  # ============ UTILITY AGENTS (2) ============
-  utilities:
-    decision-logger:
-      name: "Decision Logger Agent"
-      type: "utility"
-      description: "Tracks all major product decisions, rationale, and risk assessment for audit trail"
-      file: ".github/agents/utility.decision-logger.agent.md"
-      prompt: ".github/prompts/utility.decision-logger.prompt.md"
-      responsibilities:
-        - "Log major product decisions"
-        - "Capture rationale and alternatives considered"
-        - "Mark reversibility (easy/hard to undo)"
-        - "Update decisions/DECISIONS.md with git tracking"
-      invocation_methods:
-        - "explicit: /log-decision"
-        - "automatic after gate progression"
-      outputs: "entry in decisions/DECISIONS.md with git commit"
-
-    export-agent:
-      name: "Export Agent"
-      type: "utility"
-      description: "Generates handoff documents, roadmap exports, and integrations with external tools"
-      file: ".github/agents/utility.export-agent.agent.md"
-      prompt: ".github/prompts/utility.export-agent.prompt.md"
-      responsibilities:
-        - "Export stages as read-only documents"
-        - "Generate executive summary"
-        - "Create roadmap in Jira/Asana format"
-        - "Produce stakeholder communication templates"
-      invocation_methods:
-        - "explicit: /export"
-        - "explicit: /export-summary"
-        - "explicit: /export-to-jira"
-      outputs: "formatted documents for distribution"
 
 # ============ WORKFLOW ORCHESTRATION ============
 workflows:
@@ -300,7 +293,7 @@ workflows:
       - "Problem clearly articulated"
       - "Scope defined"
     next_stage: 2
-    file: ".product/agent-workflows/stage-1.workflow.md"
+    file: ".ai/workflows/stage-1.workflow.md"
 
   stage-2:
     name: "Stage 2: Discovery Report"
@@ -315,7 +308,7 @@ workflows:
       - "Competitive landscape analyzed"
       - "Assumptions and constraints listed"
     next_stage: 3
-    file: ".product/agent-workflows/stage-2.workflow.md"
+    file: ".ai/workflows/stage-2.workflow.md"
 
   stage-3:
     name: "Stage 3: Hypothesis"
@@ -328,7 +321,7 @@ workflows:
       - "Success metrics are SMART"
       - "Riskiest assumptions identified"
     next_stage: 4
-    file: ".product/agent-workflows/stage-3.workflow.md"
+    file: ".ai/workflows/stage-3.workflow.md"
 
   stage-4:
     name: "Stage 4: Vision & Mission"
@@ -341,7 +334,7 @@ workflows:
       - "Mission is one sentence"
       - "Business Owner sign-off obtained"
     next_stage: 5
-    file: ".product/agent-workflows/stage-4.workflow.md"
+    file: ".ai/workflows/stage-4.workflow.md"
 
   stage-5:
     name: "Stage 5: Roadmap"
@@ -358,7 +351,7 @@ workflows:
       - "Dependencies mapped"
       - "Executive priority confirmed"
     next_stage: 6
-    file: ".product/agent-workflows/stage-5.workflow.md"
+    file: ".ai/workflows/stage-5.workflow.md"
 
   stage-6:
     name: "Stage 6: Release Plan"
@@ -371,7 +364,7 @@ workflows:
       - "Go/no-go criteria met"
       - "Success metrics defined"
     next_stage: 7
-    file: ".product/agent-workflows/stage-6.workflow.md"
+    file: ".ai/workflows/stage-6.workflow.md"
 
   stage-7:
     name: "Stage 7: Feature Document"
@@ -385,7 +378,7 @@ workflows:
       - "BDD scenarios follow format"
       - "Acceptance criteria defined"
     completion: "true"
-    file: ".product/agent-workflows/stage-7.workflow.md"
+    file: ".ai/workflows/stage-7.workflow.md"
 
 # ============ INVOCATION MODES ============
 invocation:
@@ -411,7 +404,7 @@ invocation:
 
 # ============ CONFIGURATION ============
 settings:
-  session_state_file: ".product/session-state.md"
+  session_state_file: ".ai/session-state.md"
   decision_log_file: ".product/decisions/DECISIONS.md"
   artifact_directory: ".product/artifacts/"
   template_directory: ".product/templates/"
