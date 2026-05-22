@@ -168,15 +168,22 @@ ProductFoundry/
 │   ├── system-prompt.md                   ← Core instructions
 │   ├── session-state.md                   ← Current progress & context
 │   ├── product-constitution.md            ← 6 governing principles
-│   ├── 📁 agents/                         ← Agent instruction files
-│   │   ├── orchestrator.*.md              ← Main, Quality Gate, Session Manager
-│   │   ├── specialist.*.md                ← Researcher, Hypothesis, Vision
-│   │   ├── role.*.md                      ← Product Lead, Eng Lead, Designer, etc.
-│   │   └── utility.*.md                   ← Decision Logger, Export Agent
-│   ├── 📁 skills/                         ← Reusable skill modules
-│   │   ├── validate/SKILL.md              ← Validation skill
-│   │   ├── log-decision/SKILL.md          ← Decision logging skill
-│   │   └── status/SKILL.md                ← Status skill
+│   ├── 📁 agents/                         ← 8 role-based agents
+│   │   ├── business-analyst.md
+│   │   ├── business-owner.md
+│   │   ├── designer.md
+│   │   ├── eng-lead.md
+│   │   ├── hypothesis-validator.md
+│   │   ├── product-lead.md
+│   │   ├── researcher.md
+│   │   └── vision-alignment.md
+│   ├── 📁 skills/                         ← 5 procedural workflows
+│   │   ├── export.md
+│   │   ├── log-decision.md
+│   │   ├── manage-session.md
+│   │   ├── orchestrate.md
+│   │   ├── status.md
+│   │   └── validate.md
 │   └── 📁 workflows/                      ← Stage-specific workflows
 │       ├── stage-1.workflow.md
 │       └── ... (stages 2-7)
@@ -246,36 +253,37 @@ The system enforces progression rules:
 
 ---
 
-## 🤖 Agent System (13 Autonomous Agents)
+## 🤖 Agent System (8 Agents + 5 Skills)
 
-Product Foundry includes a 13-agent system with specialized agents working together across your discovery process. Agents are defined in `.github/agents/` and can be invoked by referencing their files or using slash commands (if your AI tool supports them).
+Product Foundry includes 8 role-based agents and 5 procedural skills working together across your discovery process. Agents are defined in `.ai/agents/` and skills in `.ai/skills/`.
 
 ### Specialist Agents (Stages 2–7)
 
 | Command | Agent | When to Use |
 |---------|-------|------------|
-| `/researcher` or reference `role.researcher.agent.md` | Discovery Researcher | Stage 2: User interviews, competitive analysis |
-| `/hypothesis-validator` or reference `specialist.hypothesis-validator.agent.md` | Hypothesis Validator | Stage 3: Falsifiability, SMART metrics |
-| `/vision-alignment` or reference `specialist.vision-alignment.agent.md` | Vision Alignment | Stage 4: Vision crafting, mission definition |
-| `/business-analyst` or reference `role.business-analyst.agent.md` | Business Analyst | Stage 7: BDD scenarios, acceptance criteria |
+| `/researcher` or reference `researcher.md` | Discovery Researcher | Stage 2: User interviews, competitive analysis |
+| `/hypothesis-validator` or reference `hypothesis-validator.md` | Hypothesis Validator | Stage 3: Falsifiability, SMART metrics |
+| `/vision-alignment` or reference `vision-alignment.md` | Vision Alignment | Stage 4: Vision crafting, mission definition |
 
 ### Role Agents (Professional Perspectives)
 
 | Command | Role | Expertise | Active Stages |
 |---------|------|-----------|---------|
-| `/product-lead` | Product Lead | Strategy, market fit, user needs | 1, 2, 3, 4, 5, 7 |
-| `/eng-lead` | Eng Lead | Technical feasibility, architecture | 2, 3, 5, 7 |
-| `/designer` | Designer | UX, interaction design, accessibility | 2, 5, 7 |
-| `/business-owner` | Business Owner | Strategic alignment, go/no-go decisions | 4, 5, 6 |
+| `/product-lead` or reference `product-lead.md` | Product Lead | Strategy, market fit, user needs | 1, 2, 3, 4, 5, 7 |
+| `/eng-lead` or reference `eng-lead.md` | Eng Lead | Technical feasibility, architecture | 2, 3, 5, 7 |
+| `/designer` or reference `designer.md` | Designer | UX, interaction design, accessibility | 2, 5, 7 |
+| `/business-owner` or reference `business-owner.md` | Business Owner | Strategic alignment, go/no-go decisions | 4, 5, 6 |
+| `/business-analyst` or reference `business-analyst.md` | Business Analyst | BDD scenarios, acceptance criteria | 7 |
 
-### Utility Agents (Quality & Tracking)
+### Skills (Reusable Workflows)
 
 | Command | What It Does |
 |---------|------------|
-| `/validate` | Quality gate checklist (all stages) |
-| `/log-decision` | Audit trail for major decisions |
-| `/status` | Show current stage, gate status, context |
-| `/export-agent` | Export artifacts (PDF, Jira epics, executive summary) |
+| `/validate` or reference `validate.md` | Quality gate checklist (all stages) |
+| `/log-decision` or reference `log-decision.md` | Audit trail for major decisions |
+| `/status` or reference `status.md` | Show current stage, gate status, context |
+| `/export` or reference `export.md` | Export artifacts (PDF, Jira epics, executive summary) |
+| `/orchestrate` or reference `orchestrate.md` | Workflow routing and coordination |
 
 ### How to Invoke
 
@@ -292,13 +300,13 @@ Product Foundry includes a 13-agent system with specialized agents working toget
 **If your AI tool doesn't support slash commands (Claude, others):**
 
 ```
-Act as the Designer agent (see .github/agents/role.designer.agent.md). 
+Act as the Designer agent (see .ai/agents/designer.md). 
 Can we simplify the workflow for mobile?
 
-Act as the Eng Lead agent (see .github/agents/role.eng-lead.agent.md). 
+Act as the Eng Lead agent (see .ai/agents/eng-lead.md). 
 What's the technical risk here?
 
-Run the validate skill (see .github/skills/validate/SKILL.md).
+Run the validate skill (see .ai/skills/validate.md).
 ```
 
 Each agent:
@@ -568,11 +576,9 @@ Not vague. Not aspirational. **Testable and Jira-exportable.** Each story must v
 - **AI Configuration:** See `.ai/README.md` — overview of agents, skills, and workflows
 - **System Prompt:** See `.ai/system-prompt.md` (complete rules, 7 stages)
 - **Agent System:** See `.github/agentconfig.yaml` (master definitions for GitHub Copilot)
-- **Agent Instructions:** See `.ai/agents/` (individual agent files — 13 agents)
+- **Agent Instructions:** See `.ai/agents/` (8 agent files with simple names)
+- **Skills:** See `.ai/skills/` (5 procedural workflow files)
 - **Prompts:** See `.github/prompts/` (GitHub Copilot slash command integration)
-- **Validation Skill:** Type `/validate` or see `.ai/skills/validate/SKILL.md`
-- **Decision Logging Skill:** Type `/log-decision` or see `.ai/skills/log-decision/SKILL.md`
-- **Status Skill:** Type `/status` or see `.ai/skills/status/SKILL.md`
 - **Artifact Templates:** See `.product/templates/` (stages 1–7)
 - **Governing Principles:** See `.ai/product-constitution.md`
 

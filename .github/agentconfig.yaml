@@ -284,10 +284,10 @@ agents:
 workflows:
   stage-1:
     name: "Stage 1: Idea Brief"
-    agents:
-      - "orchestrator.session-manager (load state)"
-      - "orchestrator.main-orchestrator (route)"
-      - "orchestrator.quality-gate (validate template)"
+    skills:
+      - "manage-session (load state)"
+      - "orchestrate (route)"
+      - "validate (validate template)"
     gate_checks:
       - "All required fields completed"
       - "Problem clearly articulated"
@@ -299,10 +299,10 @@ workflows:
     name: "Stage 2: Discovery Report"
     agents:
       primary:
-        - "specialist.researcher (run discovery interviews)"
+        - "researcher (run discovery interviews)"
       parallel:
-        - "role.eng-lead (assess technical constraints)"
-        - "role.designer (assess UX implications)"
+        - "eng-lead (assess technical constraints)"
+        - "designer (assess UX implications)"
     gate_checks:
       - "Minimum 5 user interviews documented"
       - "Competitive landscape analyzed"
@@ -313,9 +313,10 @@ workflows:
   stage-3:
     name: "Stage 3: Hypothesis"
     agents:
-      - "specialist.hypothesis-validator (validate thesis)"
-      - "role.eng-lead (technical risk review)"
-      - "orchestrator.quality-gate (check criteria)"
+      - "hypothesis-validator (validate thesis)"
+      - "eng-lead (technical risk review)"
+    skills:
+      - "validate (check criteria)"
     gate_checks:
       - "Hypothesis is falsifiable"
       - "Success metrics are SMART"
@@ -326,9 +327,10 @@ workflows:
   stage-4:
     name: "Stage 4: Vision & Mission"
     agents:
-      - "specialist.vision-alignment (define vision)"
-      - "role.business-owner (strategic alignment & sign-off)"
-      - "orchestrator.quality-gate (format check)"
+      - "vision-alignment (define vision)"
+      - "business-owner (strategic alignment & sign-off)"
+    skills:
+      - "validate (format check)"
     gate_checks:
       - "Vision statement is compelling"
       - "Mission is one sentence"
@@ -340,12 +342,13 @@ workflows:
     name: "Stage 5: Roadmap"
     agents:
       parallel:
-        - "specialist.researcher (prioritization research)"
-        - "role.designer (phasing recommendations)"
-        - "role.eng-lead (phasing recommendations)"
+        - "researcher (prioritization research)"
+        - "designer (phasing recommendations)"
+        - "eng-lead (phasing recommendations)"
       sequential:
-        - "role.business-owner (priority review)"
-        - "orchestrator.quality-gate (validate roadmap)"
+        - "business-owner (priority review)"
+    skills:
+      - "validate (validate roadmap)"
     gate_checks:
       - "Quarterly initiatives defined"
       - "Dependencies mapped"
@@ -356,9 +359,10 @@ workflows:
   stage-6:
     name: "Stage 6: Release Plan"
     agents:
-      - "role.business-owner (go/no-go decision)"
-      - "orchestrator.quality-gate (plan validation)"
-      - "utility.decision-logger (log go/no-go)"
+      - "business-owner (go/no-go decision)"
+    skills:
+      - "validate (plan validation)"
+      - "log-decision (log go/no-go)"
     gate_checks:
       - "Feature list finalized"
       - "Go/no-go criteria met"
@@ -369,10 +373,11 @@ workflows:
   stage-7:
     name: "Stage 7: Feature Document"
     agents:
-      - "role.business-analyst (generate stories)"
-      - "role.designer (UX notes review)"
-      - "role.eng-lead (technical notes review)"
-      - "orchestrator.quality-gate (BDD validation)"
+      - "business-analyst (generate stories)"
+      - "designer (UX notes review)"
+      - "eng-lead (technical notes review)"
+    skills:
+      - "validate (BDD validation)"
     gate_checks:
       - "All features have user stories"
       - "BDD scenarios follow format"
@@ -383,24 +388,25 @@ workflows:
 # ============ INVOCATION MODES ============
 invocation:
   slash_commands:
-    /quality-gate: "Run orchestrator.quality-gate on current artifact"
-    /product-lead: "Query role.product-lead for PM and metrics perspective"
-    /business-owner: "Query role.business-owner for executive and stakeholder perspective"
-    /eng-lead: "Query role.eng-lead for technical perspective"
-    /designer: "Query role.designer for UX perspective"
-    /decision-logger: "Capture major product decision with rationale"
-    /export-agent: "Export current artifact as read-only document; generate executive summary of all stages; export roadmap to Jira-compatible format"
-    /main-orchestrator: "Show current stage and gate status"
-    /researcher: "Query specialist.researcher for user interviews and competitive analysis"
-    /hypothesis-validator: "Query specialist.hypothesis-validator for falsifiability and SMART metrics"
-    /vision-alignment: "Query specialist.vision-alignment for vision and mission crafting"
-    /business-analyst: "Query role.business-analyst for user stories and BDD scenarios"
+    /validate: "Run validation skill on current artifact"
+    /status: "Show current stage, gate status, and context"
+    /orchestrate: "Show workflow routing and coordination"
+    /product-lead: "Query product-lead agent for PM and metrics perspective"
+    /business-owner: "Query business-owner agent for executive and stakeholder perspective"
+    /eng-lead: "Query eng-lead agent for technical perspective"
+    /designer: "Query designer agent for UX perspective"
+    /business-analyst: "Query business-analyst agent for user stories and BDD scenarios"
+    /researcher: "Query researcher agent for user interviews and competitive analysis"
+    /hypothesis-validator: "Query hypothesis-validator agent for falsifiability and SMART metrics"
+    /vision-alignment: "Query vision-alignment agent for vision and mission crafting"
+    /log-decision: "Capture major product decision with rationale"
+    /export: "Export current artifact as read-only document; generate executive summary; export roadmap to Jira format"
 
   implicit_routing:
-    - "Every message processed by orchestrator.main-orchestrator first"
-    - "orchestrator.session-manager loads state at session start"
-    - "orchestrator.quality-gate called before any stage progression"
-    - "utility.decision-logger called after major decisions"
+    - "Every message processed by orchestrate skill first"
+    - "manage-session skill loads state at session start"
+    - "validate skill called before any stage progression"
+    - "log-decision skill called after major decisions"
 
 # ============ CONFIGURATION ============
 settings:
