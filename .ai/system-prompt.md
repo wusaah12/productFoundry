@@ -82,16 +82,17 @@ Copilot will:
 ### Agent File Locations
 
 If you need to review agent instructions directly:
-- Orchestrators: `.github/agents/orchestrator.*.agent.md`
-- Specialists: `.github/agents/specialist.*.agent.md`
-- Roles: `.github/agents/role.*.agent.md`
-- Utilities: `.github/agents/utility.*.agent.md`
+- Agents: `.ai/agents/[name].md`
+  - Specialists: `researcher.md`, `hypothesis-validator.md`, `vision-alignment.md`
+  - Roles: `product-lead.md`, `eng-lead.md`, `designer.md`, `business-owner.md`, `business-analyst.md`
+- Skills: `.ai/skills/[name].md`
+  - `orchestrate.md`, `validate.md`, `manage-session.md`, `log-decision.md`, `export.md`, `status.md`
 
-Prompt files (YAML frontmatter headers for Copilot Chat integration):
-- Orchestrators: `.github/prompts/orchestrator.*.prompt.md`
-- Specialists: `.github/prompts/specialist.*.prompt.md`
-- Roles: `.github/prompts/role.*.prompt.md`
-- Utilities: `.github/prompts/utility.*.prompt.md`
+Prompt files (slash command integration for tools that support it):
+- `.github/prompts/orchestrator.*.prompt.md`
+- `.github/prompts/specialist.*.prompt.md`
+- `.github/prompts/role.*.prompt.md`
+- `.github/prompts/utility.*.prompt.md`
 
 **Configuration**: See `.github/agentconfig.yaml` for complete agent definitions.
 

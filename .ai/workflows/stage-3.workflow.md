@@ -82,7 +82,7 @@ But eng-lead can provide risk assessment in parallel while hypothesis-validator 
    → quality-gate: Confirm format, completeness
    → Report: ✅ PASS or ⚠️ NEEDS
 
-4. User: "/next-stage"
+4. User: "/status"
    → quality-gate: Validate exit criteria
    → Result: ✅ → Proceed to Stage 4 (Vision)
 ```

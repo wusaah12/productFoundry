@@ -106,7 +106,7 @@ Week 1-2:
    → quality-gate: Confirm business owner sign-off present
    → Report: ✅ PASS
 
-6. User: "/next-stage"
+6. User: "/status"
    → quality-gate: Validate exit
    → Confirm business owner sign-off obtained
    → Result: ✅ → Proceed to Stage 5 (Roadmap)

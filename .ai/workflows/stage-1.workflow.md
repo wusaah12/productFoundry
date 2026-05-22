@@ -53,7 +53,7 @@ STEP 6: If GATE PASS:
 
 ### Optional: Export (Anytime)
 ```
-STEP 7: export-agent [on demand]
+STEP 7: export [on demand]
   → /export or /export-pdf
   → Generate read-only PDF of idea brief
   → Available for sharing with stakeholders
@@ -69,7 +69,7 @@ STEP 7: export-agent [on demand]
 | main-orchestrator | Orchestrator | Every user message |
 | quality-gate | Orchestrator | User ready for Stage 2 |
 | decision-logger | Utility | After gate approval |
-| export-agent | Utility | User requests /export |
+| export | Utility | User requests /export |
 
 ---
 

@@ -1,0 +1,18 @@
+{
+  "name": "product-foundry",
+  "version": "0.0.1",
+  "description": "Set up a Product Foundry workspace",
+  "bin": {
+    "product-foundry": "./index.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "adm-zip": "^0.5.10"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "CC-BY-NC-SA-4.0"
+}

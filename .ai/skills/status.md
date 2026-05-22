@@ -144,7 +144,7 @@ Full status **plus**:
 
 ## Session State File
 
-Status reads from `.product/session-state.md` which contains:
+Status reads from `.ai/session-state.md` which contains:
 
 ```markdown
 # Session State — Product Discovery Tracker
@@ -201,7 +201,7 @@ When gate is **LOCKED**:
 4. **Follow up** — reach out to owner or tackle it yourself
 5. **Iterate artifact** — make revisions
 6. **Validate** — run `/validate` to confirm all criteria now met
-7. **Advance** — run `/next-stage` to progress
+7. **Advance** — run `/status` to progress
 
 **Example unblock flow:**
 ```
@@ -220,7 +220,7 @@ You: [Once you receive input, add to artifact]
 You: /validate
 Output: Gate: OPEN ✅ All criteria met
 
-You: /next-stage
+You: /status
 Output: Stage 2 LOCKED. Gate to Stage 3 now OPEN. Ready to move to Hypothesis?
 ```
 

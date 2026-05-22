@@ -127,7 +127,7 @@ Week 2:
    → Confirm business owner approval present
    → Report: ✅ PASS
 
-5. User: "/next-stage"
+5. User: "/status"
    → quality-gate: Validate exit
    → Result: ✅ → Proceed to Stage 6 (Release Plan)
 ```

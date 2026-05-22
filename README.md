@@ -4,580 +4,174 @@
 </div>
 
 <p align="center">
-  <strong>An AI-guided discovery framework that takes a raw idea through validation, hypothesis, vision, and clarity your engineering team can build from.</strong>
-</p>
-
-<p align="center">
-  <em>Drop-in for GitHub Copilot, Claude, Kiro, or any AI assistant that can read files and follow structured prompts.</em>
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/badge/release-latest-orange" alt="Latest Release">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-brightgreen" alt="License: CC BY-NC-SA 4.0">
   </a>
 </p>
 
-## 📑 Table of Contents
+---
 
-- [🤔 What is Product Foundry?](#-what-is-product-foundry)
-- [👥 Who is this for?](#-who-is-this-for)
-- [🤖 Supported AI Tools](#-supported-ai-tools)
-- [🚀 Quick Start](#-quick-start)
-- [🎯 How It Works](#-how-it-works)
-- [🤖 Agent System](#-agent-system-13-autonomous-agents)
-- [🛠️ Skills](#️-skills-reusable-workflows)
-- [📋 Typical Workflow](#-typical-workflow)
-- [🔧 Configuration](#-configuration)
-- [📊 Artifact Validation](#-artifact-validation)
-- [🗂️ Working with Git](#️-working-with-git)
-- [🚨 Troubleshooting](#-troubleshooting)
-- [📚 Key Concepts](#-key-concepts)
-- [🎓 Learning Resources](#-learning-resources)
-- [✅ Success Metrics](#-success-metrics)
-- [📝 Next Steps](#-next-steps)
+You've shipped features nobody used. The team built different things because nobody agreed on the problem. The "discovery" was a two-hour meeting that produced a document few people read past the first page.
 
-## 🤔 What is Product Foundry?
+Product Foundry is a structured discovery framework that runs **before the first sprint**. It takes a raw idea through seven gated stages — validation, hypothesis, vision, roadmap — and ends with features specified precisely enough to hand directly to a delivery team. No interpretation required.
 
-Product Foundry is a process designed to validate and refine product ideas before any significant investment. It helps teams ensure a product is worth building and clarifies what the product should do, addressing the question of value before execution begins.
-
-The process runs through **7 gated stages**: Idea Brief → Discovery Report → Hypothesis → Vision & Mission → Roadmap → Release Plan → Feature Documents. Each artifact moves through Draft → Review → Locked before the next stage opens. Feature Documents use Behavior Driven Development (BDD) — every requirement is a testable Given/When/Then scenario ready to hand directly to the delivery team.
-
-**Why does this matter?** See [Why Product Foundry](./WHY-PRODUCT-FOUNDRY.md) for the full argument about what's broken in how products get built today.
+It works with GitHub Copilot, Claude, Kiro, or any AI assistant that can read files.
 
 ---
 
-## 👥 Who is this for?
+## How It Works
 
-Product Foundry is designed for:
+Each stage produces a locked artifact. The next stage can't open until the previous one is locked. No skipping.
 
-- **Product Managers** who need to validate ideas before committing resources
-- **Founders** who want to de-risk product decisions before building
-- **Engineering Leads** who are tired of building features that never ship or get used
-- **Product Teams** who need a shared language for discovery and specification
-- **Anyone** who's ever built the wrong thing and wants to avoid doing it again
+```
+Idea Brief → Discovery → Hypothesis → Vision & Mission
+    → Roadmap → Release Plan → Features
+```
 
-If you've ever shipped a feature only to realize the problem wasn't validated, the scope wasn't clear, or the team had different interpretations of "done" — this is for you.
+Every feature spec is written as testable scenarios — Jira-ready user stories that any engineer can act on without asking clarifying questions.
+
+**See the full argument for why this matters:** [WHY-PRODUCT-FOUNDRY.md](./WHY-PRODUCT-FOUNDRY.md)
 
 ---
 
-## 🤖 Supported AI Tools
+## Quick Start
 
-Product Foundry works with any AI assistant that can:
-- Read files from your workspace
-- Follow structured prompts and instructions
-- Maintain context across conversations
+### 1. Clone and open the workspace
 
-### Tested with:
-
-**GitHub Copilot** (VS Code)
-- Native integration via `.github/` configuration
-- Slash commands for agent invocation
-- Automatic context loading from `.ai/session-state.md`
-
-**Kiro** (VS Code)
-- Similar to GitHub Copilot setup
-- Can read steering files and agent configurations
-- Supports file-based context management
-
-### Should work with:
-
-**Claude** (via Claude Desktop or API)
-- Use project knowledge to load `.ai/` folder
-- Reference agent files manually or via MCP
-- Copy/paste prompts from `.ai/agents/` as needed
-
-**Other AI Assistants**
-- Load `.ai/system-prompt.md` as system prompt
-- Reference agent files in `.ai/agents/` for role-specific guidance
-- Manually update `.ai/session-state.md` to maintain context
-
----
-
-## 🚀 Quick Start
-
-### 1. Open This Workspace
-
-```
-File → Open Folder → Select productFoundry folder
+```bash
+git clone https://github.com/wusaah12/productFoundry.git
 ```
 
-### 2. Start Your AI Assistant
+Open the folder in VS Code (or your preferred editor).
 
-**For GitHub Copilot:**
-Press `Ctrl+Shift+I` (or `Cmd+Shift+I` on Mac) to open GitHub Copilot Chat.
+### 2. Start your AI assistant
 
-**For Claude:**
-Open Claude Desktop and add this folder as a project, or start a new conversation and reference the workspace files.
+- **GitHub Copilot:** `Ctrl+Shift+I` / `Cmd+Shift+I`
+- **Claude:** Add the folder as a project, or reference `.ai/system-prompt.md`
+- **Kiro:** Open the Kiro chat panel
+- **Other:** Load `.ai/system-prompt.md` as your system prompt
 
-**For Kiro:**
-Open Kiro chat panel in VS Code.
+### 3. Start the intake
 
-**For Other Tools:**
-Open your AI assistant and ensure it has access to read files from this workspace.
+Send a message to get started. Your AI assistant will introduce itself and begin the intake.
 
-### 3. Begin Intake Protocol
-
-Send this message:
+**Here's what that looks like:**
 
 ```
-I have a new product idea I want to develop. Can you help me through 
-the Product Foundry discovery process? Let's start with the intake protocol.
-```
+You: Hello
 
-Your AI assistant will ask 5 structured questions to understand your idea.
+AI:  I'm Product Foundry. Let me understand the groundwork first. Five questions:
+     1. What's the core problem you're solving?
+     2. Who experiences this problem?
+     3. What do they do instead today?
+     4. Why now?
+     5. What's your role in this?
 
-> **Note:** If your AI assistant doesn't automatically load the context, you may need to:
-> - Reference `.ai/system-prompt.md` explicitly
-> - Point it to `.ai/session-state.md` for current progress
-> - Load agent files from `.ai/agents/` as needed
+You: [Answer the five questions]
 
----
+AI:  Let me confirm what I heard: Problem: [summary] / User: [profile]
+     / Workaround: [today's solution] / Urgency: [why now] / Role: [yours]
+     Is that accurate?
 
-## 📁 Project Structure
+You: Yes, let's go.
 
-```
-ProductFoundry/
-│
-├── 📁 .ai/                                ← AI configuration (tool-agnostic)
-│   ├── system-prompt.md                   ← Core instructions
-│   ├── session-state.md                   ← Current progress & context
-│   ├── product-constitution.md            ← 6 governing principles
-│   ├── 📁 agents/                         ← 8 role-based agents
-│   │   ├── business-analyst.md
-│   │   ├── business-owner.md
-│   │   ├── designer.md
-│   │   ├── eng-lead.md
-│   │   ├── hypothesis-validator.md
-│   │   ├── product-lead.md
-│   │   ├── researcher.md
-│   │   └── vision-alignment.md
-│   ├── 📁 skills/                         ← 5 procedural workflows
-│   │   ├── export.md
-│   │   ├── log-decision.md
-│   │   ├── manage-session.md
-│   │   ├── orchestrate.md
-│   │   ├── status.md
-│   │   └── validate.md
-│   └── 📁 workflows/                      ← Stage-specific workflows
-│       ├── stage-1.workflow.md
-│       └── ... (stages 2-7)
-│
-├── 📁 .github/                            ← GitHub Copilot specific
-│   ├── agentconfig.yaml                   ← Agent definitions (references .ai/)
-│   ├── README.md                          ← Points to .ai/ for content
-│   └── 📁 prompts/                        ← Copilot slash commands
-│       ├── orchestrator.*.prompt.md
-│       ├── specialist.*.prompt.md
-│       └── role.*.prompt.md
-│
-├── 📁 .vscode/
-│   ├── settings.json                      ← VS Code configuration
-│   └── tasks.json                         ← Optional validation tasks
-│
-├── 📁 .product/                           ← Working data (state, decisions, templates)
-│   ├── 📁 artifacts/                      ← Example artifacts (reference only)
-│   │   └── EXAMPLE-stage-1-idea-brief.md
-│   ├── 📁 decisions/                      ← Decision log (git history)
-│   │   └── DECISIONS.md                   ← All decisions logged here
-│   └── 📁 templates/                      ← Artifact templates (stages 1–7)
-│       ├── stage-1-idea-brief-template.md
-│       ├── stage-2-discovery-report-template.md
-│       ├── stage-3-hypothesis-template.md
-│       ├── stage-4-vision-mission-template.md
-│       ├── stage-5-roadmap-template.md
-│       ├── stage-6-release-plan-template.md
-│       └── stage-7-feature-document-template.md
-│
-├── 📁 [idea-name]/                        ← Created when Stage 1 locks (one per product)
-│   ├── idea-brief.md                      ← Stage 1 artifact
-│   ├── discovery-report.md                ← Stage 2 artifact
-│   ├── hypothesis.md                      ← Stage 3 artifact
-│   ├── vision-mission.md                  ← Stage 4 artifact
-│   ├── product-roadmap.md                 ← Stage 5 artifact
-│   ├── release-plan.md                    ← Stage 6 artifact
-│   └── feature-[name].md                  ← Stage 7 artifacts (one per feature)
-│
-├── README.md                              ← This file
-├── WHY-PRODUCT-FOUNDRY.md                 ← The case for discovery
-└── LICENSE                                ← CC BY-NC-SA 4.0
+AI:  ── Stage 1/7: Idea Brief │ Gate: LOCKED 🔒 ──
+     Let's draft your Idea Brief...
 ```
 
 ---
 
-## 🎯 How It Works
+## Agent System
 
-### Context Continuity
+Eight role-based agents join at the stages where their perspective changes the output — not all at once upfront.
 
-Your AI assistant reads `.ai/session-state.md` to understand:
-- Current stage (1-7)
-- Active artifact
-- Gate status (LOCKED / OPEN)
-- Latest decision
-- Outstanding blockers
+| Agent | Type | Active Stages | What they contribute |
+|-------|------|--------------|----------------------|
+| `product-lead` | Role | 1–7 | Strategy, market fit, prioritization |
+| `eng-lead` | Role | 2, 3, 5, 7 | Technical feasibility, architecture risks |
+| `designer` | Role | 2, 5, 7 | UX, accessibility, mobile constraints |
+| `business-owner` | Role | 4, 5, 6 | Strategic alignment, go/no-go decisions |
+| `business-analyst` | Role | 7 | Feature spec authorship, acceptance criteria |
+| `researcher` | Specialist | 2 | User interviews, competitive analysis |
+| `hypothesis-validator` | Specialist | 3 | Falsifiability testing, SMART metrics |
+| `vision-alignment` | Specialist | 4 | Vision crafting, mission definition |
 
-**Update `.ai/session-state.md` after each major decision.** Your AI assistant will reference it in the next chat.
+Five skills handle procedural tasks:
 
-### Gate Enforcement
+| Skill | What it does |
+|-------|-------------|
+| `/validate` | Runs the stage-specific quality checklist |
+| `/log-decision` | Captures decisions to a git-tracked audit trail |
+| `/status` | Shows current stage, gate status, and blockers |
+| `/export` | Generates PDFs, Jira epics, executive summaries |
 
-The system enforces progression rules:
-
-- ❌ Can't create Roadmap until Vision is locked
-- ❌ Can't create Release Plan until Roadmap is locked
-- ❌ Can't create Feature Docs until Release Plan is locked
-
----
-
-## 🤖 Agent System (8 Agents + 5 Skills)
-
-Product Foundry includes 8 role-based agents and 5 procedural skills working together across your discovery process. Agents are defined in `.ai/agents/` and skills in `.ai/skills/`.
-
-### Specialist Agents (Stages 2–7)
-
-| Command | Agent | When to Use |
-|---------|-------|------------|
-| `/researcher` or reference `researcher.md` | Discovery Researcher | Stage 2: User interviews, competitive analysis |
-| `/hypothesis-validator` or reference `hypothesis-validator.md` | Hypothesis Validator | Stage 3: Falsifiability, SMART metrics |
-| `/vision-alignment` or reference `vision-alignment.md` | Vision Alignment | Stage 4: Vision crafting, mission definition |
-
-### Role Agents (Professional Perspectives)
-
-| Command | Role | Expertise | Active Stages |
-|---------|------|-----------|---------|
-| `/product-lead` or reference `product-lead.md` | Product Lead | Strategy, market fit, user needs | 1, 2, 3, 4, 5, 7 |
-| `/eng-lead` or reference `eng-lead.md` | Eng Lead | Technical feasibility, architecture | 2, 3, 5, 7 |
-| `/designer` or reference `designer.md` | Designer | UX, interaction design, accessibility | 2, 5, 7 |
-| `/business-owner` or reference `business-owner.md` | Business Owner | Strategic alignment, go/no-go decisions | 4, 5, 6 |
-| `/business-analyst` or reference `business-analyst.md` | Business Analyst | BDD scenarios, acceptance criteria | 7 |
-
-### Skills (Reusable Workflows)
-
-| Command | What It Does |
-|---------|------------|
-| `/validate` or reference `validate.md` | Quality gate checklist (all stages) |
-| `/log-decision` or reference `log-decision.md` | Audit trail for major decisions |
-| `/status` or reference `status.md` | Show current stage, gate status, context |
-| `/export` or reference `export.md` | Export artifacts (PDF, Jira epics, executive summary) |
-| `/orchestrate` or reference `orchestrate.md` | Workflow routing and coordination |
-
-### How to Invoke
-
-**If your AI tool supports slash commands (GitHub Copilot, Kiro):**
+**Slash commands work natively in GitHub Copilot and Kiro.** For Claude or other tools, reference the agent file directly:
 
 ```
-/designer: Can we simplify the workflow for mobile?
-
-/eng-lead: What's the technical risk here?
-
-/validate
-```
-
-**If your AI tool doesn't support slash commands (Claude, others):**
-
-```
-Act as the Designer agent (see .ai/agents/designer.md). 
-Can we simplify the workflow for mobile?
-
-Act as the Eng Lead agent (see .ai/agents/eng-lead.md). 
-What's the technical risk here?
-
-Run the validate skill (see .ai/skills/validate.md).
-```
-
-Each agent:
-- Has stage-specific context
-- Provides role-specific guidance
-- Works in parallel with other agents
-- Enforces gates before progression
-
----
-
-## 🛠️ Skills (Reusable Workflows)
-
-Skills provide guided workflows for common tasks:
-
-### Validate Skill (`/validate`)
-
-Runs stage-specific quality checks:
-- ✅ Checks completeness (all required sections)
-- ✅ Validates content quality
-- ✅ Identifies gaps
-- ✅ Provides unblock paths
-
-**Use when:** Before progressing to next stage, or debugging a blocked gate.
-
-**See:** `.ai/skills/validate/SKILL.md` or invoke via `/validate` (if supported) or by asking your AI assistant to "run the validate skill".
-
-### Log Decision Skill (`/log-decision`)
-
-Captures major product decisions in audit trail:
-- ✅ Decision statement
-- ✅ Rationale & alternatives
-- ✅ Impact assessment
-- ✅ Git-tracked in `.product/decisions/DECISIONS.md`
-
-**Use when:** Making strategic choices, finalizing scope, go/no-go decisions.
-
-**See:** `.ai/skills/log-decision/SKILL.md` or invoke via `/log-decision` (if supported) or by asking your AI assistant to "log this decision".
-
-### Status Skill (`/status`)
-
-Shows current session context:
-- ✅ Current stage and gate status
-- ✅ Active artifact and latest decision
-- ✅ Outstanding blockers
-
-**Use when:** Resuming a session, checking progress, or before calling `/validate`.
-
-**See:** `.ai/skills/status/SKILL.md` or invoke via `/status` (if supported) or by asking your AI assistant to "show current status".
-
----
-
-## 📋 Typical Workflow
-
-### Session 1: Intake + Stage 1
-
-```
-You: "I have an idea for a reporting tool."
-↓
-AI Assistant: "Great! Let's do intake. [5 questions]"
-↓
-You: [Answer questions]
-↓
-AI Assistant: Creates Stage 1: Idea Brief
-↓
-AI Assistant: /validate → Gate: OPEN ✅
-↓
-You: "Ready to move to Stage 2"
-```
-
-### Session 2: Stage 2 (Discovery) — Parallel Agent Execution
-
-```
-You: Ready for Stage 2
-↓
-AI Assistant: (Loads .product/session-state.md) → Stage 2: Discovery Report
-↓
-You: /researcher: interview synthesis
-     (simultaneously: /eng-lead: technical constraints?)
-     (simultaneously: /designer: UX implications?)
-↓
-All 3 agents respond in parallel
-↓
-You: /validate → Review all gaps
-↓
-You: /log-decision: Document key findings
-↓
-You: "Ready for Stage 3" → Move to Stage 3
-```
-
-### Sessions 3–7: Iterate Through Stages
-
-Each stage invokes relevant agents:
-- **Stage 3:** Hypothesis Validator + Eng Lead
-- **Stage 4:** Vision Alignment + Business Owner (approval gate)
-- **Stage 5:** Researcher + Eng Lead + Designer + Business Owner (parallel)
-- **Stage 6:** Business Owner (go/no-go decision)
-- **Stage 7:** Business Analyst (leads BDD) + Eng Lead + Designer (reviews)
-
-### Final: Hand to Engineering
-
-```
-✅ All Feature Documents LOCKED
-✅ Vision gates all decisions
-✅ BDD scenarios are specification-complete
-↓
-/export-agent → Send to engineering team
+Act as the Eng Lead (see .ai/agents/eng-lead.md).
+What are the technical risks in this hypothesis?
 ```
 
 ---
 
-## 🔧 Configuration
+## File Layout
 
-### VS Code Settings
-
-Edit `.vscode/settings.json` to customize:
-
-- **Editor font size/line height** for comfortable reading
-- **Word wrap** for markdown
-- **AI assistant chat position** (side panel vs. inline, if applicable)
-- **File associations** (which files trigger markdown mode)
-
-### Session State
-
-Edit `.product/session-state.md` manually to:
-
-- Update stage/gate status
-- Log decisions
-- Track outstanding blockers
-- Manage timeline
-
-Your AI assistant will read these updates in the next chat.
-
----
-
-## 📊 Artifact Validation
-
-### Idea Brief Validation
+All configuration is tool-agnostic and lives in `.ai/`:
 
 ```
-AI Assistant checks:
-☑ Problem is specific (1–2 sentences)
-☑ Target user is defined with context
-☑ 3 pain points documented
-☑ Initial scope is defined
-☑ Open questions for discovery exist
-```
+.ai/
+├── system-prompt.md          ← Core instructions (load this as your system prompt)
+├── session-state.md          ← Current stage and context — update after each session
+├── product-constitution.md   ← 6 governing principles
+├── agents/                   ← 8 agent definitions
+├── skills/                   ← 5 procedural workflows
+└── workflows/                ← Stage-specific execution flows (stages 1–7)
 
-### Discovery Report Validation
+.product/
+├── templates/                ← Artifact templates for each stage
+└── decisions/DECISIONS.md    ← Git-tracked decision log
 
-```
-AI Assistant checks:
-☑ User needs are validated (not hypothesized)
-☑ Competitive landscape has 2+ solutions + gaps
-☑ Assumptions are risk-rated
-☑ Eng Lead constraints documented
-☑ Designer constraints documented
-```
-
-### Feature Document Validation
-
-```
-AI Assistant checks:
-☑ Minimum 3 user stories present (happy path, edge case, error/failure)
-☑ Each story has "As a / I want / So that" format
-☑ Jira fields populated (Summary, Type, Priority, Labels) on each story
-☑ "Then" clauses in Gherkin are observable/testable (not vague)
-☑ Vision check and Release check present on each story
-☑ No story depends on another running first
-☑ Acceptance criteria summary derived from "Then" clauses
+[idea-name]/                  ← Created when Stage 1 locks (one directory per product)
+├── idea-brief.md
+├── discovery-report.md
+├── hypothesis.md
+├── vision-mission.md
+├── product-roadmap.md
+├── release-plan.md
+└── feature-[name].md         ← One file per feature in the release plan
 ```
 
 ---
 
-## 🗂️ Working with Git
+## Governing Principles
 
-### Commit Artifacts As You Complete Them
+Product Foundry is governed by six principles documented in `.ai/product-constitution.md`. The short version:
 
-All artifacts for a product live in a single directory named after the idea (kebab-case):
-
-```
-git add [idea-name]/idea-brief.md
-git commit -m "Stage 1: Idea Brief locked"
-
-git add [idea-name]/
-git commit -m "Stage 7: All Feature Documents locked — specification complete"
-```
-
-### View Decision History
-
-```
-git log --oneline [idea-name]/
-
-# Output:
-abc1234 Stage 7: feature-report-generation locked
-def5678 Stage 6: Release Plan locked
-ghi9012 Stage 5: Roadmap locked
-...
-```
-
-### Sprint-Based Workflows
-
-Tag stage completions:
-
-```
-git tag -a stage-1-complete -m "Idea Brief validated and locked"
-git tag -a stage-4-complete -m "Vision & Mission approved by business owner"
-```
+1. **Process over preference** — Gates are never relaxed for convenience.
+2. **Human judgment is sovereign** — The agent surfaces options. Humans make all decisions.
+3. **Transparency over convenience** — Problems are named when they exist.
+4. **Vision as the highest filter** — Once locked, Vision is the test for every downstream artifact.
+5. **Roles at the right moment** — No role joins before their designated stage.
+6. **Testability as the standard of done** — A feature spec is complete only when every acceptance criterion is independently verifiable.
 
 ---
 
-## 🚨 Troubleshooting
+## Contributing
 
-### AI assistant doesn't remember context
+Contributions are welcome. A few ways to get involved:
 
-**Problem:** Your AI assistant asks you the same questions again or forgets what stage you're on.
+- **New agent definitions** — a role or specialist that fills a gap in the current system
+- **Tool integrations** — making the framework work better with a specific AI assistant
+- **Stage templates** — improvements to the artifact templates in `.product/templates/`
+- **Real-world stage artifacts** — anonymized examples of completed stage outputs
 
-**Solution:** Update `.ai/session-state.md` with current stage, artifact, and gate status. Explicitly reference this file in your next message if needed.
+Before contributing, read `.ai/product-constitution.md`. Every change to the system prompt is tested against the six principles. If a change would cause the agent to relax a gate, skip a confirmation, or silently drop a Vision conflict, it won't be accepted.
 
-### Gate blocked when it shouldn't be
-
-**Problem:** Your AI assistant won't let you move forward.
-
-**Solution:** Check the validation checklist in the artifact. Ask your AI assistant what's missing. Fix the gap, then ask again: "Is this ready to lock now?"
-
-### Artifact is incomplete
-
-**Problem:** You're stuck on a section.
-
-**Solution:** Type `/validate` to see what's required for this stage. Update the artifact, then validate again.
-
-### Need role perspective?
-
-**Problem:** You want input from Eng Lead, Designer, or Business Owner.
-
-**Solution:** Type `/eng-lead`, `/designer`, or `/business-owner` with your question. Each role has stage-specific guidance.
+File issues and PRs on GitHub. For larger changes, open an issue first to discuss.
 
 ---
 
-## 📚 Key Concepts
+## License
 
-### Artifact Lifecycle
-
-- **DRAFT** — You're actively building it
-- **REVIEW** — Complete enough for feedback
-- **LOCKED** — Validated and gates the next stage
-
-### User Stories
-
-Every requirement is a Jira-ready user story with Gherkin acceptance criteria:
-
-```gherkin
-As a [role], I want [capability], so that [benefit].
-
-Scenario: [Descriptive name]
-  Given [realistic starting state]
-  When  [user action or system event]
-  Then  [observable, testable outcome]
-```
-
-Not vague. Not aspirational. **Testable and Jira-exportable.** Each story must validate the Vision and Release Plan scope. The Jira fields block (Summary, Type, Priority, Story Points, Labels) is included on each story for direct copy-paste into Jira.
-
----
-
-## 🎓 Learning Resources
-
-- **Why Product Foundry:** See [WHY-PRODUCT-FOUNDRY.md](./WHY-PRODUCT-FOUNDRY.md) — the case for why discovery matters
-- **AI Configuration:** See `.ai/README.md` — overview of agents, skills, and workflows
-- **System Prompt:** See `.ai/system-prompt.md` (complete rules, 7 stages)
-- **Agent System:** See `.github/agentconfig.yaml` (master definitions for GitHub Copilot)
-- **Agent Instructions:** See `.ai/agents/` (8 agent files with simple names)
-- **Skills:** See `.ai/skills/` (5 procedural workflow files)
-- **Prompts:** See `.github/prompts/` (GitHub Copilot slash command integration)
-- **Artifact Templates:** See `.product/templates/` (stages 1–7)
-- **Governing Principles:** See `.ai/product-constitution.md`
-
----
-
-## ✅ Success Metrics
-
-You'll know this is working when:
-
-- ✅ You move from Stage 1 → 7 in 4–6 weeks
-- ✅ Decisions are locked in artifacts (git history proves it)
-- ✅ Feature Documents are specification-complete (no guess work for engineering)
-- ✅ BDD scenarios are testable (not "the feature works")
-- ✅ Vision filters all decisions (you automatically reject scope creep)
-
----
-
-## 📝 Next Steps
-
-1. **Open the workspace** in your editor (VS Code recommended)
-2. **Start your AI assistant** (GitHub Copilot, Claude, Kiro, or other)
-3. **Send:** "I have a product idea. Let's start the intake protocol."
-4. **Follow your AI assistant through 7 stages**
-5. **Commit artifacts to git** as gates unlock
-6. **Hand locked Feature Documents to your delivery team** when complete
-
-Good luck! 🚀
+[CC BY-NC-SA 4.0](LICENSE) — free to use, adapt, and share with attribution. Not for commercial use.

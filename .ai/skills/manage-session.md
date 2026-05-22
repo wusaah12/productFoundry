@@ -50,7 +50,7 @@ Outstanding Blockers: None
 Last session: March 15, 2:30 PM
 Current artifact: artifacts/stage-2-discovery-report.md (REVIEW)
 
-Ready to proceed to Stage 3? Type: /next-stage
+Ready to proceed to Stage 3? Type: /status
 ```
 
 ---
@@ -120,7 +120,7 @@ Displays recovery message:
    "Welcome back! You were at Stage 2 (Discovery Report).
     Gate status: OPEN (ready for Stage 3).
     Latest decision: Competitive analysis complete.
-    Continue with: /next-stage or /validate"
+    Continue with: /status or /validate"
 ↓
 Sets context for main_orchestrator:
    - Current stage: 2

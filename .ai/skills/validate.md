@@ -40,10 +40,10 @@ For each blocking criterion, provide clear next step:
 ### 5. Enforce No-Skipping Rule
 - User cannot skip phases (e.g., cannot jump from Stage 2 to Stage 5)
 - Block with explanation: "Hypothesis (Stage 3) must be validated before roadmap planning (Stage 5)"
-- Offer exception path: "If you need to override this, /skip-stage with business justification"
+- Offer exception path: "If you need to override this, /validate with business justification"
 
 ### 6. Allow Reasoned Exceptions with Audit Trail
-If user attempts `/skip-stage` or `/override-gate`:
+If user attempts `/validate` or `/override-gate`:
 - Require explicit justification
 - Log override to `decision-logger` with rationale
 - Record in `decisions/DECISIONS.md` with git commit: "Gate override: [reason]"
@@ -244,7 +244,7 @@ If 3+ missing:    ❌ FAIL - Complete feature document details
 
 **When user attempts skip-stage:**
 
-1. Require explicit `/skip-stage [Stage N] -- [business justification]` format
+1. Require explicit `/validate [Stage N] -- [business justification]` format
 2. Validate justification is reasonable (business case, not whim)
 3. Log to decision_logger: "Stage skip: N→M, Reason: ..."
 4. Allow progression with recorded exception
@@ -273,7 +273,7 @@ You've successfully completed discovery:
 
 Ready to move to Stage 3: Hypothesis Validation
 Next: Define a falsifiable hypothesis based on your discoveries
-/next-stage to proceed
+/status to proceed
 ```
 
 ### Gate BLOCK Response

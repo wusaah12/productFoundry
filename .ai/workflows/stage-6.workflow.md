@@ -107,7 +107,7 @@ Week 2:
    → quality-gate: Confirm GO decision documented
    → Report: ✅ PASS
 
-5. User: "/next-stage"
+5. User: "/status"
    → quality-gate: Validate exit (GO decision present?)
    → Result: ✅ → Proceed to Stage 7 (Feature Document)
 ```

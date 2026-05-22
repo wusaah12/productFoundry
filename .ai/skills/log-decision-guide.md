@@ -357,14 +357,14 @@ Log this! It's a high-impact finding.
 |---------|----------|
 | `/log-decision` | Log a major discovery decision |
 | `/validate` | Check artifact readiness (validates against decisions) |
-| `/next-stage` | Progression gate (decision log can block progression) |
+| `/status` | Progression gate (decision log can block progression) |
 | `/export` | Export decisions for stakeholders |
 | `git log decisions/` | View decision commit history |
 
 ## For More Information
 
-- **Decision Logger Agent**: See `.github/agents/utility.decision-logger.agent.md`
-- **Decision Log File**: See `decisions/DECISIONS.md` (your audit trail)
+- **Decision Logger Agent**: See `.ai/skills/log-decision.md`
+- **Decision Log File**: See `.product/decisions/DECISIONS.md` (your audit trail)
 - **Examples**: Review logged decisions in your current session
 - **Git Integration**: Decision commits are immutable (append-only)
 

@@ -188,7 +188,7 @@ When you type `/validate` in Copilot Chat:
 | **Vague content** | Stage 2: "Pain points not ranked by severity" | Run `/researcher: rank pain points` |
 | **Hypothesis not falsifiable** | Stage 3: Hypothesis is "users will like the app" | Rewrite: "70% of users will log 3+ workouts/week" + success metric |
 | **No metrics** | Stage 3: "Success metric is missing" | Define SMART metric: "30-day retention ≥ 70%" |
-| **Missing business sign-off** | Stage 4 → 5 or 6: "Business owner not approved" | Run `/ask-business-owner: strategic alignment check` |
+| **Missing business sign-off** | Stage 4 → 5 or 6: "Business owner not approved" | Run `/business-owner: strategic alignment check` |
 | **Scope creep** | Stage 7: "Features outside Stage 6 scope" | Remove or add to Roadmap, revalidate Stage 6 |
 | **BDD format broken** | Stage 7: "Missing Given/When/Then in scenarios" | Restructure: `Given [setup], When [action], Then [assertion]` |
 
@@ -217,7 +217,7 @@ Or validate a specific stage:
 
 **✅ PASS** → All criteria met. You can now:
 ```
-/next-stage     # Progress to next stage
+/status     # Progress to next stage
 ```
 
 **⚠️ PARTIAL** → Some criteria missing. Review the list:
@@ -240,7 +240,7 @@ Example flow if Stage 2 validation fails:
 ```
 You:     /validate
 Gate:    ❌ BLOCK — Competitive analysis missing (need 3+ competitors)
-You:     /ask-discovery-research: competitive analysis
+You:     /researcher: competitive analysis
 Disc:    [Provides competitor matrix]
 You:     [Add to Stage 2 artifact]
 You:     /validate
@@ -262,7 +262,7 @@ Each gate protects you from downstream waste. Spend time now to avoid rework lat
 
 ## For More Information
 
-- **Agent handling validation**: See `.github/agents/orchestrator.quality-gate.agent.md`
+- **Agent handling validation**: See `.ai/skills/validate.md`
 - **Stage criteria source**: See `.github/agentconfig.yaml` (complete checklists)
 - **Test your artifact**: Use `/validate` and review output
 - **Log decisions**: When overriding gates, use `/log-decision` for audit trail

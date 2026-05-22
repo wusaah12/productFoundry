@@ -36,8 +36,8 @@ STEP 3: quality-gate
   → Report: PASS or NEEDS WORK
 
 STEP 4: If PASS:
-  → export-agent: Generate handoff documents
-  → export-agent: Create Jira epics/stories (optional)
+  → export: Generate handoff documents
+  → export: Create Jira epics/stories (optional)
   → quality-gate: Validate completion
   → decision-logger: Log "Feature Document Complete"
   → session-manager: Mark Stage 7 LOCKED
@@ -54,7 +54,7 @@ STEP 4: If PASS:
 | designer | Role | Review for UX, add UX notes |
 | eng-lead | Role | Review for tech, add tech notes |
 | quality-gate | Orchestrator | /validate before handoff |
-| export-agent | Utility | /export-to-jira, /export-pdf |
+| export | Utility | /export-to-jira, /export-pdf |
 | decision-logger | Utility | Log completion |
 
 ---
@@ -129,15 +129,15 @@ Week 3-4:
    → Report: ✅ PASS
 
 7. User: "/export-to-jira"
-   → export-agent: Generate Jira import file
+   → export: Generate Jira import file
    → Create epics + stories in tool-native format
    → Ready for engineering team
 
 8. User: "/export-pdf"
-   → export-agent: Generate read-only PDF
+   → export: Generate read-only PDF
    → Ready for sharing with stakeholders
 
-9. User: "/next-stage" [or acknowledge Stage 7 complete]
+9. User: "/status" [or acknowledge Stage 7 complete]
    → quality-gate: Mark Stage 7 LOCKED
    → decision-logger: Log "Feature Document Complete"
    → session-manager: Mark as LOCKED
