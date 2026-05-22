@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div align="center">
   <h1>🔥 Product Foundry</h1>
   <h3><em>Validate before you build. Discover before you commit.</em></h3>
@@ -39,11 +38,6 @@
 - [📝 Next Steps](#-next-steps)
 
 ## 🤔 What is Product Foundry?
-=======
-# 💡 Product Foundry
-
-> **Product Foundry answers the question practitioners often forgot to ask: is this worth building at all?**
->>>>>>> bdc09e1dbadbdea505f15a3b5791a77adf188b86
 
 Product Foundry is a process designed to validate and refine product ideas before any significant investment. It helps teams ensure a product is worth building and clarifies what the product should do, addressing the question of value before execution begins.
 
