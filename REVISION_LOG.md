@@ -12,12 +12,13 @@
 | **v6.0** | March 16, 2026 | Added: Business Analyst role (Stage 7 lead for BDD authorship). Renamed project to **Product Foundry**. Standardized all agent invocations to direct `/[name]` format (removed `/ask-` prefix). Reclassified business-analyst from specialist → role. Added product-lead role agent. Consolidated agent namespacing to `role.*`, `specialist.*`, `orchestrator.*`, `utility.*`. Updated all `.vscode/`, workflow, and documentation files to match. |
 | **v6.1** | March 17, 2026 | Added: Constitutional Basis section (6 governing principles) + Hard Rules 14–18. Artifact file creation rules — artifacts now live in `[idea-name]/` directory at workspace root. Stage 7 template restructured: BDD Scenarios → User Stories with Jira fields (Jira-exportable). README updated to reflect current project structure. |
 | **v6.2** | April 13, 2026 | Added: `REVISED` artifact lifecycle state for post-lock changes to Stages 5–7. Initiative Implementation Status tracking on Roadmap. Feature Delivery Status tracking on Release Plan. Post-lock revision protocol with Cascade Impact Assessment. Revision History sections in Stage 5–7 templates. Hard Rules 19–21. README restructured: solution-agnostic framing, Foundry Analogy section, Waterfall/Agile context section, duplicate content removed. |
+| **v7.0** | May 21, 2026 | **Tool-Agnostic Reorganization.** Created `.ai/` directory for tool-agnostic configuration. Moved all agents, skills, workflows, session-state, and product-constitution to `.ai/`. Reclassified orchestrators and utilities as **skills** (procedural workflows) vs **agents** (role-based personas). Simplified file naming: removed namespace prefixes (e.g., `role.product-lead.agent.md` → `product-lead.md`). Updated `.github/agentconfig.yaml` to v3.0. Added CC BY-NC-SA 4.0 license. Works with GitHub Copilot, Claude, Kiro, and other AI assistants. |
 
 ---
 
 ## Feature Matrix — What Changed by Version
 
-| Feature | v1.0 | v2.0 | v3.0 | v4.0 | v5.0 | v6.0 | v6.1 | v6.2 |
+| Feature | v1.0 | v2.0 | v3.0 | v4.0 | v5.0 | v6.0 | v6.1 | v6.2 | v7.0 |
 |---------|------|------|------|------|------|------|------|------|
 | Stage count | 5 | 5 | 7 | 7 | 7 | 7 | 7 | 7 |
 | Vision before Features | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -44,6 +45,11 @@
 | Revision History sections in Stage 5–7 templates | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Solution-agnostic framing (not code-specific) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Foundry Analogy + Waterfall/Agile context in README | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Tool-agnostic `.ai/` directory structure | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Agents vs Skills classification (personas vs procedures) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Simplified file naming (no namespace prefixes) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| CC BY-NC-SA 4.0 license | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Multi-tool support (GitHub Copilot, Claude, Kiro) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ---
 
