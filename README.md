@@ -4,21 +4,23 @@
 </div>
 
 <p align="center">
+  <strong>You've shipped features nobody used. The team built something you didn't intend. The real problem was never uncovered - because there was no discovery phase.</strong>
+</p>
+
+<p align="center">
+  Product Foundry is a structured discovery framework that runs <strong>before the first sprint</strong>. It takes a raw idea through seven gated stages — validation, hypothesis, vision, roadmap — and ends with features specified just enough to hand directly to a delivery team. No interpretation required.
+</p>
+
+<p align="center">
+It works with GitHub Copilot, Claude, Kiro, or any AI assistant that can read files.
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/release-latest-orange" alt="Latest Release">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-brightgreen" alt="License: CC BY-NC-SA 4.0">
   </a>
 </p>
-
----
-
-You've shipped features nobody used. The team built different things because nobody agreed on the problem. The "discovery" was a two-hour meeting that produced a document few people read past the first page.
-
-Product Foundry is a structured discovery framework that runs **before the first sprint**. It takes a raw idea through seven gated stages — validation, hypothesis, vision, roadmap — and ends with features specified precisely enough to hand directly to a delivery team. No interpretation required.
-
-It works with GitHub Copilot, Claude, Kiro, or any AI assistant that can read files.
-
----
 
 ## How It Works
 
