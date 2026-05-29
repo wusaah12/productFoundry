@@ -23,31 +23,26 @@ productFoundry/
 │   │   ├── export.md                 ← Export/handoff
 │   │   ├── validate-guide.md         ← Validation guide
 │   │   └── log-decision-guide.md     ← Decision logging guide
-│   └── workflows/                    ← Stage-specific workflows
-│       ├── stage-1.workflow.md       ← Idea Brief workflow
-│       ├── stage-2.workflow.md       ← Discovery workflow
-│       ├── stage-3.workflow.md       ← Hypothesis workflow
-│       ├── stage-4.workflow.md       ← Vision & Mission workflow
-│       ├── stage-5.workflow.md       ← Roadmap workflow
-│       ├── stage-6.workflow.md       ← Release Plan workflow
-│       └── stage-7.workflow.md       ← Feature Specs workflow
+│   ├── workflows/                    ← Stage-specific workflows
+│   │   ├── stage-1.workflow.md       ← Idea Brief workflow
+│   │   ├── stage-2.workflow.md       ← Discovery workflow
+│   │   ├── stage-3.workflow.md       ← Hypothesis workflow
+│   │   ├── stage-4.workflow.md       ← Vision & Mission workflow
+│   │   ├── stage-5.workflow.md       ← Roadmap workflow
+│   │   ├── stage-6.workflow.md       ← Release Plan workflow
+│   │   └── stage-7.workflow.md       ← Feature Specs workflow
+│   └── templates/                    ← Artifact templates for each stage
+│       ├── product-constitution-template.md
+│       ├── stage-1-idea-brief-template.md
+│       ├── stage-2-discovery-report-template.md
+│       ├── stage-3-hypothesis-template.md
+│       ├── stage-4-vision-mission-template.md
+│       ├── stage-5-roadmap-template.md
+│       ├── stage-6-release-plan-template.md
+│       └── stage-7-feature-document-template.md
 │
-├── .product/                         ← Product templates and artifacts
-│   ├── templates/                    ← Artifact templates for each stage
-│   │   ├── product-constitution-template.md
-│   │   ├── stage-1-idea-brief-template.md
-│   │   ├── stage-2-discovery-report-template.md
-│   │   ├── stage-3-hypothesis-template.md
-│   │   ├── stage-4-vision-mission-template.md
-│   │   ├── stage-5-roadmap-template.md
-│   │   ├── stage-6-release-plan-template.md
-│   │   └── stage-7-feature-document-template.md
-│   ├── artifacts/                    ← Example artifacts and decision log
-│   │   ├── EXAMPLE-stage-1-idea-brief.md
-│   │   ├── pm-agent-system-prompt-v6.txt
-│   │   └── stage-7-feature-docs/
+├── .product/                         ← User-created product artifacts
 │   ├── DECISIONS.md                  ← Git-tracked decision audit trail
-│   └── templates/
 │
 ├── .github/                          ← GitHub Copilot integration
 │   ├── agentconfig.yaml              ← Copilot configuration
@@ -97,12 +92,12 @@ The heart of Product Foundry. Contains all tool-agnostic AI instructions:
 - **agents/** — 13 specialized agents (roles, specialists, orchestrators, utilities)
 - **skills/** — Reusable workflows (validate, log-decision, status, export, etc.)
 - **workflows/** — Stage-specific execution flows (one per stage, 1–7)
-
-### `.product/` — Templates and Artifacts
-
 - **templates/** — Markdown templates for each stage's artifact
-- **artifacts/** — Example completed artifacts and decision log
+
+### `.product/` — User-Created Artifacts
+
 - **DECISIONS.md** — Git-tracked audit trail of major product decisions
+- **[idea-name]//** — One directory per product idea, containing stage artifacts and feature specs
 
 ### `.github/` — GitHub Copilot Integration
 
@@ -143,7 +138,7 @@ Created when Stage 1 locks. One directory per product idea. Contains:
 
 ### Artifact Creation Flow
 
-1. AI uses the template from `.product/templates/stage-[n]-*.md`
+1. AI uses the template from `.ai/templates/stage-[n]-*.md`
 2. AI creates the artifact in `[idea-name]/stage-[n]-*.md`
 3. AI updates `.ai/session-state.md` to reflect progress
 4. Major decisions are logged to `.product/DECISIONS.md`
