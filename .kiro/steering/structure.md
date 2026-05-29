@@ -132,12 +132,14 @@ Created when Stage 1 locks. One directory per product idea. Contains:
 
 ### Initialization Flow
 
-1. User clones the repo and opens in their AI assistant
-2. AI loads `.ai/system-prompt.md` as the core instruction set
-3. AI reads `.ai/session-state.md` to understand current progress
-4. AI references `.ai/product-constitution.md` to understand governing principles
-5. AI selects appropriate agents from `.ai/agents/` based on current stage
-6. AI follows the stage workflow from `.ai/workflows/stage-[n].workflow.md`
+1. User runs `npx product-foundry` in a new directory
+2. CLI copies `.ai/`, `.product/`, and `.github/` into the workspace
+3. User opens the folder in their AI assistant
+4. AI loads `.ai/system-prompt.md` as the core instruction set
+5. AI reads `.ai/session-state.md` to understand current progress
+6. AI references `.ai/product-constitution.md` to understand governing principles
+7. AI selects appropriate agents from `.ai/agents/` based on current stage
+8. AI follows the stage workflow from `.ai/workflows/stage-[n].workflow.md`
 
 ### Artifact Creation Flow
 

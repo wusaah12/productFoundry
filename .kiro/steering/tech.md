@@ -24,7 +24,8 @@ Product Foundry is a **configuration and workflow framework**, not a traditional
 ### Initialize a new Product Foundry workspace
 
 ```bash
-npm install
+mkdir my-product-workspace
+cd my-product-workspace
 npx product-foundry
 ```
 

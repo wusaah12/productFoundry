@@ -39,22 +39,28 @@ Every feature spec is written as testable scenarios — Jira-ready user stories 
 
 ## Quick Start
 
-### 1. Clone and open the workspace
+### 1. Create a workspace directory and initialize
 
 ```bash
-git clone https://github.com/wusaah12/productFoundry.git
+mkdir my-product-workspace
+cd my-product-workspace
+npx product-foundry
 ```
+
+This installs the Product Foundry framework files into your workspace.
+
+### 2. Open the workspace
 
 Open the folder in VS Code (or your preferred editor).
 
-### 2. Start your AI assistant
+### 3. Start your AI assistant
 
 - **GitHub Copilot:** `Ctrl+Shift+I` / `Cmd+Shift+I`
 - **Claude:** Add the folder as a project, or reference `.ai/system-prompt.md`
 - **Kiro:** Open the Kiro chat panel
 - **Other:** Load `.ai/system-prompt.md` as your system prompt
 
-### 3. Start the intake
+### 4. Start the intake
 
 Send a message to get started. Your AI assistant will introduce itself and begin the intake.
 

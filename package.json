@@ -1,13 +1,33 @@
 {
   "name": "product-foundry",
   "version": "0.0.1",
-  "description": "Set up a Product Foundry workspace",
+  "description": "A structured discovery framework that runs before the first sprint. Takes a raw idea through seven gated stages and produces specification-complete features ready for delivery.",
   "bin": {
     "product-foundry": "./index.js"
   },
   "files": [
-    "index.js"
+    "index.js",
+    ".ai/",
+    ".product/",
+    ".github/"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wusaah12/productFoundry.git"
+  },
+  "keywords": [
+    "product",
+    "discovery",
+    "framework",
+    "ai",
+    "agile",
+    "planning",
+    "product-management",
+    "specification",
+    "validation"
+  ],
+  "author": "Product Foundry Contributors",
+  "homepage": "https://github.com/wusaah12/productFoundry#readme",
   "dependencies": {
     "adm-zip": "^0.5.10"
   },
