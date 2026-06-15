@@ -9,7 +9,7 @@ productFoundry/
 │   ├── system-prompt.md              ← Core system instructions (load this first)
 │   ├── session-state.md              ← Current progress tracking
 │   ├── product-constitution.md       ← 6 governing principles
-│   ├── agents/                       ← 13 agent definitions
+│   ├── personas/                       ← 13 persona definitions
 │   │   ├── orchestrator.*.md         ← Main, Quality Gate, Session Manager
 │   │   ├── specialist.*.md           ← Researcher, Hypothesis, Vision
 │   │   ├── role.*.md                 ← Product Lead, Eng Lead, Designer, etc.
@@ -89,7 +89,7 @@ The heart of Product Foundry. Contains all tool-agnostic AI instructions:
 - **system-prompt.md** — Load this as your system prompt in any AI assistant
 - **session-state.md** — Tracks current stage and progress (update after each session)
 - **product-constitution.md** — The 6 governing principles that guide all decisions
-- **agents/** — 13 specialized agents (roles, specialists, orchestrators, utilities)
+- **personas/** — 13 specialized personas (roles, specialists, orchestrators, utilities)
 - **skills/** — Reusable workflows (validate, log-decision, status, export, etc.)
 - **workflows/** — Stage-specific execution flows (one per stage, 1–7)
 - **templates/** — Markdown templates for each stage's artifact
@@ -133,7 +133,7 @@ Created when Stage 1 locks. One directory per product idea. Contains:
 4. AI loads `.ai/system-prompt.md` as the core instruction set
 5. AI reads `.ai/session-state.md` to understand current progress
 6. AI references `.ai/product-constitution.md` to understand governing principles
-7. AI selects appropriate agents from `.ai/agents/` based on current stage
+7. AI selects appropriate personas from `.ai/personas/` based on current stage
 8. AI follows the stage workflow from `.ai/workflows/stage-[n].workflow.md`
 
 ### Artifact Creation Flow

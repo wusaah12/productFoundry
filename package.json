@@ -1,6 +1,6 @@
 {
   "name": "product-foundry",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A structured discovery framework that runs before the first sprint. Takes a raw idea through seven gated stages and produces specification-complete features ready for delivery.",
   "bin": {
     "product-foundry": "./index.js"

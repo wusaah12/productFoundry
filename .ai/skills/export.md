@@ -378,6 +378,10 @@ Footer: "Generated from [Product Name] Stage [N] | [Date] | Read-Only"
 - Locked for distribution (read-only)
 - Metadata preserved
 
+**Decision Audit Trail:**
+- `DECISIONS.md` (workspace root) can be included as an appendix in executive summary exports for full traceability
+- `session-state.md` (workspace root) provides current stage/status metadata for export footers
+
 ---
 
 ## Export Philosophy

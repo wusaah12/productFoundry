@@ -10,14 +10,15 @@
 
 ### 1. Load Session State at Session Start
 When Copilot session initializes:
-- Read `session-state.md`
+- Read `session-state.md` from the **workspace root** (not `.ai/`)
+- If `session-state.md` does not exist at the workspace root, create it from `.ai/templates/session-state-template.md`
 - Extract: `.stage`, `.current_artifact`, `.gate_status`, `.latest_decision`, `.outstanding_blockers`
 - Provide context to main_orchestrator and all specialist agents
 - Display recovery message: "Welcome back! You were at Stage 2 working on Discovery Report..."
 
 ### 2. Update Artifact Tracking
 - Track current stage number (0-7)
-- Maintain path to current artifact (e.g., `artifacts/stage-2-discovery-report.md`)
+- Maintain path to current artifact (e.g., `[idea-name]/stage-2-discovery-report.md`)
 - Mark artifact state: DRAFT, REVIEW, or LOCKED
 - Log last modification time and session
 
@@ -34,8 +35,9 @@ Update session state when stage changes to enable/disable role agents.
 
 ### 4. Persist State Between Copilot Sessions
 After major decisions or stage changes:
-- Update `session-state.md` with latest state
+- Update `session-state.md` (workspace root) with latest state
 - Log timestamp, decision, responsible agent
+- If the change qualifies as a major decision (see `.ai/skills/log-decision-guide.md`), append an entry to `DECISIONS.md` (workspace root) — create it from `.ai/templates/decisions-template.md` if it does not exist
 - Enable user to close Copilot, do other work, come back and continue seamlessly
 
 ### 5. Provide Context Recovery Message
@@ -48,7 +50,7 @@ Latest Decision: "Competitive analysis complete"
 Outstanding Blockers: None
 
 Last session: March 15, 2:30 PM
-Current artifact: artifacts/stage-2-discovery-report.md (REVIEW)
+Current artifact: [idea-name]/stage-2-discovery-report.md (REVIEW)
 
 Ready to proceed to Stage 3? Type: /status
 ```
@@ -57,7 +59,7 @@ Ready to proceed to Stage 3? Type: /status
 
 ## Session State Structure
 
-`session-state.md` maintains this JSON-like structure:
+`session-state.md` (workspace root) maintains this structure:
 
 ```yaml
 # Product Foundry Session State
@@ -66,7 +68,7 @@ session_id: "copilot-session-12345"
 
 current_stage: 2
 current_stage_name: "Discovery Report"
-current_artifact: "artifacts/stage-2-discovery-report.md"
+current_artifact: "[idea-name]/stage-2-discovery-report.md"
 artifact_state: "REVIEW"
 
 gate_status: "OPEN"
@@ -97,7 +99,7 @@ next_steps:
 | Variable | Purpose | Updated By | Example |
 |----------|---------|-----------|---------|
 | `current_stage` | Which stage (0-7) | main_orchestrator | 2 |
-| `current_artifact` | Path to working artifact | session_manager | artifacts/stage-2-discovery-report.md |
+| `current_artifact` | Path to working artifact | session_manager | [idea-name]/stage-2-discovery-report.md |
 | `artifact_state` | DRAFT / REVIEW / LOCKED | gate_keeper after validation | "REVIEW" |
 | `gate_status` | OPEN / BLOCKED | gate_keeper | "OPEN" |
 | `gate_blockers` | List of blocking criteria | gate_keeper | ["Competitive analysis incomplete"] |
@@ -112,9 +114,13 @@ next_steps:
 ```
 User opens Copilot Chat
 ↓
-Session Manager loads session-state.md
+Session Manager checks workspace root for session-state.md
 ↓
-Parses current_stage = 2, artifact = stage-2-discovery-report.md
+If missing: create from .ai/templates/session-state-template.md
+↓
+Session Manager loads session-state.md (workspace root)
+↓
+Parses current_stage = 2, artifact = [idea-name]/stage-2-discovery-report.md
 ↓
 Displays recovery message:
    "Welcome back! You were at Stage 2 (Discovery Report).
@@ -142,9 +148,11 @@ Main Orchestrator routes to discovery_research_agent
 ↓
 Agent affirms decision with context
 ↓
-Decision Logger logs: "Focus decision: Mobile use case prioritized"
+Decision Logger logs entry to DECISIONS.md (workspace root):
+   "Focus decision: Mobile use case prioritized"
+   (creates DECISIONS.md from .ai/templates/decisions-template.md if missing)
 ↓
-Session Manager updates session-state.md:
+Session Manager updates session-state.md (workspace root):
    latest_decision: "Focus decision: Mobile use case prioritized"
    outstanding_blockers: ["Confirm focus with executive"]
 ↓
@@ -174,8 +182,11 @@ Session Manager:
    - Sets active_roles = ["eng_lead"]
    - Clears gate_blockers
    - Updates artifact_state to "LOCKED"
-   - Sets current_artifact = artifacts/stage-3-hypothesis.md
-   - Persists to session-state.md
+   - Sets current_artifact = [idea-name]/stage-3-hypothesis.md
+   - Persists to session-state.md (workspace root)
+↓
+Decision Logger appends gate-pass entry to DECISIONS.md (workspace root):
+   "Stage 2 → Stage 3 gate passed: Discovery Report locked"
 ↓
 Main Orchestrator confirms progression:
    "✅ Stage 2 Complete! Moving to Stage 3: Hypothesis Validation"
@@ -192,14 +203,15 @@ Next Copilot session loads with stage 3 context
 Session 1 (9:00 AM):
 - User at Stage 3, just finished hypothesis
 - Calls gate_keeper, passes
-- Session Manager updates session-state.md with stage=4
+- Session Manager updates session-state.md (workspace root) with stage=4
+- Decision Logger appends gate-pass entry to DECISIONS.md (workspace root)
 - User closes Copilot
 
 [User works on other things for 2 hours]
 
 Session 2 (11:00 AM):
 - User opens Copilot
-- Session Manager loads session-state.md → finds stage=4
+- Session Manager loads session-state.md (workspace root) → finds stage=4
 - Displays recovery: "Welcome back! You're at Stage 4: Vision & Mission"
 - User continues where they left off
 ```
@@ -208,12 +220,12 @@ Session 2 (11:00 AM):
 ```
 Device 1 (Laptop, 9:00 AM):
 - User progresses to Stage 3
-- Session Manager writes to session-state.md
+- Session Manager writes to session-state.md (workspace root)
 
 [User switches to iPad]
 
 Device 2 (iPad, 9:15 AM):
-- Session Manager loads session-state.md from same git repo
+- Session Manager loads session-state.md (workspace root) from same git repo
 - See current state: Stage 3
 - Continue seamlessly
 ```
@@ -223,11 +235,12 @@ Device 2 (iPad, 9:15 AM):
 User: "Actually, let's go back to Stage 2 and reconsider"
 ↓
 Session Manager allows reversion with note:
-   "Reverting to Stage 2. Previous hypothesis saved in: stage-3-hypothesis.md.backup"
+   "Reverting to Stage 2. Previous hypothesis saved in: [idea-name]/stage-3-hypothesis.md.backup"
 ↓
-Update session-state.md: current_stage=2
+Update session-state.md (workspace root): current_stage=2
 ↓
-Logs decision: "Reverted to Stage 2: Need to reconsider user assumptions"
+Decision Logger appends entry to DECISIONS.md (workspace root):
+   "Reverted to Stage 2: Need to reconsider user assumptions"
 ↓
 Next session continues from Stage 2
 ```
@@ -255,33 +268,42 @@ Includes in sidebar:
 
 - **Calls**: gate_keeper (to validate), decision_logger (to log state changes)
 - **Called by**: main_orchestrator (at session start and after major decisions)
-- **Reads**: session-state.md
-- **Writes**: session-state.md (and commits to git for audit trail)
+- **Reads**: `session-state.md` (workspace root)
+- **Writes**: `session-state.md` (workspace root, commits to git for audit trail)
+- **Coordinates with**: `decision_logger`, which writes to `DECISIONS.md` (workspace root)
 
 ---
 
 ## Error Handling
 
-**If session-state.md is missing or corrupt:**
-- Default to Stage 1 (fresh start)
-- Log error: "Session state not found. Starting from Stage 1."
+**If `session-state.md` (workspace root) is missing or corrupt:**
+- Create a fresh copy from `.ai/templates/session-state-template.md`
+- Default to Stage 1 (fresh start) if no recoverable state exists
+- Log error: "Session state not found. Created new session-state.md from template. Starting from Stage 1."
 - User can recover by /load-last-session or /continue-from-[stage]
 
-**If artifact path in session-state.md doesn't exist:**
-- Alert user: "Artifact not found. Check artifacts/ directory"
-- Offer to recreate from template or recover from git history
+**If artifact path in `session-state.md` doesn't exist:**
+- Alert user: "Artifact not found. Check the `[idea-name]/` directory at the workspace root"
+- Offer to recreate from template (`.ai/templates/`) or recover from git history
 
 ---
 
 ## Session State File Location
 
 ```
-productManager/
-├── session-state.md          ← Current session state
+(workspace root)/
+├── session-state.md          ← Current session state (lives here, NOT in .ai/)
+├── DECISIONS.md               ← Decision audit trail (lives here, NOT in .product/)
 ├── .session-backups/
 │   ├── session-state.backup.2026-03-15-14-00.md
 │   ├── session-state.backup.2026-03-15-13-00.md
 │   └── ...
+├── .ai/
+│   └── templates/
+│       ├── session-state-template.md   ← Template used to create session-state.md
+│       └── decisions-template.md       ← Template used to create DECISIONS.md
+└── [idea-name]/
+    └── ... (stage artifacts)
 ```
 
 Backup files enable recovery if state is accidentally modified.

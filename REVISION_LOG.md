@@ -4,375 +4,171 @@
 
 | Version | Release Date | Key Changes |
 |---------|--------------|------------|
-| **v1.0** | March 14, 2026 | 5-stage model: Idea Brief → Discovery → Hypothesis → PRD → Vision & Mission. Issue: Vision placed after PRD (backwards order). |
-| **v2.0** | March 14, 2026 | Fixed stage order. Vision & Mission moves before PRD and acts as strategic filter for all requirements. |
-| **v3.0** | March 14, 2026 | Expanded to 7 stages. Added Roadmap (Stage 5) and Release Plan (Stage 6) for better strategic-to-tactical sequencing. |
-| **v4.0** | March 15, 2026 | Renamed PRD to Feature Documents with required BDD (Given/When/Then) format. Introduced role introduction schedule — roles enter at stages where their perspective matters most. |
-| **v5.0** | March 16, 2026 | Added: structured user intake protocol (5 questions before Stage 1), artifact lifecycle state machine (DRAFT → REVIEW → LOCKED), context continuity log (expanded session header), agent decision protocol, per-stage validation checklists, and stage-specific output contracts. |
-| **v6.0** | March 16, 2026 | Added: Business Analyst role (Stage 7 lead for BDD authorship). Renamed project to **Product Foundry**. Standardized all agent invocations to direct `/[name]` format (removed `/ask-` prefix). Reclassified business-analyst from specialist → role. Added product-lead role agent. Consolidated agent namespacing to `role.*`, `specialist.*`, `orchestrator.*`, `utility.*`. Updated all `.vscode/`, workflow, and documentation files to match. |
-| **v6.1** | March 17, 2026 | Added: Constitutional Basis section (6 governing principles) + Hard Rules 14–18. Artifact file creation rules — artifacts now live in `[idea-name]/` directory at workspace root. Stage 7 template restructured: BDD Scenarios → User Stories with Jira fields (Jira-exportable). README updated to reflect current project structure. |
-| **v6.2** | April 13, 2026 | Added: `REVISED` artifact lifecycle state for post-lock changes to Stages 5–7. Initiative Implementation Status tracking on Roadmap. Feature Delivery Status tracking on Release Plan. Post-lock revision protocol with Cascade Impact Assessment. Revision History sections in Stage 5–7 templates. Hard Rules 19–21. README restructured: solution-agnostic framing, Foundry Analogy section, Waterfall/Agile context section, duplicate content removed. |
-| **v7.0** | May 21, 2026 | **Tool-Agnostic Reorganization.** Created `.ai/` directory for tool-agnostic configuration. Moved all agents, skills, workflows, session-state, and product-constitution to `.ai/`. Reclassified orchestrators and utilities as **skills** (procedural workflows) vs **agents** (role-based personas). Simplified file naming: removed namespace prefixes (e.g., `role.product-lead.agent.md` → `product-lead.md`). Updated `.github/agentconfig.yaml` to v3.0. Added CC BY-NC-SA 4.0 license. Works with GitHub Copilot, Claude, Kiro, and other AI assistants. |
+| **v0.0.1** | March 14, 2026 – May 21, 2026 | **Foundational build.** Established the 7-stage gated discovery process (Idea Brief → Discovery → Hypothesis → Vision & Mission → Roadmap → Release Plan → Feature Documents), with Vision & Mission correctly sequenced before requirements work and acting as the strategic filter for everything downstream. Introduced BDD (Given/When/Then) as the mandatory Feature Document format, the role introduction schedule, the structured user intake protocol, the artifact lifecycle (DRAFT → REVIEW → LOCKED → REVISED), the context continuity log, the agent decision protocol, per-stage validation checklists and output contracts, the Product Foundry brand and direct `/[name]` slash-command invocation, the Business Analyst and Product Lead roles, the constitutional compliance layer (6 governing principles + Hard Rules), artifact output to `[idea-name]/` at the workspace root, Jira-ready Stage 7 user stories, the post-lock revision protocol with Cascade Impact Assessment, Implementation/Delivery Status tracking, and the tool-agnostic `.ai/` directory reorganization (agents vs. skills, simplified naming, CC BY-NC-SA 4.0 license, multi-tool support for GitHub Copilot, Claude, and Kiro). |
+| **v0.0.2** | June 14, 2026 | **Persisted State Relocation.** Moved `session-state.md` from `.ai/` to the workspace root, alongside the `[idea-name]/` directories it tracks. Introduced `DECISIONS.md` at the workspace root as the unified, git-tracked decision audit trail, superseding `.product/DECISIONS.md`. Added two new templates to `.ai/templates/`: `session-state-template.md` and `decisions-template.md`, used to (re)create the root files if missing. Every Stage 1–7 gate pass is now automatically logged to `DECISIONS.md` as a Gate-Pass decision, in addition to updating `session-state.md`. Added Hard Rule 22 and a new "Persisted State Files (Workspace Root)" section to `system-prompt.md`. Updated `.ai/skills/manage-session.md`, `validate.md`, `orchestrate.md`, `status.md`, `log-decision.md`, `log-decision-guide.md`, `export.md`, `.ai/README.md`, `.ai/DEPENDENCY-CHECKLIST.md`, `.kiro/steering/structure.md`, `.kiro/steering/tech.md`, `.github/agentconfig.yaml`, and root `README.md` to reflect the new locations. The `.product/` directory and its `DECISIONS.md` are deprecated in favor of the root-level files. |
 
 ---
 
 ## Feature Matrix — What Changed by Version
 
-| Feature | v1.0 | v2.0 | v3.0 | v4.0 | v5.0 | v6.0 | v6.1 | v6.2 | v7.0 |
-|---------|------|------|------|------|------|------|------|------|
-| Stage count | 5 | 5 | 7 | 7 | 7 | 7 | 7 | 7 |
-| Vision before Features | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Roadmap stage | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Release Plan stage | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Feature Documents (BDD) | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Role introduction schedule | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Structured intake protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Artifact lifecycle (DRAFT→REVIEW→LOCKED) | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Context continuity log | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Agent decision protocol | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Per-stage validation checklists | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Stage output contracts | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Business Analyst role (BDD lead) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Product Lead role agent | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Direct `/[name]` invocation (no `/ask-` prefix) | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Product Foundry brand | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| Constitution compliance layer | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Artifact directory at workspace root (`[idea-name]/`) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| User stories with Jira fields (Stage 7) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| REVISED artifact lifecycle state (Stages 5–7) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Post-lock revision protocol + Cascade Impact Assessment | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Implementation/Delivery Status tracking (Stages 5–6) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Revision History sections in Stage 5–7 templates | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Solution-agnostic framing (not code-specific) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Foundry Analogy + Waterfall/Agile context in README | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Tool-agnostic `.ai/` directory structure | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Agents vs Skills classification (personas vs procedures) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Simplified file naming (no namespace prefixes) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| CC BY-NC-SA 4.0 license | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Multi-tool support (GitHub Copilot, Claude, Kiro) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Feature | v0.0.1 | v0.0.2 |
+|---------|--------|--------|
+| 7-stage gated discovery process | ✅ | ✅ |
+| Vision before Features (strategic filter) | ✅ | ✅ |
+| Roadmap stage | ✅ | ✅ |
+| Release Plan stage | ✅ | ✅ |
+| Feature Documents (BDD) | ✅ | ✅ |
+| Role introduction schedule | ✅ | ✅ |
+| Structured intake protocol | ✅ | ✅ |
+| Artifact lifecycle (DRAFT→REVIEW→LOCKED→REVISED) | ✅ | ✅ |
+| Context continuity log | ✅ | ✅ |
+| Agent decision protocol | ✅ | ✅ |
+| Per-stage validation checklists | ✅ | ✅ |
+| Stage output contracts | ✅ | ✅ |
+| Business Analyst role (BDD lead) | ✅ | ✅ |
+| Product Lead role agent | ✅ | ✅ |
+| Direct `/[name]` invocation | ✅ | ✅ |
+| Product Foundry brand | ✅ | ✅ |
+| Constitution compliance layer | ✅ | ✅ |
+| Artifact directory at workspace root (`[idea-name]/`) | ✅ | ✅ |
+| User stories with Jira fields (Stage 7) | ✅ | ✅ |
+| Post-lock revision protocol + Cascade Impact Assessment | ✅ | ✅ |
+| Implementation/Delivery Status tracking (Stages 5–6) | ✅ | ✅ |
+| Revision History sections in Stage 5–7 templates | ✅ | ✅ |
+| Solution-agnostic framing | ✅ | ✅ |
+| Tool-agnostic `.ai/` directory structure | ✅ | ✅ |
+| Agents vs Skills classification | ✅ | ✅ |
+| CC BY-NC-SA 4.0 license | ✅ | ✅ |
+| Multi-tool support (GitHub Copilot, Claude, Kiro) | ✅ | ✅ |
+| `session-state.md` and `DECISIONS.md` at workspace root | ❌ | ✅ |
+| session-state and decisions templates in `.ai/templates/` | ❌ | ✅ |
+| Automatic gate-pass logging to DECISIONS.md (all 7 stages) | ❌ | ✅ |
 
 ---
 
 ## Detailed Changelog
 
-### v1.0 — Initial Release
-**Architecture:** 5-stage sequential model
+### v0.0.1 — Foundational Build
 
-**Stages:**
-1. Idea Brief
-2. Discovery & Research
-3. Hypothesis
-4. PRD (Product Requirements Document)
-5. Vision & Mission
+**Period:** March 14, 2026 – May 21, 2026
 
-**Critical Issue:** Vision & Mission placed at the end (Stage 5) after PRD creation, causing requirements to be written without strategic direction locked first.
+This version consolidates the framework's entire foundational development arc into a single baseline. It represents everything in place before the persisted-state reorganization in v0.0.2.
 
----
+**Stage model:**
+- Established the 7-stage sequence: Idea Brief → Discovery & Research → Hypothesis → Vision & Mission → Product Roadmap → Release Plan → Feature Documents
+- Corrected an early ordering issue so that Vision & Mission is locked *before* requirements/roadmap work, allowing it to act as the authoritative strategic filter for every downstream artifact
+- Added Stage 5 (Roadmap) and Stage 6 (Release Plan) to separate strategic planning from tactical execution
 
-### v2.0 — Fixed Stage Order
-**Key Fix:** Reordered stages to place Vision & Mission before PRD
+**Requirements format:**
+- Renamed "PRD" to "Feature Documents" with mandatory BDD (Given/When/Then) scenarios
+- Required a minimum of 3 scenarios per feature: happy path, edge case, error/failure
+- Restructured Stage 7 so each scenario is a self-contained, Jira-exportable user story ("As a [role], I want [capability], so that [benefit]") with Jira metadata fields (Summary, Type, Priority, Story Points, Labels)
+- Required every "Then" clause to be observable and testable, and required Vision check + Release scope check on every scenario
 
-**Rationale:** Vision and Mission must act as the authoritative strategic filter that constrains all downstream requirements and feature documents.
+**Process & governance:**
+- Introduced the structured user intake protocol (5 questions before Stage 1)
+- Introduced the artifact lifecycle state machine: DRAFT → REVIEW → LOCKED, later extended with REVISED (for post-lock changes to Stages 5–7)
+- Added the context continuity log — every response begins with `── Stage [N]/7: [Stage Name] │ Role: [Role] │ Gate: [STATUS] ──`
+- Added the agent decision protocol (vague input handling, stage-skip blocking, approval ambiguity handling, Vision conflict handling, iteration vs. rework distinction)
+- Added per-stage validation checklists and stage-specific output contracts
+- Added the post-lock revision protocol with Cascade Impact Assessment, Revision History tables in Stage 5–7 templates, and Implementation Status (Roadmap) / Delivery Status (Release Plan) tracking
+- Added the constitutional compliance layer: 6 governing principles (Process over preference, Human judgment is sovereign, Transparency over convenience, Vision as the highest filter, Roles at the right moment, Testability as the standard of done) and the Hard Rules that enforce them
 
-**New Stage Order:**
-1. Idea Brief
-2. Discovery & Research
-3. Hypothesis
-4. Vision & Mission ← moved here
-5. PRD ← updated order
+**Roles & agents:**
+- Introduced the role introduction schedule — roles join at the stage where their perspective changes the output (Eng Lead & Designer at Stage 2, Business Owner at Stage 4, Business Analyst at Stage 7)
+- Added the Business Analyst role (Stage 7 BDD/user story lead) and the Product Lead role (Stages 1–7, strategy/metrics/prioritization)
+- Standardized all agent invocation to direct `/[name]` slash commands and consolidated agent namespacing
 
----
+**Branding & structure:**
+- Renamed the project to **Product Foundry**
+- Reorganized all tool-agnostic configuration into `.ai/` (agents, skills, workflows, templates, product constitution), with agents (personas) separated from skills (procedures)
+- Simplified file naming by removing namespace prefixes
+- Established artifact output to `[idea-name]/` at the workspace root (one directory per product idea, created when the Idea Brief locks)
+- Added the CC BY-NC-SA 4.0 license and documented multi-tool support for GitHub Copilot, Claude, and Kiro
 
-### v3.0 — Strategic-to-Tactical Sequencing
-**Major Enhancement:** Expanded to 7 stages with explicit Roadmap and Release Plan
-
-**New Stages:**
-- **Stage 5: Product Roadmap** — Quarterly strategic initiatives tied to Vision
-- **Stage 6: Release Plan** — Feature list and go/no-go criteria for a specific release
-- **Stage 7: Feature Documents** — Detailed BDD specs for engineering
-
-**Rationale:** Separates strategic planning (Roadmap) from tactical execution (Release Plan and Feature Docs). Enables better stakeholder alignment and risk management.
-
-**New Stage Order:**
-1. Idea Brief
-2. Discovery & Research
-3. Hypothesis
-4. Vision & Mission
-5. Product Roadmap ← new
-6. Release Plan ← new
-7. Feature Documents ← renamed from PRD
+**Rationale:** v0.0.1 represents the framework reaching a complete, internally consistent baseline — a 7-stage gated process with governance, BDD-based specifications, role choreography, and tool-agnostic configuration — ready to serve as the foundation for ongoing iteration.
 
 ---
 
-### v4.0 — BDD Requirements & Role Introduction
-**Major Changes:**
-1. Renamed "PRD" → "Feature Documents" with mandatory BDD format
-2. Introduced role introduction schedule (roles join at stages where their expertise matters most)
+### v0.0.2 — Persisted State Relocation
 
-**BDD Format Mandate:**
-```gherkin
-Scenario: [Descriptive name]
-Given [initial context]
-When  [user action or event]
-Then  [observable, testable outcome]
-```
-
-**Role Introduction Schedule:**
-- **Stage 1:** PM/Founder only
-- **Stage 2:** Eng Lead and Designer join Discovery
-- **Stage 3:** Core PM work (Eng Lead advisory)
-- **Stage 4:** Business Owner joins for Vision alignment
-- **Stage 5:** Eng Lead leads feasibility review
-- **Stage 6:** All roles review Release Plan
-- **Stage 7:** Eng Lead and Designer review BDD scenarios
-
-**Rationale:** Roles enter when their perspective creates decision value, mirrors real product teams.
-
----
-
-### v5.0 — Structured Process & Artifact Lifecycle
-**Current Version (March 16, 2026)**
-
-**Major Additions:**
-
-1. **Structured User Intake Protocol**
-   - 5 foundational questions before Stage 1
-   - Confirmation step to validate context
-   - Ensures PM and agents understand problem space
-
-2. **Artifact Lifecycle State Machine**
-   - DRAFT: In active creation by user
-   - REVIEW: Complete enough for role review and feedback
-   - LOCKED: Approved, gates next stage, cannot be bypassed
-   - Clear transitions between states
-
-3. **Context Continuity Log**
-   - Stage header required at start of every response: `── Stage [N]/7: [Stage Name] │ Role: [Role] │ Gate: [STATUS] ──`
-   - Maintains conversation context across turns
-   - Shows session artifacts, latest decision, outstanding work
-
-4. **Agent Decision Protocol**
-   - Clear rules for when user input is vague (max 1 clarifying question)
-   - Block rules for stage skipping with explanations
-   - Iteration vs. rework distinction
-   - Artifact state transition rules
-   - Validation failure handling
-
-5. **Per-Stage Validation Checklists**
-   - Stage 1: Problem statement, user definition, pain points, artifact confirmation
-   - Stage 2: User needs validation, competitive analysis, constraints from Eng/Design
-   - Stage 3: Falsifiable hypothesis, measurable metrics, assumption ranking
-   - Stage 4: Vision specificity, mission clarity, strategic filters, Business Owner sign-off
-   - Stage 5: Vision linkage, feasibility validation, dependency mapping, sequencing
-   - Stage 6: Feature completeness, role review, go/no-go criteria, Release Plan lock
-   - Stage 7: BDD scenario coverage, testability, precondition realism, Vision/Release dual checks
-
-6. **Stage-Specific Output Contracts**
-   - Explicit format, length, and content guarantees for each artifact
-   - Clear user actions after each stage
-   - Artifact maturity expectations
-
-7. **Hard Rules Enforcement**
-   - Never draft Roadmap before Vision locked
-   - Never draft Release Plan before Roadmap locked
-   - Never draft Feature Document before Release Plan locked
-   - All Feature Documents must use BDD format
-   - Every "Then" clause must be observable and testable
-   - Minimum 3 scenarios per feature (happy path, edge, error)
-   - Maximum 3 questions per agent response
-   - Vision + Release dual checks required for all Stage 7 scenarios
-
-**Rationale:** v5 standardizes the entire discovery process with explicit guardrails, validation criteria, and artifact lifecycle management. Reduces ambiguity and ensures consistent, high-quality outputs.
-
----
-
-### v6.0 — Product Foundry Brand, Business Analyst Role & Invocation Standardization
-**Current Version (March 16, 2026)**
+**Release Date: June 14, 2026**
 
 **Major Changes:**
 
-1. **Project renamed to Product Foundry**
-   - All 8 branding touchpoints updated: README, `.instructions.md`, `agentconfig.yaml`, `agents.json`, session-manager agent, REVISION_LOG, SETUP, WORKSPACE-OVERVIEW
-   - Opening script and identity statement updated
-   - Tagline: "Product Foundry guides rigorous product discovery through 7 gated stages. Each artifact moves through Draft → Review → Locked before the next stage opens. Feature Documents use BDD — every requirement is a testable Given/When/Then scenario."
+1. **`session-state.md` moved to the workspace root**
+   - Previously lived at `.ai/session-state.md`; now lives at the workspace root, alongside the `[idea-name]/` directories it tracks
+   - A new template, `.ai/templates/session-state-template.md`, is used to create or recreate the file if it's missing
+   - Same structure as before, with an added "Last Updated" field and a note pointing to `DECISIONS.md`
 
-2. **Business Analyst role added (Stage 7)**
-   - Reclassified from specialist → role
-   - Leads Feature Document creation at Stage 7
-   - Stage 7 exit criteria updated: Business Analyst must author and structure all BDD scenarios
-   - Role introduction text and 3 stage-specific questions added to `.instructions.md`
-   - New gate check added: `Business Analyst has authored and structured all BDD scenarios`
+2. **`DECISIONS.md` introduced at the workspace root**
+   - New unified, git-tracked decision audit trail at the workspace root, superseding `.product/DECISIONS.md`
+   - A new template, `.ai/templates/decisions-template.md`, defines the entry structure (Date, Stage, Decision Maker, Impact Level, Decision Statement, Rationale, Alternatives, Decision Driver, Reversibility, Related Artifacts, Follow-Up Actions) and is used to create the file if missing
 
-3. **Product Lead role agent added**
-   - New role covering product strategy, market fit, and prioritization across Stages 1, 2, 3, 4, 5, 7
-   - Registered in `agentconfig.yaml`, `agents.json`, and `.instructions.md` agent table
+3. **Automatic gate-pass logging**
+   - Every Stage 1–7 gate pass now automatically appends a "Gate-Pass" decision entry to `DECISIONS.md`, in addition to updating `session-state.md`'s "Latest Decision" field
+   - New "Gate-Pass Decisions (Stage Progression)" decision type added to `.ai/skills/log-decision.md` and `.ai/skills/log-decision-guide.md`, with a worked example
 
-4. **Invocation syntax standardized — `/ask-` prefix removed everywhere**
-   - All slash commands now use direct `/[name]` format
-   - Updated across: all 13 agent files, `agentconfig.yaml`, `.vscode/agents.json`, all 7 workflow files, `.instructions.md`, README
-   - Removed deprecated commands: `/next-stage`, `/skip-stage`, `/export`, `/export-to-jira`, `/export-summary`
-   - Added: `/export-agent` as unified export entry point; `/status` as utility command
+4. **System prompt updated**
+   - New "Persisted State Files (Workspace Root)" section documents both files, their templates, and when they're updated
+   - New Hard Rule 22: `session-state.md` and `DECISIONS.md` live at the workspace root, not `.ai/`; create from templates if missing; update on every gate pass, bypass, or revision
+   - "Other Artifact Templates" section now also lists the session-state and decisions templates and their persisted locations
+   - All references to `.product/templates/` for stage artifact templates corrected to `.ai/templates/` (a pre-existing inconsistency from the v0.0.1 reorganization)
 
-5. **Agent namespace standardization**
-   - All role agent files/prompts use `role.*` namespace (previously `product.*`)
-   - All file paths in `agents.json`, `agentconfig.yaml`, and documentation updated
-   - Zero `product.*` stale references confirmed
+5. **Full dependency sweep across `.ai/` and tool integrations**
+   - Updated `.ai/skills/manage-session.md`, `validate.md`, `orchestrate.md`, `status.md`, `log-decision.md`, `log-decision-guide.md`, `validate-guide.md`, and `export.md` to reference the new root-level paths and template fallbacks
+   - Updated `.ai/README.md` directory structure and file descriptions
+   - Updated `.ai/DEPENDENCY-CHECKLIST.md` with new dependency rules for `session-state.md`, `DECISIONS.md`, and their templates, plus a "Gate-pass logging" consistency check across all 7 stages
+   - Updated `.github/agentconfig.yaml`: added `state_file`, `state_file_location`, `state_file_template`, `decision_file`, `decision_file_location`, `decision_file_template` fields; added `on_gate_pass` entries to all 7 stage workflow definitions; updated `settings` block (`session_state_file`, `decision_log_file`, `artifact_directory`, `template_directory`)
+   - Updated `.kiro/steering/structure.md` and `.kiro/steering/tech.md` directory diagrams to show root-level `session-state.md`/`DECISIONS.md` and `.ai/templates/`
+   - Updated root `README.md` "File Layout" section to show the new root-level files and template locations
 
-6. **Directory structure updated throughout**
-   - `artifacts/`, `templates/`, `decisions/`, `session-state.md` → all moved under `.product/`
-   - Tasks in `.vscode/tasks.json` updated to `.product/artifacts/` paths
-   - README, SETUP, WORKSPACE-OVERVIEW, session-manager agent updated
-
-7. **`.vscode/agents.json` fully rebuilt**
-   - All 13 agents registered with correct ids, namespaced `instructions_file` paths, and direct slash commands
-   - `mention_modes` and `implicit_triggers` updated to current agent names
-   - `configuration` block paths updated to `.product/` structure
-
-**Rationale:** v6 completes the agent system consolidation from v5, establishes the Product Foundry brand identity, and fills the Business Analyst gap in Stage 7 BDD authorship.
+**Rationale:** v0.0.2 makes the two files that change most often — current progress and the decision audit trail — live where users naturally expect them: at the top of the workspace, next to their product idea directories, rather than buried inside the AI configuration directory. Automatic gate-pass logging closes a gap from v0.0.1, where the only record of a stage lock was the artifact's own status field; now every gate pass is also a permanent, git-tracked governance record in `DECISIONS.md`. The `.product/` directory and its `DECISIONS.md` are deprecated.
 
 ---
 
-### v6.1 — Constitution Compliance, Artifact File Rules & Jira-Ready User Stories
-**Release Date: March 17, 2026**
+## Current System Status (v0.0.2)
 
-**Major Changes:**
+**Latest Updates (June 14, 2026):**
+- `session-state.md` relocated from `.ai/` to the workspace root
+- `DECISIONS.md` introduced at the workspace root, superseding `.product/DECISIONS.md`
+- New templates: `.ai/templates/session-state-template.md`, `.ai/templates/decisions-template.md`
+- Automatic Gate-Pass decision logging for all Stage 1–7 gate passes
+- System prompt updated (new "Persisted State Files" section, Hard Rule 22)
+- `.github/agentconfig.yaml` updated (`on_gate_pass` entries, state/decision file settings)
+- Full dependency sweep across `.ai/skills/`, `.kiro/steering/`, and root `README.md`
 
-1. **Constitutional Basis section added to `.github/copilot-instructions.md`**
-   - Added `## Constitutional Basis` section mapping all 6 governing principles inline after Gate Rules
-   - `BYPASSED` gate status now requires a body announcement naming what was bypassed and why — not just the status label
-   - Added `## When Approval Is Ambiguous` decision protocol — approval is never inferred from silence; explicit confirmation required before any artifact is marked LOCKED
-   - Added `## When a Vision Conflict Is Detected` protocol — three valid resolutions only: (1) revise artifact, (2) revise Vision with re-lock, (3) move to Non-goals; conflicts never dropped silently
-   - BDD Rules: non-observable "Then" clauses are explicitly rejected regardless of user confidence
-   - BDD Rules: missing scenario types (happy path, edge case, error/failure) are flagged by name; Feature Document cannot be marked LOCKED until all three are present
-   - Hard Rules 14–18 added: approval ambiguity, role timing (never early, never skipped), Vision conflict explicit handling, non-observable Then clause rejection, Feature Doc lock blocked while any Vision check is unresolved
-
-2. **Artifact file creation rules added to `.github/copilot-instructions.md`**
-   - All artifacts now written to `[idea-name]/` directory at workspace root (kebab-case, derived from approved idea brief)
-   - 2-track timing rule: Stage 1 (Idea Brief) file created only when LOCKED; Stages 2–7 files created when drafting begins (DRAFT state)
-   - File naming defined per stage: `idea-brief.md`, `discovery-report.md`, `hypothesis.md`, `vision-mission.md`, `product-roadmap.md`, `release-plan.md`, `feature-[kebab-case-name].md`
-   - Template reference: each stage uses corresponding `.product/templates/stage-N-*-template.md`
-   - Removed residual reference to `.product/artifacts/` as artifact output location
-
-3. **Stage 7 template restructured — BDD Scenarios → User Stories with Jira fields**
-   - Updated `.product/templates/stage-7-feature-document-template.md`
-   - Each scenario is now a self-contained user story with a Jira issue metadata block
-   - Jira fields per story: Summary, Type `[Story / Enabler]`, Priority, Story Points, Labels (typed per story: `happy-path`, `edge-case`, `error-handling`)
-   - User story format: "As a [role], I want [capability], so that [benefit]"
-   - Gherkin acceptance criteria under `Acceptance Criteria:` fenced block (unchanged format)
-   - Stories are Jira-exportable: copy block between `---` markers as a single Jira issue
-   - Gate checklist updated: Jira fields populated + user story format added as required criteria
-
-4. **README updated to reflect current project structure**
-   - Project structure: `.product/artifacts/` now shows example-only files; `[idea-name]/` directory block at workspace root added with per-stage artifact filenames
-   - Feature Document Validation: updated from BDD scenario format to user story format + Jira fields check
-   - Key Concepts: "BDD Scenarios" → "User Stories" with Jira-export note
-   - Learning Resources: removed non-existent `AGENTS.md` reference; corrected `.instructions.md` → `.github/copilot-instructions.md`; added `.product/product-constitution.md` and `.product/templates/` references
-   - Git workflow: updated paths from `.product/artifacts/stage-N-*.md` to `[idea-name]/` directory pattern
-
-**Rationale:** v6.1 applies the product constitution as an explicit governance layer — every system prompt rule is now traceable to a principle. Artifact file creation rules eliminate ambiguity about where outputs live. The Jira-ready user story format makes Stage 7 Feature Documents directly actionable: each story block can be copied into Jira without reformatting.
-
----
-
-### v6.2 — Post-Lock Revision Protocol, Status Tracking & README Overhaul
-**Release Date: April 13, 2026**
-
-**Major Changes:**
-
-1. **`REVISED` artifact lifecycle state added**
-   - Fourth lifecycle state introduced: `DRAFT → REVIEW → LOCKED → REVISED`
-   - Applies to Stages 5, 6, and 7 only (Roadmap, Release Plan, Feature Documents)
-   - A REVISED artifact must complete a full re-confirmation cycle before returning to LOCKED
-   - Downstream artifacts impacted by the revision must be identified, re-reviewed, and re-locked
-   - All three stage templates and the system prompt updated to reflect the new state
-
-2. **Post-lock revision decision protocol added to `.github/copilot-instructions.md`**
-   - New rule: **"When a LOCKED artifact in Stages 5–7 needs revision"**
-   - 4-step protocol: (1) surface the revision and reason; (2) set status to REVISED; (3) run Cascade Impact Assessment; (4) re-lock in order (Roadmap → Release Plan → Feature Documents)
-   - Agent never silently absorbs a post-lock change
-   - If revision changes scope of an In Progress or Implemented item, delivery team must be notified before work continues
-
-3. **Cascade Impact Assessment added to Stage 5 and Stage 6 templates**
-   - Stage 5 (Roadmap): Cascade Impact Assessment section identifies affected Release Plans and Feature Documents
-   - Stage 6 (Release Plan): Cascade Impact Assessment section identifies affected Feature Documents
-   - Re-lock checklist in each template requires Assessment to be complete before re-lock is permitted
-
-4. **Revision History sections added to Stage 5, 6, and 7 templates**
-   - Each template now includes a Revision History table: version, date, author, what changed, cascade impact, re-locked date
-   - Populated on first post-lock revision; v1.0 row pre-populated at initial lock
-   - Provides a full audit trail when artifacts change after handoff
-
-5. **Implementation Status tracking added to Stage 5 (Roadmap)**
-   - New `Implementation Status` column in the quarterly initiative table
-   - Four values: `Not Started → In Progress → Implemented → Validated`
-   - Tracks delivery progress at the initiative level across the roadmap lifecycle
-   - System prompt updated: initial lock requires all initiatives set to "Not Started"
-
-6. **Delivery Status tracking added to Stage 6 (Release Plan)**
-   - Renamed `Status` column to `Delivery Status` in the feature table
-   - Same four values: `Not Started → In Progress → Implemented → Validated`
-   - Tracks delivery progress at the feature level
-   - System prompt updated: initial lock requires all features set to "Not Started"
-
-7. **Stage 5, 6, 7 gate checklists updated with re-lock criteria**
-   - All three stage quality checklists now have two sections: initial lock criteria and re-lock criteria
-   - Re-lock sections require: Revision History entry complete, Cascade Impact Assessment complete, relevant roles re-reviewed, explicit user confirmation
-   - `REVISED` added as a valid Status value on all three artifact templates
-
-8. **Hard Rules 19–21 added to `.github/copilot-instructions.md`**
-   - **Rule 19:** LOCKED artifacts in Stages 5–7 may be revised; cascade assessment and ordered re-lock required
-   - **Rule 20:** Never re-lock a downstream artifact before the artifact it depends on is re-locked
-   - **Rule 21:** Implementation Status must be tracked; scope changes to In Progress or Implemented items must be flagged to the delivery team before work continues
-
-9. **README restructured and content refocused**
-   - **Solution-agnostic framing:** tagline and intro updated to clarify that implementation does not mean writing code; covers software, services, processes, and team structures
-   - **Foundry Analogy section added:** maps the real foundry ore-refining process to the Product Foundry stage model — each stage removes a specific type of impurity from the raw idea
-   - **Waterfall/Agile context section added:** explains the failure modes of both methodologies and positions Product Foundry as a discovery layer that runs before Agile delivery begins
-   - **Duplicate content removed:** "Why Product Foundry?" section (repeated "Where Product Foundry Fits"), "Follow the 7 Stages" list (repeated Foundry Analogy), Key Commands (repeated Agent System tables), Validation Checklists how-it-works block (repeated Artifact Validation section), Gate Status + Roles in Key Concepts (repeated How It Works + Agent System), Support section (third copy of slash command list)
-
-**Rationale:** v6.2 addresses the gap between locking a specification and the reality of how products evolve — priorities shift, user feedback changes scope, and roadmaps need to adapt. The REVISED state and cascade protocol make change management explicit and traceable rather than silent. Status tracking in Stages 5 and 6 turns the Roadmap and Release Plan into living delivery records, not one-time artifacts. The README changes align the project's positioning with its actual scope: a discovery process for any type of product, not just software.
-
----
-
-## Current System Status (v6.2)
-
-**Latest Updates (April 13, 2026):**
-- `REVISED` lifecycle state added for post-lock changes to Stages 5–7
-- Post-lock revision decision protocol added to system prompt (4-step cascade process)
-- Cascade Impact Assessment sections added to Stage 5 and Stage 6 templates
-- Revision History sections added to Stage 5, 6, and 7 templates
-- Implementation Status column added to Roadmap quarterly initiative table (Not Started / In Progress / Implemented / Validated)
-- Delivery Status column added to Release Plan feature table (Not Started / In Progress / Implemented / Validated)
-- Stage 5, 6, and 7 gate checklists now have separate initial-lock and re-lock criteria
-- Hard Rules 19–21 added (revision allowed in 5–7 with cascade; downstream re-lock ordering; status tracking)
-- README: solution-agnostic framing, Foundry Analogy section, Waterfall/Agile context section, duplicate content removed
-
-**Stable Features (from prior versions):**
-- 7-stage gated discovery process (v3.0)
-- Role introduction schedule with specific per-stage questions (v4.0)
-- Artifact lifecycle: DRAFT → REVIEW → LOCKED (v5.0) + REVISED (v6.2)
-- Context continuity log in every response header (v5.0)
-- Per-stage validation checklists (v5.0)
-- Business Analyst role leads Stage 7 user story authorship (v6.0)
-- Direct `/[name]` slash command invocation (v6.0)
-- Constitution compliance layer — 6 governing principles (v6.1)
-- Artifacts written to `[idea-name]/` directory at workspace root (v6.1)
-- User stories with Jira fields at Stage 7 (v6.1)
+**Stable Features (from v0.0.1):**
+- 7-stage gated discovery process
+- Role introduction schedule with specific per-stage questions
+- Artifact lifecycle: DRAFT → REVIEW → LOCKED → REVISED
+- Context continuity log in every response header
+- Per-stage validation checklists
+- Business Analyst role leads Stage 7 user story authorship
+- Direct `/[name]` slash command invocation
+- Constitution compliance layer — 6 governing principles
+- Artifacts written to `[idea-name]/` directory at workspace root
+- User stories with Jira fields at Stage 7
+- Post-lock revision protocol + Cascade Impact Assessment
+- Tool-agnostic `.ai/` directory structure
 
 **Next Evolution Path:**
 - Field testing with real product discovery scenarios
 - Potential refinements to Delivery Status transitions based on team feedback
 - Documentation of common revision cascade patterns and resolution strategies
+- Consider deprecating/removing the legacy `.product/` directory entirely in a future version
 
 ---
 
 ## Document References
 
-- **System Prompt:** `.github/copilot-instructions.md` (controls Product Foundry behavior — v6.2)
-- **Governing Principles:** `.product/product-constitution.md` (6 constitutional principles)
-- **Artifact Templates:** `.product/templates/` (stages 1–7 template files)
-- **Agent Definitions:** `.github/agents/` (13 agent definition files)
-- **Agent Prompts:** `.github/prompts/` (13 prompt files with YAML frontmatter)
+- **System Prompt:** `.ai/system-prompt.md` (controls Product Foundry behavior)
+- **Session State:** `session-state.md` (workspace root — current stage and context)
+- **Decision Audit Trail:** `DECISIONS.md` (workspace root — all major product decisions, including gate passes)
+- **Governing Principles:** `.ai/product-constitution.md` (6 constitutional principles)
+- **Artifact Templates:** `.ai/templates/` (stages 1–7 templates, plus session-state and decisions templates)
+- **Persona Definitions:** `.ai/personas/` (persona definition files)
+- **Agent Prompts:** `.github/prompts/` (prompt files with YAML frontmatter)
 - **Master Configuration:** `.github/agentconfig.yaml` (orchestration and stage definitions)
-- **Workflow Definitions:** `.product/agent-workflows/` (7 stage workflow documents)
-- **Session State:** `.product/session-state.md` (current stage and context)
-- **Decision Audit Trail:** `.product/decisions/DECISIONS.md` (all major product decisions)
+- **Workflow Definitions:** `.ai/workflows/` (7 stage workflow documents)
+- **Dependency Checklist:** `.ai/DEPENDENCY-CHECKLIST.md` (cross-file consistency rules)

@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Value Stream Map: [Product Name]</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            color: #333;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            background: #eee;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* Swimlane diagram */
+        .swimlane-diagram {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            overflow-x: auto;
+        }
+
+        .swimlane {
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .actor-label {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .process-flow {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 6px;
+            min-width: 120px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .step.system {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .step.waiting {
+            background: #ffa500;
+            opacity: 0.8;
+        }
+
+        .arrow {
+            color: #667eea;
+            font-size: 1.5em;
+            margin: 0 5px;
+        }
+
+        .wait-indicator {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #856404;
+            font-weight: 500;
+        }
+
+        /* Metrics table */
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .metrics-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .metrics-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .metrics-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .metrics-table tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .metrics-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .metric-value {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .metric-change {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .metric-improvement {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .metric-neutral {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Comparison section */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .state-box {
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .state-box.current {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .state-box.future {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .state-box h4 {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .state-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .state-box li {
+            padding: 8px 0;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .state-box li:before {
+            content: "→ ";
+            margin-right: 10px;
+            font-weight: bold;
+            color: #667eea;
+            flex-shrink: 0;
+        }
+
+        .state-box.future li:before {
+            content: "✓ ";
+            color: #28a745;
+        }
+
+        /* Handoff analysis */
+        .handoff-card {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+
+        .handoff-from-to {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .handoff-from-to span {
+            color: #667eea;
+        }
+
+        .loss-points {
+            color: #d32f2f;
+            font-size: 0.95em;
+            margin-top: 5px;
+        }
+
+        /* Key insights */
+        .insight-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border: 2px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+
+        .insight-title {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .insight-content {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Checklist */
+        .checklist {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checklist label {
+            cursor: pointer;
+            display: block;
+            padding: 8px 0;
+            color: #333;
+        }
+
+        /* Process overview text box */
+        .process-overview {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 6px;
+        }
+
+        .metadata-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metadata-label {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .metadata-value {
+            color: #333;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                text-align: left;
+            }
+
+            .process-flow {
+                flex-direction: column;
+            }
+
+            .metrics-table {
+                font-size: 0.9em;
+            }
+
+            .metrics-table th,
+            .metrics-table td {
+                padding: 10px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .tab-button {
+                display: none;
+            }
+
+            .tab-content {
+                display: block !important;
+                page-break-before: always;
+            }
+
+            .tabs {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>Value Stream Map: [Product Name]</h1>
+            <p class="subtitle">Current State vs. Future State Analysis</p>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('current')">Current State</button>
+            <button class="tab-button" onclick="switchTab('future')">Future State</button>
+            <button class="tab-button" onclick="switchTab('comparison')">Comparison</button>
+            <button class="tab-button" onclick="switchTab('validation')">Validation</button>
+            <button class="tab-button" onclick="switchTab('metadata')">Info</button>
+        </div>
+
+        <!-- CURRENT STATE TAB -->
+        <div id="current" class="tab-content active">
+            <div class="section">
+                <h2>Current State: How It Works Today</h2>
+
+                <h3>Process Overview</h3>
+                <div class="process-overview">
+                    [1–2 sentence summary of the current process]
+                    <br><br>
+                    Example: "Today, users submit expense reports via email, which routes through their manager for approval, then to Finance for processing and reimbursement. Reimbursement takes 7–10 days."
+                </div>
+
+                <h3>Swimlane Process Flow</h3>
+                <div class="swimlane-diagram">
+                    <!-- Employee Lane -->
+                    <div class="swimlane">
+                        <div class="actor-label">👤 Employee</div>
+                        <div class="process-flow">
+                            <div class="step">Receive receipt</div>
+                            <div class="arrow">→</div>
+                            <div class="step">Open email</div>
+                            <div class="arrow">→</div>
+                            <div class="step">Extract amount</div>
+                        </div>
+                    </div>
+
+                    <!-- Manager Lane -->
+                    <div class="swimlane">
+                        <div class="actor-label">👔 Manager</div>
+                        <div class="process-flow">
+                            <div class="wait-indicator">⏳ Wait: 2-3 days</div>
+                            <div class="arrow">→</div>
+                            <div class="step waiting">Batch approve</div>
+                        </div>
+                    </div>
+
+                    <!-- Finance Lane -->
+                    <div class="swimlane">
+                        <div class="actor-label">💼 Finance</div>
+                        <div class="process-flow">
+                            <div class="wait-indicator">⏳ Wait: 1-2 days</div>
+                            <div class="arrow">→</div>
+                            <div class="step">Re-enter data</div>
+                            <div class="arrow">→</div>
+                            <div class="step">Process</div>
+                        </div>
+                    </div>
+
+                    <!-- System Lane -->
+                    <div class="swimlane">
+                        <div class="actor-label">⚙️ System</div>
+                        <div class="process-flow">
+                            <div class="wait-indicator">⏳ Wait: 3-5 days</div>
+                            <div class="arrow">→</div>
+                            <div class="step system">Bank transfer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Metrics (Current State)</h3>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                            <th>Calculation / Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="metric-label">Lead Time</td>
+                            <td class="metric-value">[X days]</td>
+                            <td>From process start to finish. Sum of all PT + all WT.</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">Process Time</td>
+                            <td class="metric-value">[X min]</td>
+                            <td>Sum of all active work (where Value-Add = Yes)</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">Wait Time</td>
+                            <td class="metric-value">[X days]</td>
+                            <td>Sum of all idle time between steps</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">% Value-Add</td>
+                            <td class="metric-value">[X%]</td>
+                            <td>(Process Time / Lead Time) × 100. What % of total time is actual value work?</td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">Time Efficiency</td>
+                            <td class="metric-value">[0.X]</td>
+                            <td>Process Time / Lead Time. Ratio of value work to total time.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="insight-box">
+                    <div class="insight-title">💡 Interpretation</div>
+                    <div class="insight-content">
+                        <strong>Low % Value-Add (&lt; 50%):</strong> Most time is waste; product has high potential ROI<br><br>
+                        <strong>High Wait Time:</strong> The constraint; future product should target here<br><br>
+                        <strong>Many handoffs:</strong> Risk of errors; future product should simplify
+                    </div>
+                </div>
+
+                <h3>Handoff Analysis (Where Things Get Lost)</h3>
+                <div class="handoff-card">
+                    <div class="handoff-from-to"><span>Employee</span> → <span>Email</span></div>
+                    <div class="loss-points">❌ Email can be missed, buried, or marked as spam</div>
+                </div>
+                <div class="handoff-card">
+                    <div class="handoff-from-to"><span>Manager's Email</span> → <span>Manager's Review</span></div>
+                    <div class="loss-points">❌ Approval sits in queue; no priority signal; batch delays (2-3 day wait)</div>
+                </div>
+                <div class="handoff-card">
+                    <div class="handoff-from-to"><span>Manager Approval</span> → <span>Finance</span></div>
+                    <div class="loss-points">❌ Info might be incomplete; Finance re-keys data (duplicate entry, risk of errors)</div>
+                </div>
+                <div class="handoff-card">
+                    <div class="handoff-from-to"><span>Finance</span> → <span>Bank/Reimbursement</span></div>
+                    <div class="loss-points">❌ Batch processing; multiple days of wait; employee has no visibility</div>
+                </div>
+
+                <h3>Top Pain Points & Bottlenecks</h3>
+                <div class="insight-box">
+                    <div class="insight-title">🚧 Bottleneck #1: Manager Approval Queue</div>
+                    <div class="insight-content">
+                        Managers batch-approve expenses once per week. If you submit Friday, you wait until next Thursday. This is the biggest delay.
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">🚧 Bottleneck #2: Finance Data Re-entry</div>
+                    <div class="insight-content">
+                        Finance re-keys the same data that Employee entered. Duplicate work, error-prone. Every month, errors require corrections.
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">🚧 Bottleneck #3: Email as Workflow System</div>
+                    <div class="insight-content">
+                        Entire workflow runs on email. Emails get lost, buried, forgotten. No audit trail. No priority signal. High friction.
+                    </div>
+                </div>
+
+                <h3>User Impact Summary</h3>
+                <ul style="line-height: 2; margin-left: 20px;">
+                    <li><strong>Time Impact:</strong> [How long does typical case take? Worst case?]</li>
+                    <li><strong>Effort Impact:</strong> [How much work does user do? How many clicks/emails?]</li>
+                    <li><strong>Stress/Friction:</strong> [What parts are frustrating? Chase anyone?]</li>
+                    <li><strong>Risk:</strong> [What can go wrong? Lost receipts, incorrect reimbursement, forgotten submissions]</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- FUTURE STATE TAB -->
+        <div id="future" class="tab-content">
+            <div class="section">
+                <h2>Future State: How It Works After Product Ships</h2>
+
+                <h3>Process Overview</h3>
+                <div class="process-overview">
+                    [1–2 sentence summary of the process after product ships]
+                    <br><br>
+                    Example: "After the product ships, users photograph receipts in-app. OCR auto-fills the form. Instant notification to manager. Real-time processing and automatic reimbursement. User has money in 1–2 hours."
+                </div>
+
+                <h3>Swimlane Process Flow</h3>
+                <div class="swimlane-diagram">
+                    <!-- Employee Lane -->
+                    <div class="swimlane">
+                        <div class="actor-label">👤 Employee</div>
+                        <div class="process-flow">
+                            <div class="step">Open app</div>
+                            <div class="arrow">→</div>
+                            <div class="step">Take photo</div>
+                            <div class="arrow">→</div>
+                            <div class="step">Confirm (2 min)</div>
+                        </div>
+                    </div>
+
+                    <!-- Manager Lane -->
+                    <div class="swimlane">
+                        <div class="actor-label">👔 Manager</div>
+                        <div class="process-flow">
+                            <div class="step">Instant notification</div>
+                            <div class="arrow">→</div>
+                            <div class="step">Mobile approve (&lt;1 min)</div>
+                        </div>
+                    </div>
+
+                    <!-- Finance Lane -->
+                    <div class="swimlane">
+                        <div class="actor-label">💼 Finance</div>
+                        <div class="process-flow">
+                            <div class="step">Auto-receive (30 sec)</div>
+                            <div class="arrow">→</div>
+                            <div class="step">Auto-process (30 sec)</div>
+                        </div>
+                    </div>
+
+                    <!-- System Lane -->
+                    <div class="swimlane">
+                        <div class="actor-label">⚙️ System</div>
+                        <div class="process-flow">
+                            <div class="step system">Auto-submit to bank (&lt;1 min)</div>
+                            <div class="arrow">→</div>
+                            <div class="step system">Reimbursed (1-2 hrs)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Metrics (Future State)</h3>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Future Value</th>
+                            <th>Change from Current</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="metric-label">Lead Time</td>
+                            <td class="metric-value">[X hours]</td>
+                            <td><span class="metric-change metric-improvement">↓ [X%]</span></td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">Process Time</td>
+                            <td class="metric-value">[X min]</td>
+                            <td><span class="metric-change metric-improvement">↓ [X%]</span></td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">Wait Time</td>
+                            <td class="metric-value">[X hours]</td>
+                            <td><span class="metric-change metric-improvement">↓ [X%]</span></td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">% Value-Add</td>
+                            <td class="metric-value">[X%]</td>
+                            <td><span class="metric-change metric-improvement">↑ [X%]</span></td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">Time Efficiency</td>
+                            <td class="metric-value">[0.X]</td>
+                            <td><span class="metric-change metric-improvement">↑ [X]×</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Key Improvements</h3>
+                <div class="insight-box">
+                    <div class="insight-title">✅ Improvement #1: Zero Manager Queue Wait</div>
+                    <div class="insight-content">
+                        Real-time mobile notifications + one-tap approval. Manager approves instantly instead of batching. Eliminates 2-3 day delay entirely.
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">✅ Improvement #2: Eliminate Data Re-entry</div>
+                    <div class="insight-content">
+                        OCR automatically extracts receipt data. No re-keying by Finance. Fewer errors. Finance receives clean data ready to process.
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">✅ Improvement #3: Real-time Visibility</div>
+                    <div class="insight-content">
+                        Employee sees status in real-time: Submitted → Approved → Processing → Reimbursed. No need to chase. Stress gone.
+                    </div>
+                </div>
+
+                <h3>What Didn't Change (And Why)</h3>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Process Element</th>
+                            <th>Why It Didn't Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Manager approval still required</td>
+                            <td>Compliance; leadership oversight needed</td>
+                        </tr>
+                        <tr>
+                            <td>Finance reconciliation still required</td>
+                            <td>Regulatory; accounting function remains</td>
+                        </tr>
+                        <tr>
+                            <td>Audit trail still maintained</td>
+                            <td>Compliance; required for tax/audit</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- COMPARISON TAB -->
+        <div id="comparison" class="tab-content">
+            <div class="section">
+                <h2>Comparison: Current vs. Future</h2>
+
+                <h3>Side-by-Side Metrics</h3>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Current</th>
+                            <th>Future</th>
+                            <th>Improvement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="metric-label">Lead Time</td>
+                            <td>[X days]</td>
+                            <td>[X hours]</td>
+                            <td><span class="metric-change metric-improvement">↓ [X%]</span></td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">Process Time</td>
+                            <td>[X min]</td>
+                            <td>[X min]</td>
+                            <td><span class="metric-change metric-improvement">↓ [X%]</span></td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">Wait Time</td>
+                            <td>[X days]</td>
+                            <td>[X hours]</td>
+                            <td><span class="metric-change metric-improvement">↓ [X%]</span></td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">% Value-Add</td>
+                            <td>[X%]</td>
+                            <td>[X%]</td>
+                            <td><span class="metric-change metric-improvement">↑ [X%]</span></td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">Handoffs</td>
+                            <td>[X]</td>
+                            <td>[X]</td>
+                            <td><span class="metric-change metric-improvement">↓ [X]</span></td>
+                        </tr>
+                        <tr>
+                            <td class="metric-label">Manual Steps</td>
+                            <td>[X]</td>
+                            <td>[X]</td>
+                            <td><span class="metric-change metric-improvement">↓ [X]</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Before & After: The Transformation</h3>
+                <div class="comparison-grid">
+                    <div class="state-box current">
+                        <h4>❌ Current: Manual, Slow, Error-Prone</h4>
+                        <ul>
+                            <li>Employee manually enters data</li>
+                            <li>Email routing (unreliable)</li>
+                            <li>Manager batch-approves weekly</li>
+                            <li>Finance re-keys data</li>
+                            <li>3-5 day processing delay</li>
+                            <li>Employee has no visibility</li>
+                            <li>7-10 day total cycle</li>
+                        </ul>
+                    </div>
+                    <div class="state-box future">
+                        <h4>✅ Future: Automated, Fast, Accurate</h4>
+                        <ul>
+                            <li>OCR auto-extracts data</li>
+                            <li>In-app notifications (guaranteed)</li>
+                            <li>Manager approves instantly</li>
+                            <li>System auto-submits (no re-entry)</li>
+                            <li>Real-time processing</li>
+                            <li>Employee sees live status</li>
+                            <li>1-2 hour total cycle</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Bottleneck Resolution</h3>
+                <div class="insight-box">
+                    <div class="insight-title">Current Bottleneck</div>
+                    <div class="insight-content">
+                        Manager batch approval (2-3 day wait) is the biggest constraint. Everything downstream waits for this.
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">How Product Solves It</div>
+                    <div class="insight-content">
+                        Real-time notifications + mobile one-tap approval eliminates the batch queue entirely. Manager approves instantly from anywhere.
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">Downstream Impact</div>
+                    <div class="insight-content">
+                        With manager approval instant, Finance receives approvals immediately. They can process same-day. Combined with automated data flow, reimbursement happens in hours, not days.
+                    </div>
+                </div>
+
+                <h3>Why Future State Works Better</h3>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Mechanism</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Real-time notifications + mobile approval</strong></td>
+                            <td>Eliminates batch queue wait; manager can approve instantly from anywhere</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OCR + auto-fill</strong></td>
+                            <td>Eliminates manual data entry errors; Finance doesn't re-key</td>
+                        </tr>
+                        <tr>
+                            <td><strong>API integration with accounting</strong></td>
+                            <td>Approved expenses automatically submitted; no manual handoff</td>
+                        </tr>
+                        <tr>
+                            <td><strong>In-app status tracking</strong></td>
+                            <td>Employee sees progress in real-time; no more chasing or anxiety</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Automated audit trail</strong></td>
+                            <td>Every action logged automatically; compliance met without manual effort</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VALIDATION TAB -->
+        <div id="validation" class="tab-content">
+            <div class="section">
+                <h2>Validation Checklist</h2>
+                <p>Before locking this VSM artifact, confirm with users:</p>
+
+                <h3>Current State Validation</h3>
+                <div class="checklist">
+                    <label>
+                        <input type="checkbox">
+                        "Is this how your process actually works today?"
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        "Are the wait times accurate? (Did we underestimate or overestimate?)"
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        "Did we miss any steps, handoffs, or delays?"
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        "Is the lead time correct? (Have you experienced longer/shorter?)"
+                    </label>
+                </div>
+
+                <h3>Future State Validation</h3>
+                <div class="checklist">
+                    <label>
+                        <input type="checkbox">
+                        "Will this VSM work after the product ships?"
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        "Are these process time estimates realistic?"
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        "If we achieve this future state, does it solve your main pain point?"
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        "Which future state improvements matter most to you? (time, effort, stress, risk)"
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        "Are there any new constraints the product might introduce? (e.g., system latency, adoption friction)"
+                    </label>
+                </div>
+
+                <h3>Overall Validation</h3>
+                <div class="checklist">
+                    <label>
+                        <input type="checkbox">
+                        "Does comparing current to future state clearly show the value of this product?"
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        "Are the metrics honest? (Not over-claiming or under-claiming improvements?)"
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        "Should we adjust any assumptions before using this VSM for roadmap sequencing?"
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- METADATA TAB -->
+        <div id="metadata" class="tab-content">
+            <div class="section">
+                <h2>Artifact Information</h2>
+
+                <div class="metadata">
+                    <div class="metadata-item">
+                        <div class="metadata-label">Product Name</div>
+                        <div class="metadata-value">[Product Name]</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Created Date</div>
+                        <div class="metadata-value">[Date]</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Last Updated</div>
+                        <div class="metadata-value">[Date]</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Owner</div>
+                        <div class="metadata-value">[Role / Name]</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Status</div>
+                        <div class="metadata-value">DRAFT / REVIEW / LOCKED</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Revision</div>
+                        <div class="metadata-value">v1.0</div>
+                    </div>
+                </div>
+
+                <h3>Integration with Other Artifacts</h3>
+                <div class="insight-box">
+                    <div class="insight-title">Stage 2: Discovery</div>
+                    <div class="insight-content">
+                        Current state VSM validates discovery findings (pain points, bottlenecks, actors). Should be consistent with interview synthesis.
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">Stage 3: Hypothesis</div>
+                    <div class="insight-content">
+                        Success metrics should include lead time/wait time reduction (e.g., "Hypothesis: Reduce lead time from 7 days to <2 hours").
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">Stage 4: Vision & Mission</div>
+                    <div class="insight-content">
+                        Vision statement should visually align with future state (e.g., "Instant reimbursement" = VSM showing <2 hour lead time).
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">Stage 5: Roadmap</div>
+                    <div class="insight-content">
+                        Each Q initiative should map to a future state improvement (e.g., "Q1 = real-time notifications = eliminates 2-day manager wait").
+                    </div>
+                </div>
+                <div class="insight-box">
+                    <div class="insight-title">Stage 6: Release Plan</div>
+                    <div class="insight-content">
+                        MVP scope should achieve the most critical future state metric (e.g., "Lead time reduced to <1 day").
+                    </div>
+                </div>
+
+                <h3>Notes & Assumptions</h3>
+                <div class="process-overview">
+                    [Document any decisions, assumptions, or open questions about this VSM]
+                    <br><br>
+                    Example:<br>
+                    • "We assumed Finance can integrate with the system via API; if that's not possible, future state lead time would be <1 day but not <2 hours"<br>
+                    • "Manager approval is required by policy and won't disappear; we're optimizing the approval speed, not eliminating the step"<br>
+                    • "Mobile app functionality requires user to have smartphone; for users without smartphones, process remains closer to current state"
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Value Stream Map Template | Product Foundry — Stage 2 Discovery Artifact</p>
+            <p>For usage and best practices, see: <code>.ai/skills/value-stream-mapping.md</code></p>
+        </footer>
+    </div>
+
+    <!-- JavaScript for tabs -->
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set first tab as active
+            document.querySelector('.tab-button').classList.add('active');
+        });
+    </script>
+</body>
+</html>

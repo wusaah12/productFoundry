@@ -1,15 +1,17 @@
 # Product Foundry — Agent Configuration
-# Version: 3.0
-# Last Updated: May 2026
+# Version: 0.0.2
+# Last Updated: June 14, 2026
 #
 # This file defines agents and skills that work together to guide users through
 # Product Foundry's structured 7-stage discovery process.
 #
 # File Organization:
-# - Agent files (personas): .ai/agents/[name].md
+# - Persona files (perspectives): .ai/personas/[name].md
 # - Skill files (workflows): .ai/skills/[name].md
 # - Prompt files (slash commands): .github/prompts/[name].prompt.md
 # - Workflow files (stage-specific): .ai/workflows/stage-[N].workflow.md
+# - Persisted state files (workspace root): session-state.md, DECISIONS.md
+# - Templates for persisted state: .ai/templates/session-state-template.md, .ai/templates/decisions-template.md
 
 agents:
   # ============ SKILLS (5) - Procedural workflows ============
@@ -41,6 +43,7 @@ agents:
         - "Check formatting and completeness"
         - "Enforce blocking rules (no skipping, no backtracking)"
         - "Provide clear blocking reasons with unblock paths"
+        - "On PASS, update session-state.md (workspace root) and append a gate-pass entry to DECISIONS.md (workspace root)"
       invocation_methods:
         - "explicit: /validate"
         - "automatic before gate checks"
@@ -57,9 +60,11 @@ agents:
         - "Update artifact stage tracking"
         - "Manage role availability per stage"
         - "Persist state between sessions"
-      state_file: ".ai/session-state.md"
-      on_session_start: "Load .stage, .current_artifact, .gate_status, .latest_decision"
-      on_session_end: "Persist updated state to session-state.md"
+      state_file: "session-state.md"
+      state_file_location: "workspace root"
+      state_file_template: ".ai/templates/session-state-template.md"
+      on_session_start: "Load .stage, .current_artifact, .gate_status, .latest_decision from session-state.md at workspace root; create from template if missing"
+      on_session_end: "Persist updated state to session-state.md (workspace root)"
 
     log-decision:
       name: "Decision Logging Skill"
@@ -71,11 +76,16 @@ agents:
         - "Log major product decisions"
         - "Capture rationale and alternatives considered"
         - "Mark reversibility (easy/hard to undo)"
-        - "Update decisions/DECISIONS.md with git tracking"
+        - "Update DECISIONS.md (workspace root) with git tracking"
+        - "Log every Stage 1-7 gate-pass event"
+        - "Mirror latest decision into session-state.md (workspace root)"
       invocation_methods:
         - "explicit: /log-decision"
         - "automatic after gate progression"
-      outputs: "entry in decisions/DECISIONS.md with git commit"
+      decision_file: "DECISIONS.md"
+      decision_file_location: "workspace root"
+      decision_file_template: ".ai/templates/decisions-template.md"
+      outputs: "entry in DECISIONS.md (workspace root) with git commit"
 
     export:
       name: "Export Skill"
@@ -100,12 +110,12 @@ agents:
       name: "Discovery Research Agent"
       type: "agent"
       description: "Conducts Stage 2 research including user needs, competitive landscape, assumptions, and constraints"
-      file: ".ai/agents/researcher.md"
+      file: ".ai/personas/researcher.md"
       prompt: ".github/prompts/specialist.researcher.prompt.md"
       stage: 2
       input_sources:
-        - "stage-1-idea-brief.md (approved)"
-      output_artifact: "stage-2-discovery-report.md"
+        - "[idea-name]/idea-brief.md (approved)"
+      output_artifact: "[idea-name]/discovery-report.md"
       responsibilities:
         - "Guide user through structured discovery interviews"
         - "Synthesize user pain points and needs"
@@ -125,12 +135,12 @@ agents:
       name: "Hypothesis Validator Agent"
       type: "agent"
       description: "Validates Stage 3 hypothesis, falsifiability, success metrics, and risk assessment"
-      file: ".ai/agents/hypothesis-validator.md"
+      file: ".ai/personas/hypothesis-validator.md"
       prompt: ".github/prompts/specialist.hypothesis-validator.prompt.md"
       stage: 3
       input_sources:
-        - "stage-2-discovery-report.md (approved)"
-      output_artifact: "stage-3-hypothesis.md"
+        - "[idea-name]/discovery-report.md (approved)"
+      output_artifact: "[idea-name]/hypothesis.md"
       responsibilities:
         - "Evaluate hypothesis for falsifiability"
         - "Suggest measurable success metrics"
@@ -148,12 +158,12 @@ agents:
       name: "Vision Alignment Agent"
       type: "agent"
       description: "Aligns Stage 4 vision with strategy, clarifies mission, applies strategic filters"
-      file: ".ai/agents/vision-alignment.md"
+      file: ".ai/personas/vision-alignment.md"
       prompt: ".github/prompts/specialist.vision-alignment.prompt.md"
       stage: 4
       input_sources:
-        - "stage-3-hypothesis.md (approved)"
-      output_artifact: "stage-4-vision-mission.md"
+        - "[idea-name]/hypothesis.md (approved)"
+      output_artifact: "[idea-name]/vision-mission.md"
       responsibilities:
         - "Help define 3-5 year product vision"
         - "Craft compelling one-sentence mission"
@@ -170,7 +180,7 @@ agents:
       name: "Product Lead Agent"
       type: "agent"
       description: "Represents product management and data-driven perspective on market fit, metrics, user needs, and go/no-go decisions"
-      file: ".ai/agents/product-lead.md"
+      file: ".ai/personas/product-lead.md"
       prompt: ".github/prompts/role.product-lead.prompt.md"
       active_stages:
         - 1
@@ -195,7 +205,7 @@ agents:
       name: "Engineering Lead Agent"
       type: "agent"
       description: "Represents engineering perspective on technical feasibility, architecture, scalability"
-      file: ".ai/agents/eng-lead.md"
+      file: ".ai/personas/eng-lead.md"
       prompt: ".github/prompts/role.eng-lead.prompt.md"
       active_stages:
         - 2
@@ -215,7 +225,7 @@ agents:
       name: "Designer Agent"
       type: "agent"
       description: "Represents product design perspective on user experience, workflows, interactions"
-      file: ".ai/agents/designer.md"
+      file: ".ai/personas/designer.md"
       prompt: ".github/prompts/role.designer.prompt.md"
       active_stages:
         - 2
@@ -234,7 +244,7 @@ agents:
       name: "Business Owner Agent"
       type: "agent"
       description: "Represents executive and stakeholder perspective on strategy, resources, dependencies, and business impact"
-      file: ".ai/agents/business-owner.md"
+      file: ".ai/personas/business-owner.md"
       prompt: ".github/prompts/role.business-owner.prompt.md"
       active_stages:
         - 4
@@ -258,7 +268,7 @@ agents:
       name: "Business Analyst Agent"
       type: "agent"
       description: "Transforms Stage 7 features into user stories and acceptance criteria in BDD format (Given/When/Then)"
-      file: ".ai/agents/business-analyst.md"
+      file: ".ai/personas/business-analyst.md"
       prompt: ".github/prompts/role.business-analyst.prompt.md"
       active_stages:
         - 7
@@ -292,6 +302,9 @@ workflows:
       - "All required fields completed"
       - "Problem clearly articulated"
       - "Scope defined"
+    on_gate_pass:
+      - "Update session-state.md (workspace root): current_stage=2, artifact_state=LOCKED"
+      - "Append gate-pass entry to DECISIONS.md (workspace root)"
     next_stage: 2
     file: ".ai/workflows/stage-1.workflow.md"
 
@@ -307,6 +320,9 @@ workflows:
       - "Minimum 5 user interviews documented"
       - "Competitive landscape analyzed"
       - "Assumptions and constraints listed"
+    on_gate_pass:
+      - "Update session-state.md (workspace root): current_stage=3, artifact_state=LOCKED"
+      - "Append gate-pass entry to DECISIONS.md (workspace root)"
     next_stage: 3
     file: ".ai/workflows/stage-2.workflow.md"
 
@@ -321,6 +337,9 @@ workflows:
       - "Hypothesis is falsifiable"
       - "Success metrics are SMART"
       - "Riskiest assumptions identified"
+    on_gate_pass:
+      - "Update session-state.md (workspace root): current_stage=4, artifact_state=LOCKED"
+      - "Append gate-pass entry to DECISIONS.md (workspace root)"
     next_stage: 4
     file: ".ai/workflows/stage-3.workflow.md"
 
@@ -335,6 +354,9 @@ workflows:
       - "Vision statement is compelling"
       - "Mission is one sentence"
       - "Business Owner sign-off obtained"
+    on_gate_pass:
+      - "Update session-state.md (workspace root): current_stage=5, artifact_state=LOCKED"
+      - "Append gate-pass entry to DECISIONS.md (workspace root), including Business Owner sign-off"
     next_stage: 5
     file: ".ai/workflows/stage-4.workflow.md"
 
@@ -353,6 +375,9 @@ workflows:
       - "Quarterly initiatives defined"
       - "Dependencies mapped"
       - "Executive priority confirmed"
+    on_gate_pass:
+      - "Update session-state.md (workspace root): current_stage=6, artifact_state=LOCKED"
+      - "Append gate-pass entry to DECISIONS.md (workspace root)"
     next_stage: 6
     file: ".ai/workflows/stage-5.workflow.md"
 
@@ -367,6 +392,9 @@ workflows:
       - "Feature list finalized"
       - "Go/no-go criteria met"
       - "Success metrics defined"
+    on_gate_pass:
+      - "Update session-state.md (workspace root): current_stage=7, artifact_state=LOCKED"
+      - "Append gate-pass entry (including go/no-go decision) to DECISIONS.md (workspace root)"
     next_stage: 7
     file: ".ai/workflows/stage-6.workflow.md"
 
@@ -382,6 +410,9 @@ workflows:
       - "All features have user stories"
       - "BDD scenarios follow format"
       - "Acceptance criteria defined"
+    on_gate_pass:
+      - "Update session-state.md (workspace root): all Feature Documents LOCKED"
+      - "Append gate-pass entry to DECISIONS.md (workspace root) for each Feature Document locked"
     completion: "true"
     file: ".ai/workflows/stage-7.workflow.md"
 
@@ -399,21 +430,25 @@ invocation:
     /researcher: "Query researcher agent for user interviews and competitive analysis"
     /hypothesis-validator: "Query hypothesis-validator agent for falsifiability and SMART metrics"
     /vision-alignment: "Query vision-alignment agent for vision and mission crafting"
-    /log-decision: "Capture major product decision with rationale"
+    /log-decision: "Capture major product decision with rationale (writes to DECISIONS.md at workspace root)"
     /export: "Export current artifact as read-only document; generate executive summary; export roadmap to Jira format"
 
   implicit_routing:
     - "Every message processed by orchestrate skill first"
-    - "manage-session skill loads state at session start"
+    - "manage-session skill loads state at session start from session-state.md (workspace root)"
     - "validate skill called before any stage progression"
-    - "log-decision skill called after major decisions"
+    - "log-decision skill called after major decisions and after every gate pass, writing to DECISIONS.md (workspace root)"
 
 # ============ CONFIGURATION ============
 settings:
-  session_state_file: ".ai/session-state.md"
-  decision_log_file: ".product/decisions/DECISIONS.md"
-  artifact_directory: ".product/artifacts/"
-  template_directory: ".product/templates/"
+  session_state_file: "session-state.md"
+  session_state_file_location: "workspace root"
+  session_state_template: ".ai/templates/session-state-template.md"
+  decision_log_file: "DECISIONS.md"
+  decision_log_file_location: "workspace root"
+  decision_log_template: ".ai/templates/decisions-template.md"
+  artifact_directory: "[idea-name]/"
+  template_directory: ".ai/templates/"
   validation_on_progression: true
   audit_trail_enabled: true
   parallel_execution: true

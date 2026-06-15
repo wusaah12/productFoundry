@@ -18,7 +18,7 @@ Displays a real-time snapshot of your discovery progress:
 - ✅ **Outstanding work** — What's left to complete the stage
 - ✅ **Artifacts complete** — Which documents are DRAFT, REVIEW, or LOCKED
 
-Reads from `session-state.md` to provide accurate, up-to-date context.
+Reads from `session-state.md` (workspace root) to provide accurate, up-to-date context. If `session-state.md` does not exist, it is created from `.ai/templates/session-state-template.md` before status is displayed.
 
 ## When to Use
 
@@ -34,7 +34,7 @@ Reads from `session-state.md` to provide accurate, up-to-date context.
 
 When you type `/status` in Copilot Chat:
 
-1. **Session Manager Agent loads** → Reads `session-state.md` for current state
+1. **Session Manager Agent loads** → Reads `session-state.md` (workspace root) for current state
 2. **Stage info extracted** → Identifies current stage (1-7) and progress
 3. **Gate status evaluated** → Determines if you can advance to next stage
 4. **Context assembled** → Gathers artifact state, latest decision, outstanding items
@@ -131,7 +131,7 @@ Full status **plus**:
 - Complete artifact inventory with word counts
 - All role assignments and deadlines
 - Risk flags and mitigation strategies
-- Previous stages' key decisions and how they're constraining current work
+- Previous stages' key decisions and how they're constraining current work (cross-referenced with `DECISIONS.md` at the workspace root)
 - Suggestions for next actions based on gate status
 
 ## Stage Gate Status Values
@@ -144,7 +144,7 @@ Full status **plus**:
 
 ## Session State File
 
-Status reads from `.ai/session-state.md` which contains:
+Status reads from `session-state.md` at the **workspace root** (not `.ai/`), which contains:
 
 ```markdown
 # Session State — Product Discovery Tracker
@@ -190,6 +190,8 @@ Status reads from `.ai/session-state.md` which contains:
 | Designer | Stage 2 | — | UX findings (due Thu) |
 | Business Owner | Stage 4 | — | Not yet active |
 ```
+
+If this file does not exist at the workspace root, create it from `.ai/templates/session-state-template.md` before proceeding.
 
 ## Using Status to Unblock
 
@@ -237,4 +239,3 @@ Output: Stage 2 LOCKED. Gate to Stage 3 now OPEN. Ready to move to Hypothesis?
 | 7 | Feature Documents | 10-15 days | 4-6 Feature Docs (BDD format) | All scenarios written + reviewed + locked |
 
 **Total typical timeline**: 30-50 days (4-7 weeks) from Idea to Feature Docs complete.
-

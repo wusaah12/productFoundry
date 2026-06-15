@@ -1,0 +1,18 @@
+{
+  "enabled": true,
+  "name": "Sync .ai/ Dependencies",
+  "description": "When .ai/ files are edited, remind to verify cross-references and dependencies are kept in sync using DEPENDENCY-CHECKLIST.md",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      ".ai/**/*.md",
+      "session-state.md",
+      "DECISIONS.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "You just edited a Product Foundry configuration file. Use DEPENDENCY-CHECKLIST.md to verify all cross-references are in sync:\n\n1. **Identify what you changed** — Which file(s) and which sections?\n2. **Run the relevant checklist** — Check DEPENDENCY-CHECKLIST.md for the affected file type\n3. **Update dependent files** — Mark off checklist items as you update them\n4. **Verify consistency** — Run the \"Cross-File Consistency Checks\" section\n\nFor example, if you edited system-prompt.md:\n- Find \"When updating system-prompt.md\" section\n- Check all bullet points\n- Update system-prompt.md dependencies (personas, gates, stages, etc.)\n- Verify against \"System Consistency\" section\n\nAsk me questions if any dependencies are unclear. I can help you identify all files that need updating."
+  }
+}

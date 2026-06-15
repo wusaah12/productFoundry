@@ -90,36 +90,54 @@ AI:  ── Stage 1/7: Idea Brief │ Gate: LOCKED 🔒 ──
 
 ---
 
-## Agent System
+## Persona System
 
-Eight role-based agents join at the stages where their perspective changes the output — not all at once upfront.
+13 specialized personas join at the stages where their expertise is genuinely needed — organized into Roles (stakeholder perspectives), Specialists (discovery expertise), Orchestrators (workflow routing), and Utilities (operations).
 
-| Agent | Type | Active Stages | What they contribute |
-|-------|------|--------------|----------------------|
+| Persona | Type | Active Stages | What they contribute |
+|---------|------|--------------|----------------------|
 | `product-lead` | Role | 1–7 | Strategy, market fit, prioritization |
-| `eng-lead` | Role | 2, 3, 5, 7 | Technical feasibility, architecture risks |
-| `designer` | Role | 2, 5, 7 | UX, accessibility, mobile constraints |
+| `eng-lead` | Role | 2, 5, 7 | Technical feasibility, architecture risks |
+| `designer` | Role | 2, 6, 7 | UX, accessibility, mobile constraints |
 | `business-owner` | Role | 4, 5, 6 | Strategic alignment, go/no-go decisions |
 | `business-analyst` | Role | 7 | Feature spec authorship, acceptance criteria |
 | `researcher` | Specialist | 2 | User interviews, competitive analysis |
 | `hypothesis-validator` | Specialist | 3 | Falsifiability testing, SMART metrics |
 | `vision-alignment` | Specialist | 4 | Vision crafting, mission definition |
 
-Five skills handle procedural tasks:
+14 skills handle procedural workflows:
+
+**Core skills (all stages):**
 
 | Skill | What it does |
 |-------|-------------|
-| `/validate` | Runs the stage-specific quality checklist |
-| `/log-decision` | Captures decisions to a git-tracked audit trail |
+| `/session-resume` | Load session state at conversation start and display recovery context |
+| `/validate` | Runs the stage-specific quality checklist and blocks progression if criteria aren't met |
+| `/log-decision` | Captures decisions to a git-tracked audit trail (`DECISIONS.md` at workspace root) |
 | `/status` | Shows current stage, gate status, and blockers |
-| `/export` | Generates PDFs, Jira epics, executive summaries |
+| `/business-case` | Generates one-page business case for investment decisions (mandatory at Stage 4; on-demand anytime) |
+| `/revise [stage] [artifact]` | Opens locked artifacts (Stages 5-7) for revision with Vision alignment checks |
+| `/manage-session` | Auto-updates session state after major decisions (invisible, handles persistence) |
+| `/export` | Generates PDFs, markdown exports, executive summaries |
 
-**Slash commands work natively in GitHub Copilot and Kiro.** For Claude or other tools, reference the agent file directly:
+**Specialized skills (Stage 2-7):**
+
+| Skill | What it does |
+|-------|-------------|
+| `/value-stream-map` or `/vsm` | Visualize workflow (current/future state) with process metrics and bottleneck analysis |
+| `/write-features` | SAFe-based feature decomposition from Release Plan |
+| `/write-stories` | Persona-driven BDD story authoring with acceptance criteria (Stage 7) |
+| `/write-epics` | Portfolio epic planning and decomposition (Stage 5) |
+| `/simulate-user` or `/rehearsal` | Role-play target user for interview practice and prototype feedback (Stage 2.3 or on-demand) |
+
+**Slash commands work natively in GitHub Copilot and Kiro.** For Claude or other tools, reference the persona file directly:
 
 ```
-Act as the Eng Lead (see .ai/agents/eng-lead.md).
+Act as the Eng Lead (see .ai/personas/role.eng-lead.md).
 What are the technical risks in this hypothesis?
 ```
+
+**Full documentation**: See `.ai/ARCHITECTURE.md` for the complete personas table, skill reference, and stage workflows.
 
 ---
 
@@ -129,25 +147,30 @@ All configuration is tool-agnostic and lives in `.ai/`:
 
 ```
 .ai/
-├── system-prompt.md          ← Core instructions (load this as your system prompt)
-├── session-state.md          ← Current stage and context — update after each session
-├── product-constitution.md   ← 6 governing principles
-├── agents/                   ← 8 agent definitions
-├── skills/                   ← 5 procedural workflows
-└── workflows/                ← Stage-specific execution flows (stages 1–7)
+├── system-prompt.md             ← Core instructions (load this as your system prompt)
+├── product-constitution.md      ← 6 governing principles
+├── ARCHITECTURE.md              ← Complete system design documentation
+├── personas/                    ← 13 persona definitions
+├── skills/                      ← 14 procedural workflows (core + specialized)
+├── workflows/                   ← Stage-specific execution flows (stages 1–7)
+└── templates/                   ← Artifact templates for each stage
 
 .product/
-├── templates/                ← Artifact templates for each stage
-└── decisions/DECISIONS.md    ← Git-tracked decision log
+├── templates/                   ← Artifact templates for each stage
+└── artifacts/                   ← Example completed stage artifacts
 
-[idea-name]/                  ← Created when Stage 1 locks (one directory per product)
+session-state.md                 ← Current stage and context (workspace root)
+DECISIONS.md                      ← Git-tracked decision log (workspace root)
+
+[idea-name]/                      ← Created when Stage 1 locks (one directory per product)
 ├── idea-brief.md
 ├── discovery-report.md
 ├── hypothesis.md
 ├── vision-mission.md
+├── business-case.md             ← Generated at Stage 4
 ├── product-roadmap.md
 ├── release-plan.md
-└── feature-[name].md         ← One file per feature in the release plan
+└── feature-[name].md            ← One file per feature in the release plan
 ```
 
 ---
@@ -169,9 +192,9 @@ Product Foundry is governed by six principles documented in `.ai/product-constit
 
 Contributions are welcome. A few ways to get involved:
 
-- **New agent definitions** — a role or specialist that fills a gap in the current system
+- **New persona definitions** — a role or specialist persona that fills a gap in the current system
 - **Tool integrations** — making the framework work better with a specific AI assistant
-- **Stage templates** — improvements to the artifact templates in `.product/templates/`
+- **Stage templates** — improvements to the artifact templates in `.ai/templates/`
 - **Real-world stage artifacts** — anonymized examples of completed stage outputs
 
 Before contributing, read `.ai/product-constitution.md`. Every change to the system prompt is tested against the six principles. If a change would cause the agent to relax a gate, skip a confirmation, or silently drop a Vision conflict, it won't be accepted.

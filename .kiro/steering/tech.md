@@ -49,7 +49,7 @@ This is a framework, not a library with unit tests. Quality is validated through
 - `system-prompt.md` — Core instructions for all AI assistants
 - `session-state.md` — Current progress tracking (updated manually after each session)
 - `product-constitution.md` — Six governing principles
-- `agents/` — 13 agent definitions (roles, specialists, orchestrators, utilities)
+- `personas/` — 13 persona definitions (roles, specialists, orchestrators, utilities)
 - `skills/` — Reusable workflow skills
 - `workflows/` — Stage-specific execution flows (stages 1–7)
 
@@ -75,7 +75,7 @@ This is a framework, not a library with unit tests. Quality is validated through
   ├── system-prompt.md
   ├── session-state.md
   ├── product-constitution.md
-  ├── agents/                 ← 13 agent definitions
+  ├── personas/               ← 13 persona definitions
   ├── skills/                 ← Reusable workflows
   └── workflows/              ← Stage-specific flows
 

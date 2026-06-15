@@ -13,6 +13,7 @@
 | **Gate Status** | — |
 | **Active Role** | None |
 | **Session Start** | [DATE] |
+| **Last Updated** | [DATE] |
 
 ---
 
@@ -60,8 +61,9 @@
 - Keep this file updated after each major decision or artifact completion
 - Update gate status after validation
 - Track blockers and dependencies here
+- Major decisions logged here should also be recorded in `DECISIONS.md` at the workspace root
 
 ---
 
-**Instructions for Copilot:**  
-Review this file at the start of each session to understand current context. Update stage, artifact, and gate status as work progresses.
+**Instructions for AI assistant:**
+Review this file at the start of each session to understand current context. Update stage, artifact, and gate status as work progresses. When a major decision is made (per the criteria in `.ai/skills/log-decision-guide.md`), log it in both this file's "Latest Decision" section and in `DECISIONS.md` at the workspace root.

@@ -25,11 +25,13 @@
 - Hard: Takes months to undo (high cost)
 - Irreversible: Cannot be undone (committed resource)
 
-### Update decisions/DECISIONS.md with Git Tracking
-- Log each decision to decisions/DECISIONS.md
+### Update DECISIONS.md (Workspace Root) with Git Tracking
+- Log each decision to `DECISIONS.md` at the **workspace root** (not `.product/`)
+- If `DECISIONS.md` does not exist, create it from `.ai/templates/decisions-template.md`
 - Commit to git with message: "Decision: [brief summary]"
 - Enable decision replay and audit trail
 - Track who made decision and when
+- Mirror the decision summary into `session-state.md` (workspace root) "Latest Decision" field
 
 ---
 
@@ -74,7 +76,7 @@ Alternatives considered:
 - Option B: Dashboards first (more powerful, complex UX)
 - Option C: Both (resources not available)
 Decision: Option A (mobile first)
-Rationale: 70% target users mobile-only, competitive gap existshere
+Rationale: 70% target users mobile-only, competitive gap exists here
 Trade-off: Powerful but less accessible dashboards deferred to Phase 1
 Impact: Faster time-to-value for mobile teams, lose desktop power-users
 Reversibility: Easy (add dashboards later, doesn't require rework)
@@ -133,14 +135,29 @@ Evidence: [Stage 2 findings, executive urgency]
 Log-Level: EXCEPTION (requires executive override)
 ```
 
+### Gate-Pass Decisions (Stage Progression)
+
+Every time a stage gate passes (initial lock), log it — this is the formal record that the stage's artifact was reviewed and locked:
+
+```
+Decision: Stage 2 → Stage 3 gate passed — Discovery Report LOCKED
+Decided by: [Product Manager]
+Date: 2026-03-15
+Context: All Stage 2 exit criteria met (5+ interviews, competitive analysis,
+  assumptions ranked, Eng Lead + Designer constraints documented)
+Impact: Unlocks Stage 3 (Hypothesis)
+Reversibility: N/A (governance record)
+Log-Level: GATE-PASS
+```
+
 ---
 
 ## Decision Log Format
 
-**decisions/DECISIONS.md** maintains running log:
+**`DECISIONS.md`** (workspace root) maintains running log:
 
 ```markdown
-# Product Decisions Log
+# Product Discovery Decisions
 
 ## Decision #1: Include Jira Integration in v1.0
 **Date**: 2026-03-10
@@ -268,7 +285,7 @@ User makes decision (e.g., "We should do Feature X")
 ↓
 
 Decision Logger Agent is called:
-  - Identifies decision type (feature, scope, priority, technical, exception)
+  - Identifies decision type (feature, scope, priority, technical, exception, gate-pass)
   - Asks clarifying questions (alternatives, rationale, trade-offs)
   - Assesses reversibility
   
@@ -284,7 +301,16 @@ Decision Logger creates entry with:
   
 ↓
 
-Updates decisions/DECISIONS.md
+If DECISIONS.md (workspace root) does not exist:
+  - Create it from .ai/templates/decisions-template.md
+
+↓
+
+Appends entry to DECISIONS.md (workspace root)
+
+↓
+
+Updates session-state.md (workspace root) "Latest Decision" field
 
 ↓
 
@@ -309,11 +335,12 @@ Decision becomes part of audit trail
 ## Invocation Triggers
 
 Automatically called when:
-- Stage progression (log what enabled progression)
+- Stage progression (log what enabled progression — gate-pass entry)
 - Major feature decision announced
 - Prioritization decision made (which features first)
 - Technical approach decided
 - Gate override approved
+- LOCKED artifact in Stages 5-7 enters REVISED state
 
 Explicitly invoked when:
 - `/log-decision` command
@@ -330,6 +357,7 @@ Explicitly invoked when:
 - Link to supporting artifacts (discovery, hypothesis, roadmap)
 - Commit to git immediately (audit trail)
 - Update status as decision progresses (planned → implemented → live)
+- Always log gate-pass events — they form the backbone of the Stage 1-7 audit trail
 
 ---
 
@@ -337,11 +365,14 @@ Explicitly invoked when:
 
 ```
 /decisions: What features did we decide on for v1.0?
-→ Lists all feature decisions from roadmap phase
+→ Searches DECISIONS.md (workspace root), lists all feature decisions from roadmap phase
 
 /decisions: Why did we choose Jira integration?
-→ Retrieves decision #1, shows all alternatives and rationale
+→ Retrieves decision #1 from DECISIONS.md, shows all alternatives and rationale
 
 /decisions: What decisions are reversible?
-→ Lists all "Easy" decisions, useful for planning pivots
+→ Lists all "Easy" decisions from DECISIONS.md, useful for planning pivots
+
+/decisions: Which stage gates have passed?
+→ Lists all GATE-PASS entries from DECISIONS.md in order
 ```

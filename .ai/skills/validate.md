@@ -46,7 +46,7 @@ For each blocking criterion, provide clear next step:
 If user attempts `/validate` or `/override-gate`:
 - Require explicit justification
 - Log override to `decision-logger` with rationale
-- Record in `decisions/DECISIONS.md` with git commit: "Gate override: [reason]"
+- Record in `DECISIONS.md` (workspace root) with git commit: "Gate override: [reason]" — create from `.ai/templates/decisions-template.md` if it does not exist
 - Do not silently allow bypasses
 
 ---
@@ -137,6 +137,8 @@ If 3+ missing:    ❌ FAIL - Hypothesis needs refinement
 ☐ Filters guide hypothetical feature decisions
 ☐ Executive sign-off obtained (explicit approval)
 ☐ Executive constraints documented
+☐ Business Case generated (one-page executive summary)
+☐ Business Case approved by investment authority
 ☐ Artifact marked as REVIEW
 
 Stage 4 → Stage 5 Gate:
@@ -144,11 +146,14 @@ Stage 4 → Stage 5 Gate:
 ☐ Mission is exactly one sentence
 ☐ Strategic filters defined
 ☐ Executive sign-off obtained (explicit approval)
+☐ Business Case generated and approved (LOCKED)
 ☐ Artifact marked as READY FOR REVIEW
 
 Status:
-If all checked:   ✅ PASS - Ready for Stage 5
+If all checked:   ✅ PASS - Ready for Stage 5 (Investment Approved)
 If exec sign-off missing: ⚠️ BLOCKED - Need /business-owner approval
+If business case missing: ⚠️ BLOCKED - Run /business-case to generate
+If business case not approved: ⚠️ BLOCKED - Need investment approval on business-case.md
 If 2+ missing:    ⚠️ PARTIAL - [List what's needed]
 ```
 
@@ -240,13 +245,13 @@ If 3+ missing:    ❌ FAIL - Complete feature document details
 2. Parse artifact for required sections
 3. For each criterion, assess as PASS or BLOCK
 4. If any BLOCK: return full blocking report with unblock suggestions
-5. If all PASS: return success, update gate status to OPEN (ready for next stage)
+5. If all PASS: return success, update gate status to OPEN (ready for next stage) in `session-state.md` (workspace root), and append a gate-pass entry to `DECISIONS.md` (workspace root)
 
 **When user attempts skip-stage:**
 
 1. Require explicit `/validate [Stage N] -- [business justification]` format
 2. Validate justification is reasonable (business case, not whim)
-3. Log to decision_logger: "Stage skip: N→M, Reason: ..."
+3. Log to decision_logger: append "Stage skip: N→M, Reason: ..." to `DECISIONS.md` (workspace root)
 4. Allow progression with recorded exception
 5. Add warning message: "Note: You skipped Stage X. You may want to revisit discovery findings later."
 
@@ -316,15 +321,15 @@ Estimated time: 1-2 hours. Let's start with competitive analysis?
 ## Integration Points
 
 - **Called by**: main_orchestrator, session_manager
-- **Calls**: decision_logger (for exceptions only)
-- **Updates**: session_state.md gate status
-- **Logs to**: decision_logger (for gate overrides)
+- **Calls**: decision_logger (for gate passes and exceptions)
+- **Updates**: `session-state.md` (workspace root) gate status
+- **Logs to**: `DECISIONS.md` (workspace root) via decision_logger
 
 ---
 
 ## Gate Status Tracking
 
-Session state includes gate status:
+`session-state.md` (workspace root) includes gate status:
 
 ```
 .stage: 2
@@ -333,4 +338,4 @@ Session state includes gate status:
 .latest_decision: "User interviews complete"
 ```
 
-Quality Gate Agent reads/writes this to ensure progression is explicit and trackable.
+Quality Gate Agent reads/writes this to ensure progression is explicit and trackable. Every gate-pass event is also appended as a decision entry in `DECISIONS.md` (workspace root).
