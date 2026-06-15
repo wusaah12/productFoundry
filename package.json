@@ -8,8 +8,9 @@
   "files": [
     "index.js",
     ".ai/",
-    ".product/",
-    ".github/"
+    ".github/",
+    ".kiro/steering/",
+    "license"
   ],
   "repository": {
     "type": "git",
